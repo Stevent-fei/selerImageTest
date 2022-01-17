@@ -24,6 +24,7 @@ jobs:
           sudo cp ./kubernetes/server/bin/kubeadm ./rootfs/bin/
           sudo cp ./kubernetes/server/bin/kubelet ./rootfs/bin/
           cd ./rootfs
+          sealer login ${{secrets.PRIVATEWAREHOUSE}}
           cat>imageList<<EOF
           k8s.gcr.io/kube-apiserver:v1.20.14
           k8s.gcr.io/kube-controller-manager:v1.20.14 \
@@ -37,7 +38,6 @@ jobs:
           wget http://sealer.oss-cn-beijing.aliyuncs.com/auto-build/sealer.tar.gz
           sudo tar -xvf sealer.tar.gz -C /usr/bin
           sudo sealer build -f Kubefile -m lite -t kubernetes:v1.20.14 .
-          sealer login ${{secrets.PRIVATEWAREHOUSE}}
           sudo sealer push kubernetes:v1.20.14
       - name: Auto build image
         uses: peter-evans/create-or-update-comment@v1
