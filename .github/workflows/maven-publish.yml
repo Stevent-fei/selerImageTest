@@ -23,6 +23,7 @@ jobs:
           sudo cp ./kubernetes/server/bin/kubectl ./rootfs2/bin/
           sudo cp ./kubernetes/server/bin/kubeadm ./rootfs2/bin/
           sudo cp ./kubernetes/server/bin/kubelet ./rootfs2/bin/
+          ls -R
           echo k8s.gcr.io/kube-apiserver:v1.20.14 \
           k8s.gcr.io/kube-controller-manager:v1.20.14 \
           k8s.gcr.io/kube-scheduler:v1.20.14 \
@@ -31,8 +32,7 @@ jobs:
           k8s.gcr.io/etcd:3.4.13-0 \
           k8s.gcr.io/coredns:1.7.0 >> imageList
           wget http://sealer.oss-cn-beijing.aliyuncs.com/sealers/sealer-v0.6.1-linux-amd64.tar.gz
-          tar -xvf sealer-v0.6.1-linux-amd64.tar.gz -C /usr/bin
-          ls -R
+          sudo tar -xvf sealer-v0.6.1-linux-amd64.tar.gz -C /usr/bin
       - name: Auto build image
         uses: peter-evans/create-or-update-comment@v1
         with:
