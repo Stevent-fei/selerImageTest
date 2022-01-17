@@ -26,15 +26,15 @@ jobs:
 
           wget http://sealer.oss-cn-beijing.aliyuncs.com/auto-build/sealer.tar.gz
           sudo tar -xvf sealer.tar.gz -C /usr/bin
-          sudo docker login ${{secrets.PRIVATEWAREHOUSE}}
+          sudo sealer login ${{secrets.PRIVATEWAREHOUSE}}
           cd ./rootfs
           cat>imageList<<EOF
           k8s.gcr.io/kube-apiserver:v1.20.14
-          k8s.gcr.io/kube-controller-manager:v1.20.14 \
-          k8s.gcr.io/kube-scheduler:v1.20.14 \
-          k8s.gcr.io/kube-proxy:v1.20.14 \
-          k8s.gcr.io/pause:3.2 \
-          k8s.gcr.io/etcd:3.4.13-0 \
+          k8s.gcr.io/kube-controller-manager:v1.20.14
+          k8s.gcr.io/kube-scheduler:v1.20.14
+          k8s.gcr.io/kube-proxy:v1.20.14
+          k8s.gcr.io/pause:3.2
+          k8s.gcr.io/etcd:3.4.13-0
           k8s.gcr.io/coredns:1.7.0 
           EOF
           ls -R
