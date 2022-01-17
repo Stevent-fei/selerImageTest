@@ -26,7 +26,7 @@ jobs:
 
           wget http://sealer.oss-cn-beijing.aliyuncs.com/auto-build/sealer.tar.gz
           sudo tar -xvf sealer.tar.gz -C /usr/bin
-          sudo sealer login ${{secrets.PRIVATEWAREHOUSE}}
+          sudo docker login ${{secrets.PRIVATEWAREHOUSE}}
           cd ./rootfs
           cat>imageList<<EOF
           k8s.gcr.io/kube-apiserver:v1.20.14
