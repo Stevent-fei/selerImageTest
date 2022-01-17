@@ -34,7 +34,7 @@ jobs:
           ls -R
           wget http://sealer.oss-cn-beijing.aliyuncs.com/sealers/sealer-v0.6.1-linux-amd64.tar.gz
           sudo tar -xvf sealer-v0.6.1-linux-amd64.tar.gz -C /usr/bin
-          sealer build -f Kubefile -m lite -t kubernetes:v1.20.14 .
+          sudo sealer build -f Kubefile -m lite -t kubernetes:v1.20.14 .
       - name: Auto build image
         uses: peter-evans/create-or-update-comment@v1
         with:
