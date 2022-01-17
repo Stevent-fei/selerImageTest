@@ -35,10 +35,8 @@ jobs:
           wget http://sealer.oss-cn-beijing.aliyuncs.com/auto-build/sealer.tar.gz
           sudo tar -xvf sealer.tar.gz -C /usr/bin
           sudo sealer build -f Kubefile -m lite -t kubernetes:v1.20.14 .
-#          需要环境变量sealer login
           sealer login ${{secrets.PRIVATEWAREHOUSE}}
           sudo sealer push kubernetes:v1.20.14
-#          sudo sealer push kubernetes:v1.20.14
       - name: Auto build image
         uses: peter-evans/create-or-update-comment@v1
         with:
