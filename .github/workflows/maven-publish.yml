@@ -20,10 +20,9 @@ jobs:
           tar -xvf rootfs.tar.gz
           wget https://dl.k8s.io/v1.20.14/kubernetes-server-linux-amd64.tar.gz
           tar -xvf kubernetes-server-linux-amd64.tar.gz
-          ls -R
-          cp ./kubernetes/server/bin/kubectl ./rootfs2/bin/
-          cp ./kubernetes/server/bin/kubeadm ./rootfs2/bin/
-          cp ./kubernetes/server/bin/kubelet ./rootfs2/bin/
+          sudo cp ./kubernetes/server/bin/kubectl ./rootfs2/bin/
+          sudo cp ./kubernetes/server/bin/kubeadm ./rootfs2/bin/
+          sudo cp ./kubernetes/server/bin/kubelet ./rootfs2/bin/
       - name: Auto build image
         uses: peter-evans/create-or-update-comment@v1
         with:
