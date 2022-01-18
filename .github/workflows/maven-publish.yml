@@ -8,7 +8,7 @@ on: #[push, pull_request]
 jobs:
   issue_comment:
     name: Auto build image
-    if: ${{ github.event.comment.body == '/make build v1.20.14 ADM64' }}
+    if: ${{ github.event.comment.body == '/buildv1.20.14' }}
     runs-on: ubuntu-latest
     permissions:
       issues: write
@@ -16,8 +16,9 @@ jobs:
 
       - name: Check outputs
         run: |
-          echo github.event.comment.body 
-        
+          BUILD=${{github.event.comment.body}}
+          VERSION=echo ${BUILD#*v} 
+          echo ${VERSION}
           sudo sealer build -f Kubefile -m lite -t kubernetes:v1.20.14 .
           sudo sealer push kubernetes:v1.20.14
       - name: Auto build image
