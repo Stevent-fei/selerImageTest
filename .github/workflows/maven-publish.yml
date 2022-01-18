@@ -39,6 +39,8 @@ jobs:
           k8s.gcr.io/coredns:1.7.0
           EOF
           ls -R
+          sed -i 's/v1.20.14/${BUILD#*d}/g' ./etc/kubeadm.yml
+          cd ..
           sudo sealer build -f Kubefile -m lite -t kubernetes:${BUILD#*d} .
       - name: Auto build image
         uses: peter-evans/create-or-update-comment@v1
