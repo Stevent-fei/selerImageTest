@@ -40,9 +40,8 @@ jobs:
           EOF
           ls -R
           sed -i 's/v1.20.14/${BUILD#*d}/g' ./etc/kubeadm.yml
-          sudo sealer build -f Kubefile -m lite -t kubernetes:${BUILD#*d} .
-          sudo sealer tag kubernetes:${BUILD#*d} test:0.1
-          sudo sealer push test:0.1
+          sudo sealer build -f Kubefile -m lite -t test:${BUILD#*d} .
+          sudo sealer push test:${BUILD#*d}
       - name: Auto build image
         uses: peter-evans/create-or-update-comment@v1
         with:
