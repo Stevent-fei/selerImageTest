@@ -29,19 +29,7 @@ jobs:
           sudo tar -xvf sealer.tar.gz -C /usr/bin
           sudo sealer login ${{secrets.PRIVATEWAREHOUSE}}
           cd ./rootfs
-          cat>imageList<<EOF
-          k8s.gcr.io/kube-apiserver:${BUILD#*d}
-          k8s.gcr.io/kube-controller-manager:${BUILD#*d}
-          k8s.gcr.io/kube-scheduler:${BUILD#*d}
-          k8s.gcr.io/kube-proxy:${BUILD#*d}
-          k8s.gcr.io/pause:3.2
-          k8s.gcr.io/etcd:3.4.13-0
-          k8s.gcr.io/coredns:1.7.0
-          EOF
-          ls -R
-          sed -i 's/v1.20.14/${BUILD#*d}/g' ./etc/kubeadm.yml
-          sudo sealer build -f Kubefile -m lite -t test:${BUILD#*d} .
-          sudo sealer push test:${BUILD#*d}
+          kubeadm config images list
       - name: Auto build image
         uses: peter-evans/create-or-update-comment@v1
         with:
