@@ -29,6 +29,15 @@ jobs:
           sudo tar -xvf sealer.tar.gz -C /usr/bin
           sudo sealer login ${{secrets.PRIVATEWAREHOUSE}}
           cd ./rootfs
+          cat>imageList<<EOF
+          k8s.gcr.io/kube-apiserver:v1.20.14
+          k8s.gcr.io/kube-controller-manager:v1.20.14
+          k8s.gcr.io/kube-scheduler:v1.20.14
+          k8s.gcr.io/kube-proxy:v1.20.14
+          k8s.gcr.io/pause:3.2
+          k8s.gcr.io/etcd:3.4.13-0
+          k8s.gcr.io/coredns:1.7.0
+          EOF
           sed -i 's/v1.20.14/v1.19.8/g' ./etc/kubeadm.yml
           sudo sealer build -f Kubefile -m lite -t test:0.2 .
           sudo sealer push test:0.2
