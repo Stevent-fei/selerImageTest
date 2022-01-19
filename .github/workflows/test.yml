@@ -1,0 +1,28 @@
+# This workflow will build a package using Maven and then publish it to GitHub packages when a release is created
+# For more information see: https://github.com/actions/setup-java/blob/main/docs/advanced-usage.md#apache-maven-with-a-settings-path
+
+name: Auto build image
+on: #[push, pull_request]
+  issue_comment:
+    types:
+      - created
+jobs:
+  issue_comment:
+    name: Auto build image
+    if: ${{ github.event.comment.body == '/output' }}
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+
+      - name: Check outputs
+        run: |
+          BUILD=${{github.event.comment.body}}
+          echo ${BUILD#*d} 
+          
+      - name: Auto build image
+        uses: peter-evans/create-or-update-comment@v1
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          run: |
+            echo 'kubernetes:'${BUILD#*d}
