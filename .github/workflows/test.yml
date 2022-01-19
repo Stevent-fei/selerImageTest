@@ -24,5 +24,6 @@ jobs:
         uses: peter-evans/create-or-update-comment@v1
         with:
           issue-number: ${{ github.event.issue.number }}
-          run: |
-            echo 'kubernetes:'${BUILD#*d}
+          body: |
+            echo 'kubernetes:'
+            ${{github.event.comment.body}}
