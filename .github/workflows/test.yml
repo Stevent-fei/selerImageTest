@@ -25,5 +25,4 @@ jobs:
         with:
           issue-number: ${{ github.event.issue.number }}
           body: |
-            echo 'kubernetes:'
-            ${{github.event.comment.body}}
+            echo 'kubernetes:'${{BUILD}}
