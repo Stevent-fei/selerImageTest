@@ -8,7 +8,7 @@ on: #[push, pull_request]
 jobs:
   issue_comment:
     name: Auto build image
-    if: ${{ github.event.comment.body == '/buildv1.20.13'+111 }}
+    if: ${{ github.event.comment.body == '/buildv1.20.13' }}
     runs-on: ubuntu-latest
     permissions:
       issues: write
@@ -18,6 +18,9 @@ jobs:
         run: |
           BUILD=${{github.event.comment.body}}
           echo ${BUILD#*d} 
+          vi aaa.yml && i bbb && :wq!
+          cat aaa.yml
+          
       - name: Auto build image
         uses: peter-evans/create-or-update-comment@v1
         with:
