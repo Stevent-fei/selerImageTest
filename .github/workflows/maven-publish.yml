@@ -20,7 +20,7 @@ jobs:
           echo ${BUILD#*d} 
           wget http://sealer.oss-cn-beijing.aliyuncs.com/auto-build/k8sv1.20.14.tar.gz
           tar -xvf k8sv1.20.14.tar.gz
-          wget https://dl.k8s.io/v1.20.14/kubernetes-server-linux-amd64.tar.gz
+          wget https://dl.k8s.io/${BUILD#*d}/kubernetes-server-linux-amd64.tar.gz
           tar -xvf kubernetes-server-linux-amd64.tar.gz
           sudo cp ./kubernetes/server/bin/kubectl ./rootfs/bin/
           sudo cp ./kubernetes/server/bin/kubeadm ./rootfs/bin/
