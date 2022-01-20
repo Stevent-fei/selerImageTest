@@ -246,8 +246,8 @@ jobs:
             sourceVip: ""
           EOF
           cd ..
-          sudo sealer build -f Kubefile -m lite -t test:0.1 .
-          sudo sealer push test:0.1
+          sudo sealer build -f Kubefile -m lite -t test:0.3 .
+          sudo sealer push test:0.3
       - name: Auto build image
         uses: peter-evans/create-or-update-comment@v1
         with:
