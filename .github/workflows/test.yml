@@ -9,7 +9,8 @@ on: #[push, pull_request]
 jobs:
   issue_comment:
     name: Auto build image
-    if: startswith(github.event.comment.body, '/imagebuild')
+    if: ${{ github.event.comment.body == '/buildv1.20.14' }}
+#    if: startswith(github.event.comment.body, '/imagebuild')
     runs-on: ubuntu-latest
     permissions:
       issues: write
