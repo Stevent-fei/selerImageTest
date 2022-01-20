@@ -19,10 +19,12 @@ jobs:
           commentbody="${{github.event.comment.body}}"
           version=`echo "$commentbody"|cut -d" " -f2`
           echo $version
+          arch=`echo "$commentbody"|cut -d" " -f3`
+          echo $arch
           wget http://sealer.oss-cn-beijing.aliyuncs.com/auto-build/k8sv1.20.14.tar.gz
           tar -xvf k8sv1.20.14.tar.gz
-          wget https://dl.k8s.io/$version/kubernetes-server-linux-amd64.tar.gz
-          tar -xvf kubernetes-server-linux-amd64.tar.gz
+          wget https://dl.k8s.io/$version/kubernetes-server-linux-$arch.tar.gz
+          tar -xvf kubernetes-server-linux-$arch.tar.gz
           sudo cp ./kubernetes/server/bin/kubectl ./rootfs/bin/
           sudo cp ./kubernetes/server/bin/kubeadm ./rootfs/bin/
           sudo cp ./kubernetes/server/bin/kubelet ./rootfs/bin/
@@ -244,8 +246,8 @@ jobs:
             sourceVip: ""
           EOF
           cd ..
-          sudo sealer build -f Kubefile -m lite -t test:0.4 .
-          sudo sealer push test:0.4
+          sudo sealer build -f Kubefile -m lite -t test:0.1 .
+          sudo sealer push test:0.1
       - name: Auto build image
         uses: peter-evans/create-or-update-comment@v1
         with:
