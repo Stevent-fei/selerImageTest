@@ -17,9 +17,9 @@ jobs:
 
       - name: Check outputs
         run: |
-          commentbody=${{github.event.comment.body}}
-          version=$commentbody|cut -d" " -f2
-          echo $version
+          BUILD=${{github.event.comment.body}}
+          echo ${BUILD#*d}
+
           
       - name: Auto build image
         uses: peter-evans/create-or-update-comment@v1
