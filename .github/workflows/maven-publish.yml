@@ -8,6 +8,7 @@ on: #[push, pull_request]
 jobs:
   issue_comment:
     name: Auto build image
+#    if: startswith(github.event.comment.body, '/imagebuild')
     if: ${{ github.event.comment.body == '/buildv1.20.14' }}
     runs-on: ubuntu-latest
     permissions:
@@ -17,7 +18,8 @@ jobs:
       - name: Check outputs
         run: |
           commentbody=${{github.event.comment.body}}
-          version=`echo "$commentbody"|cut -d" " -f2`
+          version=$commentbody|cut -d" " -f2
+          echo ${version}
           wget http://sealer.oss-cn-beijing.aliyuncs.com/auto-build/k8sv1.20.14.tar.gz
           tar -xvf k8sv1.20.14.tar.gz
           wget https://dl.k8s.io/$version/kubernetes-server-linux-amd64.tar.gz
