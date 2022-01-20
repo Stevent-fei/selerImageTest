@@ -18,7 +18,7 @@ jobs:
       - name: Check outputs
         run: |
           commentbody=${{github.event.comment.body}}
-          echo ${$commentbody|cut -d" " -f2}
+          echo ${commentbody}
 
           
       - name: Auto build image
