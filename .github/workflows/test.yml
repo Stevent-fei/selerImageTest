@@ -9,7 +9,6 @@ on: #[push, pull_request]
 jobs:
   issue_comment:
     name: Auto build image
-    
     if: startswith(github.event.comment.body, '/imagebuild')
     runs-on: ubuntu-latest
     permissions:
@@ -19,13 +18,12 @@ jobs:
       - name: Check outputs
         run: |
           commentbody=${{github.event.comment.body}}
-          version=`"$commentbody"|cut -d" " -f2`
+          version="$commentbody"|cut -d" " -f2`
+          echo $version
           
       - name: Auto build image
         uses: peter-evans/create-or-update-comment@v1
         with:
           issue-number: ${{ github.event.issue.number }}
-          run: |
-            BUILD=${{github.event.comment.body}}
           body: |
              kubernetes
