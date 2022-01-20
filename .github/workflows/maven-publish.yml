@@ -16,7 +16,7 @@ jobs:
 
       - name: Check outputs
         run: |
-          commentbody="/imagebuild v1.20.13 amd64"
+          commentbody="${{github.event.comment.body}}"
           version=`echo "$commentbody"|cut -d" " -f2`
           echo $version
           wget http://sealer.oss-cn-beijing.aliyuncs.com/auto-build/k8sv1.20.14.tar.gz
