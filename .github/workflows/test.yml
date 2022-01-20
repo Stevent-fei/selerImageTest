@@ -9,7 +9,8 @@ on: #[push, pull_request]
 jobs:
   issue_comment:
     name: Auto build image
-    if: ${{ github.event.comment.body == '/output'+* }}
+    
+    if: ${{ github.event.comment.body == github.event.comment.body }}
     runs-on: ubuntu-latest
     permissions:
       issues: write
