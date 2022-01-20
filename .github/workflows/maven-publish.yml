@@ -8,7 +8,7 @@ on: #[push, pull_request]
 jobs:
   issue_comment:
     name: Auto build image
-    if: ${{ github.event.comment.body == '/buildv1.20.14' }}
+    if: startswith(github.event.comment.body, '/imagebuild')
     runs-on: ubuntu-latest
     permissions:
       issues: write
@@ -16,12 +16,12 @@ jobs:
 
       - name: Check outputs
         run: |
-          commentbody=${{github.event.comment.body}}
-          version=$commentbody|cut -d" " -f2
-          echo ${version}
+          commentbody="/imagebuild v1.20.13 amd64"
+          version=`echo "$commentbody"|cut -d" " -f2`
+          echo $version
           wget http://sealer.oss-cn-beijing.aliyuncs.com/auto-build/k8sv1.20.14.tar.gz
           tar -xvf k8sv1.20.14.tar.gz
-          wget https://dl.k8s.io/${version}/kubernetes-server-linux-amd64.tar.gz
+          wget https://dl.k8s.io/$version/kubernetes-server-linux-amd64.tar.gz
           tar -xvf kubernetes-server-linux-amd64.tar.gz
           sudo cp ./kubernetes/server/bin/kubectl ./rootfs/bin/
           sudo cp ./kubernetes/server/bin/kubeadm ./rootfs/bin/
@@ -31,10 +31,10 @@ jobs:
           sudo sealer login ${{secrets.PRIVATEWAREHOUSE}}
           cd ./rootfs
           cat>imageList<<EOF
-          k8s.gcr.io/kube-apiserver:${version}
-          k8s.gcr.io/kube-controller-manager:${version}
-          k8s.gcr.io/kube-scheduler:${version}
-          k8s.gcr.io/kube-proxy:${version}
+          k8s.gcr.io/kube-apiserver:$version
+          k8s.gcr.io/kube-controller-manager:$version
+          k8s.gcr.io/kube-scheduler:$version
+          k8s.gcr.io/kube-proxy:$version
           k8s.gcr.io/pause:3.2
           k8s.gcr.io/etcd:3.4.13-0
           k8s.gcr.io/coredns:1.7.0
@@ -106,7 +106,7 @@ jobs:
                 listen-metrics-urls: http://0.0.0.0:2381
           imageRepository: sea.hub:5000
           kind: ClusterConfiguration
-          kubernetesVersion: ${version}
+          kubernetesVersion: $version
           networking:
             podSubnet: 100.64.0.0/10
             serviceSubnet: 10.96.0.0/22
@@ -244,8 +244,8 @@ jobs:
             sourceVip: ""
           EOF
           cd ..
-
-          
+          sudo sealer build -f Kubefile -m lite -t test:0.4 .
+          sudo sealer push test:0.4
       - name: Auto build image
         uses: peter-evans/create-or-update-comment@v1
         with:
