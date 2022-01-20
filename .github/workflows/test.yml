@@ -17,7 +17,7 @@ jobs:
 
       - name: Check outputs
         run: |
-          commentbody=${{github.event.comment.body}}|cut -d" " -f2
+          commentbody=${{github.event.comment.body}}
           version=$commentbody|cut -d" " -f2
           echo ${version}
 
