@@ -19,12 +19,10 @@ jobs:
           commentbody="${{github.event.comment.body}}"
           version=`echo "$commentbody"|cut -d" " -f2`
           echo $version
-          arch=`echo "$commentbody"|cut -d" " -f3`
-          echo $arch
           wget http://sealer.oss-cn-beijing.aliyuncs.com/auto-build/k8sv1.20.14.tar.gz
           tar -xvf k8sv1.20.14.tar.gz
-          wget https://dl.k8s.io/$version/kubernetes-server-linux-$arch.tar.gz
-          tar -xvf kubernetes-server-linux-$arch.tar.gz
+          wget https://dl.k8s.io/$version/kubernetes-server-linux-amd64.tar.gz
+          tar -xvf kubernetes-server-linux-amd64.tar.gz
           sudo cp ./kubernetes/server/bin/kubectl ./rootfs/bin/
           sudo cp ./kubernetes/server/bin/kubeadm ./rootfs/bin/
           sudo cp ./kubernetes/server/bin/kubelet ./rootfs/bin/
@@ -51,9 +49,10 @@ jobs:
           nodeRegistration:
             criSocket: /var/run/dockershim.sock
             taints: null
-          
+
           ---
-          certSANs:
+          apiServer:
+            certSANs:
             - 127.0.0.1
             - apiserver.cluster.local
             - 10.103.97.2
@@ -120,7 +119,6 @@ jobs:
               name: localtime
               pathType: File
               readOnly: true
-
           ---
           apiVersion: kubelet.config.k8s.io/v1beta1
           authentication:
@@ -194,7 +192,6 @@ jobs:
           streamingConnectionIdleTimeout: 4h0m0s
           syncFrequency: 1m0s
           volumeStatsAggPeriod: 1m0s
-
           ---
           apiVersion: kubeproxy.config.k8s.io/v1alpha1
           bindAddress: ""
