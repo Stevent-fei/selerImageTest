@@ -53,16 +53,6 @@ jobs:
             taints: null
           
           ---
-          apiServer:
-            certSANs:
-            - 127.0.0.1
-            - apiserver.cluster.local
-            - 10.103.97.2
-            - 172.16.0.65
-            - 127.0.0.1
-            - apiserver.cluster.local
-            - 10.103.97.2
-            - 172.16.0.181
             extraArgs:
               audit-log-format: json
               audit-log-maxage: "7"
