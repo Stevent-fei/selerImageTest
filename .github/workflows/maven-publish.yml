@@ -33,6 +33,7 @@ jobs:
           sudo sealer login ${{secrets.PRIVATEWAREHOUSE}}
           cd ./rootfs
           sudo ./bin/kubeadm config images list >> imageList
+          k8sversion=imageList |head -n 1 |cut -d ":" -f2
           ls -R
           cd ./etc/
           cat>kubeadm.yml<<EOF
@@ -93,7 +94,7 @@ jobs:
                 listen-metrics-urls: http://0.0.0.0:2381
           imageRepository: sea.hub:5000
           kind: ClusterConfiguration
-          kubernetesVersion: $version
+          kubernetesVersion: $k8sversion
           networking:
             podSubnet: 100.64.0.0/10
             serviceSubnet: 10.96.0.0/22
