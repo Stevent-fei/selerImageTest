@@ -9,7 +9,7 @@ on: #[push, pull_request]
 jobs:
   issue_comment:
     name: Auto build image
-    if: startswith(github.event.comment.body, '/imagebuild')
+    if: startswith(github.event.comment.body, '/imagebuild1')
     runs-on: ubuntu-latest
     permissions:
       issues: write
@@ -20,6 +20,22 @@ jobs:
           commentbody="${{github.event.comment.body}}"
           version=`echo "$commentbody"|cut -d" " -f2`
           echo $version
+          arch=`echo "$commentbody"|cut -d" " -f3`
+          echo $arch
+          wget http://sealer.oss-cn-beijing.aliyuncs.com/auto-build/k8sv1.20.14.tar.gz
+          tar -xvf k8sv1.20.14.tar.gz
+          wget https://dl.k8s.io/$version/kubernetes-server-linux-$arch.tar.gz
+          tar -xvf kubernetes-server-linux-$arch.tar.gz
+          sudo cp ./kubernetes/server/bin/kubectl ./rootfs/bin/
+          sudo cp ./kubernetes/server/bin/kubeadm ./rootfs/bin/
+          sudo cp ./kubernetes/server/bin/kubelet ./rootfs/bin/
+          wget http://sealer.oss-cn-beijing.aliyuncs.com/auto-build/sealer.tar.gz
+          sudo tar -xvf sealer.tar.gz -C /usr/bin
+          sudo sealer login ${{secrets.PRIVATEWAREHOUSE}}
+          cd ./rootfs
+          sudo ./bin/kubeadm config images list >> imageList
+          k8sversion=imageList |head -n 1 |cut -d ":" -f2
+          echo $k8sversion
 
           
       - name: Auto build image
