@@ -33,7 +33,7 @@ jobs:
           sudo sealer login ${{secrets.PRIVATEWAREHOUSE}}
           cd ./rootfs
           sudo ./bin/kubeadm config images list >> imageList
-          k8sversion=imageList |head -n 1 |cut -d ":" -f2
+          k8sversion=`cat imageList |head -n 1 |cut -d ":" -f2`
           ls -R
           cd ./etc/
           cat>kubeadm.yml<<EOF
