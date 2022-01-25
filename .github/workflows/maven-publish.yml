@@ -35,7 +35,7 @@ jobs:
           cd ./etc/
           sudo sed -i "s/v1.20.14/$version/g" kubeadm.yml
           cd ..
-          sudo ./bin/kubeadm config images list --config ./etc/kubeadm.yml 2>&1>>imageList
+          sudo ./bin/kubeadm config images list --config ./etc/kubeadm.yml 2>&1 | grep "sea.hub">>imageList
           sudo sealer build -f Kubefile -m lite -t test:0.1 .
           sudo sealer push test:0.1
       - name: Auto build image
