@@ -21,7 +21,7 @@ jobs:
           echo $version
           arch=`echo "$commentbody"|cut -d" " -f3`
           echo $arch
-          wget http://sealer.oss-cn-beijing.aliyuncs.com/auto-build/rootfs1.tar.gz
+          wget http://sealer.oss-cn-beijing.aliyuncs.com/auto-build/rootfs2.tar.gz
           tar -xvf rootfs1.tar.gz
           wget https://dl.k8s.io/$version/kubernetes-server-linux-$arch.tar.gz
           tar -xvf kubernetes-server-linux-$arch.tar.gz
