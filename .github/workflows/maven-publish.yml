@@ -48,7 +48,6 @@ jobs:
 
           ---
           apiServer:
-            certSANs:
             extraArgs:
               audit-log-format: json
               audit-log-maxage: "7"
