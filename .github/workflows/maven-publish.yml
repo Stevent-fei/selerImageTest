@@ -31,9 +31,7 @@ jobs:
           wget http://sealer.oss-cn-beijing.aliyuncs.com/auto-build/sealer.tar.gz
           sudo tar -xvf sealer.tar.gz -C /usr/bin
           sudo sealer login ${{secrets.PRIVATEWAREHOUSE}}
-          cd ./rootfs
-          cd ./etc/
-          sudo sed -i "s/v1.20.14/$version/g" kubeadm.yml
+          sudo sed -i "s/v1.20.14/$version/g" ./rootfs/etc/kubeadm.yml
           cd ..
           sudo ./bin/kubeadm config images list --config ./etc/kubeadm.yml 2>&1>>imageList
           sudo sealer build -f Kubefile -m lite -t test:0.1 .
