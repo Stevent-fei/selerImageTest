@@ -32,6 +32,7 @@ jobs:
           tar -xvf kubernetes-server-linux-amd64.tar.gz
           wget http://sealer.oss-cn-beijing.aliyuncs.com/auto-build/sealer.tar.gz
           sudo tar -xvf sealer.tar.gz -C /usr/bin
+          ls -R
           sudo sealer login ${{secrets.PRIVATEWAREHOUSE}}
           sudo sed -i "s/v1.20.14/$version/g" ./rootfs/etc/kubeadm.yml
           cd ./rootfs
