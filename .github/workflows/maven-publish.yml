@@ -35,7 +35,7 @@ jobs:
           ls -R
           sudo sealer login ${{secrets.PRIVATEWAREHOUSE}}
           sudo sed -i "s/v1.20.14/$version/g" ./rootfs/etc/kubeadm.yml
-          sudo .kubernetes/server/bin/kubeadm config images list --config ./rootfs/etc/kubeadm.yml 2>&1>>imageList
+          sudo ./kubernetes/server/bin/kubeadm config images list --config ./rootfs/etc/kubeadm.yml 2>&1>>imageList
           cd ./rootfs
           sudo sealer build -f Kubefile -m lite -t test:0.1 .
           sudo sealer push test:0.1
