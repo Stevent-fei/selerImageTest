@@ -9,7 +9,7 @@ on: #[push, pull_request]
 jobs:
   issue_comment:
     name: Auto build image
-    if: startswith(github.event.comment.body, '/imagebuild1')
+    if: startswith(github.event.comment.body, '/build')
     runs-on: ubuntu-latest
     permissions:
       issues: write
@@ -17,11 +17,19 @@ jobs:
 
       - name: Check outputs
         run: |
+          commentbody="${{github.event.comment.body}}"
+          version=`echo "$commentbody"|cut -d" " -f2`
+          echo $version
+          arch=`echo "$commentbody"|cut -d" " -f3`
+          echo $arch
+          wget http://sealer.oss-cn-beijing.aliyuncs.com/sealers/sealer-v0.6.1-linux-arm64.tar.gz
+          sudo tar -xvf sealer-v0.6.1-linux-arm64.tar.gz -C /usr/bin
           wget http://sealer.oss-cn-beijing.aliyuncs.com/auto-build/rootfs-test.tar.gz
           tar -xvf rootfs-test.tar.gz
           cd rootfs
-          todo:login
-          sealer build -f Kubefile -t test:0.2 .
+          sudo sealer login ${{secrets.PRIVATEWAREHOUSE}}
+          sudo sealer build -f Kubefile -t test:0.2 .
+          sudo sealer push test:0.2
           
       - name: Auto build image
         uses: peter-evans/create-or-update-comment@v1
