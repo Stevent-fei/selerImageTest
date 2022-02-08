@@ -26,7 +26,7 @@ jobs:
           sudo tar -xvf sealer-v0.6.1-linux-arm64.tar.gz -C /usr/bin
           wget http://sealer.oss-cn-beijing.aliyuncs.com/auto-build/rootfs-test.tar.gz
           tar -xvf rootfs-test.tar.gz
-          cd rootfs
+          cd ./rootfs
           sudo sealer login ${{secrets.PRIVATEWAREHOUSE}}
           sudo sealer build -f Kubefile -t test:0.2 .
           sudo sealer push test:0.2
