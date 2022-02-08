@@ -23,7 +23,7 @@ jobs:
           arch=`echo "$commentbody"|cut -d" " -f3`
           echo $arch
           wget http://sealer.oss-cn-beijing.aliyuncs.com/sealers/sealer-v0.6.1-linux-arm64.tar.gz
-          sudo tar -xvf sealer-v0.6.1-linux-arm64.tar.gz -C /usr/bin
+          sudo tar -xvf sealer-v0.6.1-linux-arm64.tar.gz -C /usr/local/bin
           sudo sealer login ${{secrets.PRIVATEWAREHOUSE}}
           wget http://sealer.oss-cn-beijing.aliyuncs.com/auto-build/rootfs-test.tar.gz
           sudo tar -xvf rootfs-test.tar.gz
