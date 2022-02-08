@@ -28,6 +28,8 @@ jobs:
           sudo tar -xvf rootfs-test.tar.gz
           ls -R
           cd ./rootfs
+          sudo sealer login ${{secrets.PRIVATEWAREHOUSE}}
+
           
       - name: Auto build image
         uses: peter-evans/create-or-update-comment@v1
