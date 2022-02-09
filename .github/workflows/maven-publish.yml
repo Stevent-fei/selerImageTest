@@ -23,7 +23,7 @@ jobs:
           echo $arch
           wget http://sealer.oss-cn-beijing.aliyuncs.com/auto-build/rootfs.tar.gz
           tar -xvf rootfs.tar.gz
-          sudo chmod -R 777 ./rootfs/bin/
+          sudo chmod -R 777 ./rootfs/
           wget -P ./rootfs/bin/ https://storage.googleapis.com/kubernetes-release/release/$version/bin/linux/$arch/{kubectl,kubelet,kubeadm}
           sudo chmod 777 ./rootfs/bin/kubectl ./rootfs/bin/kubelet ./rootfs/bin/kubeadm
           wget https://storage.googleapis.com/kubernetes-release/release/$version/bin/linux/amd64/kubeadm
