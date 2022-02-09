@@ -23,13 +23,13 @@ jobs:
           echo $arch
           wget http://sealer.oss-cn-beijing.aliyuncs.com/auto-build/rootfs.tar.gz
           tar -xvf rootfs.tar.gz
-          wget https://dl.k8s.io/$version/kubernetes-server-linux-$arch.tar.gz
+          cd ./rootfs/bin/
+          wget https://storage.googleapis.com/kubernetes-release/release/$version/bin/linux/$arch/{kubectl,kubelet,kubeadm}
+          chmod 775 kubectl kubelet kubeadm
           tar -xvf kubernetes-server-linux-$arch.tar.gz
-          sudo cp ./kubernetes/server/bin/kubectl ./rootfs/bin/
-          sudo cp ./kubernetes/server/bin/kubeadm ./rootfs/bin/
-          sudo cp ./kubernetes/server/bin/kubelet ./rootfs/bin/
-          wget https://dl.k8s.io/$version/kubernetes-server-linux-amd64.tar.gz
-          tar -xvf kubernetes-server-linux-amd64.tar.gz
+          cd ../../
+          wget https://storage.googleapis.com/kubernetes-release/release/$version/bin/linux/amd64/kubeadm
+          chmod 775 kubeadm
           wget http://sealer.oss-cn-beijing.aliyuncs.com/auto-build/sealer.tar.gz
           sudo tar -xvf sealer.tar.gz -C /usr/bin
           ls -R
@@ -37,7 +37,7 @@ jobs:
           sudo sed -i "s/v1.20.14/$version/g" ./rootfs/etc/kubeadm.yml
           sudo sed -i "s/v1.20.14/$version/g" ./rootfs/Metadata
           sudo sed -i "s/amd64/$arch/g" ./rootfs/Metadata
-          sudo ./kubernetes/server/bin/kubeadm config images list --config ./rootfs/etc/kubeadm.yml 2>&1>>./rootfs/imageList
+          sudo ./kubernetes/server/bin/kubeadm config images list --config ./rootfs/etc/kubeadm.yml 2>/dev/null>>./rootfs/imageList
           cd ./rootfs
           sudo sealer build -f Kubefile -m lite -t test:0.1 .
           sudo sealer push test:0.1
