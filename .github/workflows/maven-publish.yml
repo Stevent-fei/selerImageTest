@@ -23,13 +23,13 @@ jobs:
           echo $arch
           wget http://sealer.oss-cn-beijing.aliyuncs.com/auto-build/rootfs.tar.gz
           tar -xvf rootfs.tar.gz
-          cd ./rootfs/bin/
+          sudo cd ./rootfs/bin/
           wget https://storage.googleapis.com/kubernetes-release/release/$version/bin/linux/$arch/{kubectl,kubelet,kubeadm}
-          chmod 775 kubectl kubelet kubeadm
+          sudo chmod 775 kubectl kubelet kubeadm
           tar -xvf kubernetes-server-linux-$arch.tar.gz
-          cd ../../
+          sudo cd ../../
           wget https://storage.googleapis.com/kubernetes-release/release/$version/bin/linux/amd64/kubeadm
-          chmod 775 kubeadm
+          sudo chmod 775 kubeadm
           wget http://sealer.oss-cn-beijing.aliyuncs.com/auto-build/sealer.tar.gz
           sudo tar -xvf sealer.tar.gz -C /usr/bin
           ls -R
