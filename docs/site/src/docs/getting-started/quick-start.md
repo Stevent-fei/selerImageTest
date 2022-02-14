@@ -58,8 +58,8 @@ sealer build -t registry.cn-qingdao.aliyuncs.com/sealer-io/dashboard:latest .
 Run your kubernetes cluster with dashboard:
 
 ```shell script
-# sealer will install a kubernetes on host 192.168.0.1 then apply the dashboard manifests
-sealer run registry.cn-qingdao.aliyuncs.com/sealer-io/dashboard:latest --masters 192.168.0.1 --passwd xxx
+# sealer will install a kubernetes on host 192.168.0.2 then apply the dashboard manifests
+sealer run registry.cn-qingdao.aliyuncs.com/sealer-io/dashboard:latest --masters 192.168.0.2 --passwd xxx
 # check the pod
 kubectl get pod -A|grep dashboard
 ```
