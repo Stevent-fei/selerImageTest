@@ -15,6 +15,12 @@ jobs:
 
       - name: test
         run: wget http://sealer.oss-cn-beijing.aliyuncs.com/auto-build/sealer.tar.gz
+      - name: Update docs
+        uses: peter-evans/create-or-update-comment@v1
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          body: |
+            update success!
 #        with:
 #          node-version: '14'
 #      - run: npm install
