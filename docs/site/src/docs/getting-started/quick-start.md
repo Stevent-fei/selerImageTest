@@ -15,7 +15,7 @@ sealer run kubernetes:v1.19.8 \
 ```shell script
 [root@iZm5e42unzb79kod55hehvZ ~]# kubectl get node
 NAME                    STATUS ROLES AGE VERSION
-izm5e42unzb79kod55hehvz Ready master 18h v1.19.8
+izm5e42unzb79kod55hehvz Ready master 18h v1.19.8aaaaaaa
 izm5ehdjw3kru84f0kq7r7z Ready master 18h v1.19.8
 izm5ehdjw3kru84f0kq7r8z Ready master 18h v1.19.8
 izm5ehdjw3kru84f0kq7r9z Ready <none> 18h v1.19.8
