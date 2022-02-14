@@ -1,11 +1,16 @@
 on:
   push:
-    paths:
-      - '**.md'
+    tags:
+      - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
+  issue_comment:
+    types:
+      - created
+
 name: Static page
 jobs:
   build:
     runs-on: ubuntu-latest
+    if: ${{github.event.release.tag_name && github.event.comment.body == '/docs'}}
     steps:
 
       - name: test
