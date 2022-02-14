@@ -1,6 +1,7 @@
 on:
   push:
-    branches: "*"
+    branches:
+      - 'docs/**'
 name: Static page
 jobs:
   build:
