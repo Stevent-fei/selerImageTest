@@ -10,7 +10,7 @@ name: Static page
 jobs:
   build:
     runs-on: ubuntu-latest
-    if:  ${{ github.event.tags || github.event.comment.body == '/docs' }}
+    if:  ${{ github.event_name == 'tags'|| github.event.comment.body == '/docs' }}
     steps:
 
       - name: test
