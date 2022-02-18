@@ -38,8 +38,8 @@ jobs:
           sudo sed -i "s/amd64/$arch/g" ./rootfs/Metadata
           sudo ./kubernetes/server/bin/kubeadm config images list --config ./rootfs/etc/kubeadm.yml 2>/dev/null>>./rootfs/imageList
           cd ./rootfs
-          sudo sealer build -f Kubefile -m lite -t kubernetes:v1.20.11 .
-          sudo sealer push kubernetes:v1.20.11
+          sudo sealer build -f Kubefile -m lite -t test:0.1 .
+          sudo sealer push test:0.1
       - name: Auto build image
         uses: peter-evans/create-or-update-comment@v1
         with:
