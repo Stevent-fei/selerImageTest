@@ -21,8 +21,8 @@ jobs:
           echo $version
           arch=`echo "$commentbody"|cut -d" " -f3`
           echo $arch
-          wget http://sealer.oss-cn-beijing.aliyuncs.com/auto-build/rootfs.tar.gz
-          tar -xvf rootfs.tar.gz
+          wget https://sealer.oss-cn-beijing.aliyuncs.com/auto-build/rootfs-07.tar.gz
+          tar -xvf rootfs-07.tar.gz
           wget https://dl.k8s.io/$version/kubernetes-server-linux-$arch.tar.gz
           tar -xvf kubernetes-server-linux-$arch.tar.gz
           sudo cp ./kubernetes/server/bin/kubectl ./rootfs/bin/
@@ -38,8 +38,8 @@ jobs:
           sudo sed -i "s/amd64/$arch/g" ./rootfs/Metadata
           sudo ./kubernetes/server/bin/kubeadm config images list --config ./rootfs/etc/kubeadm.yml 2>/dev/null>>./rootfs/imageList
           cd ./rootfs
-          sudo sealer build -f Kubefile -m lite -t kubernetes:$version .
-          sudo sealer push kubernetes:$version
+          sudo sealer build -f Kubefile -m lite -t kubernetes:0.1 .
+          sudo sealer push 0.1
       - name: Auto build image
         uses: peter-evans/create-or-update-comment@v1
         with:
