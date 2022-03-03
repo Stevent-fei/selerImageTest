@@ -37,9 +37,14 @@ jobs:
           sudo sed -i "s/v1.19.8/$version/g" ./rootfs/Metadata
           sudo sed -i "s/amd64/$arch/g" ./rootfs/Metadata
           sudo ./kubernetes/server/bin/kubeadm config images list --config ./rootfs/etc/kubeadm.yml 2>/dev/null>>./rootfs/imageList
-          cd ./rootfs
-          sudo sealer build -f Kubefile -m lite -t test:0.1 .
-          sudo sealer push test:0.1
+          sudo sealer build -f ./rootfs/Kubefile -m lite -t kubernetes:$version-alpine .
+          sudo sealer push kubernetes:$version-alpine
+          wget https://sealer.oss-cn-beijing.aliyuncs.com/auto-build/calico.tar.gz
+          tar -xvf calico.tar.gz
+          cp ./calicao/tigera-operator.yaml ./rootfs/etc/
+          cp ./calicao/custom-resources.yaml ./rootfs/etc/
+          sudo sealer build -f ./rootfs/Kubefile -m lite -t kubernetes:$version .
+          sudo sealer push kubernetes:$version
       - name: Auto build image
         uses: peter-evans/create-or-update-comment@v1
         with:
