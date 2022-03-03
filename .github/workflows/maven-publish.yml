@@ -43,7 +43,8 @@ jobs:
           tar -xvf calico.tar.gz
           cp ./calicao/tigera-operator.yaml ./rootfs/etc/
           cp ./calicao/custom-resources.yaml ./rootfs/etc/
-          sudo sealer build -f ./rootfs/Kubefile -m lite -t kubernetes:$version .
+          sudo sed -i "s/v1.19.8/$version/g" ./calico/Kubefile
+          sudo sealer build -f ./calico/Kubefile -m lite -t kubernetes:$version .
           sudo sealer push kubernetes:$version
       - name: Auto build image
         uses: peter-evans/create-or-update-comment@v1
