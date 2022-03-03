@@ -46,7 +46,7 @@ jobs:
           cp ./calico/custom-resources.yaml ./etc/
           sudo sed -i "s/v1.19.8/$version/g" ./calico/Kubefile
           cd ./calico
-          sudo sealer build -f /Kubefile -m lite -t kubernetes:$version .
+          sudo sealer build -f Kubefile -m lite -t kubernetes:$version .
           sudo sealer push kubernetes:$version
       - name: Auto build image
         uses: peter-evans/create-or-update-comment@v1
