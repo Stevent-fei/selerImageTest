@@ -33,8 +33,8 @@ jobs:
           wget http://sealer.oss-cn-beijing.aliyuncs.com/auto-build/sealer.tar.gz
           sudo tar -xvf sealer.tar.gz -C /usr/bin
           sudo sealer login ${{secrets.PRIVATEWAREHOUSE}}
-          sudo sed -i "s/v1.20.14/$version/g" ./rootfs/etc/kubeadm.yml
-          sudo sed -i "s/v1.20.14/$version/g" ./rootfs/Metadata
+          sudo sed -i "s/v1.19.8/$version/g" ./rootfs/etc/kubeadm.yml
+          sudo sed -i "s/v1.19.8/$version/g" ./rootfs/Metadata
           sudo sed -i "s/amd64/$arch/g" ./rootfs/Metadata
           sudo ./kubernetes/server/bin/kubeadm config images list --config ./rootfs/etc/kubeadm.yml 2>/dev/null>>./rootfs/imageList
           cd ./rootfs
