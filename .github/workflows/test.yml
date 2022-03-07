@@ -1,43 +1,32 @@
-# This workflow will build a package using Maven and then publish it to GitHub packages when a release is created
-# For more information see: https://github.com/actions/setup-java/blob/main/docs/advanced-usage.md#apache-maven-with-a-settings-path
-
-name: Auto build image
-on: #[push, pull_request]
+on:
   issue_comment:
     types:
       - created
+  push:
+    tags:
+      - 'v*'
+
+name: Static page
 jobs:
-  issue_comment:
-    name: Auto build image
-    if: startswith(github.event.comment.body, '/build')
+  build:
     runs-on: ubuntu-latest
-    permissions:
-      issues: write
+    if: ${{ github.repository == 'alibaba/sealer' && (github.ref_type=='tag' || github.event.comment.body == '/docs') }}
     steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      - run: npm install
+        working-directory: docs/site
+      - name: Static website hosting
+        run: npm run build
+        working-directory: docs/site
+      - name: Build static to oss
+        run: ls -R
 
-      - name: Check outputs
-        run: |
-          commentbody="${{github.event.comment.body}}"
-          version=`echo "$commentbody"|cut -d" " -f2`
-          echo $version
-          arch=`echo "$commentbody"|cut -d" " -f3`
-          echo $arch
-          wget http://sealer.oss-cn-beijing.aliyuncs.com/sealers/sealer-v0.6.1-linux-arm64.tar.gz
-          sudo tar -xvf sealer-v0.6.1-linux-arm64.tar.gz
-          ls -R
-          sudo cp ./sealer /usr/bin/
-          sudo sealer version
-#          sudo sealer login ${{secrets.PRIVATEWAREHOUSE}}
-#          wget http://sealer.oss-cn-beijing.aliyuncs.com/auto-build/rootfs-test.tar.gz
-#          sudo tar -xvf rootfs-test.tar.gz
-#          ls -R
-#          cd ./rootfs
-          
-
-          
-      - name: Auto build image
+      - name: Update docs
         uses: peter-evans/create-or-update-comment@v1
         with:
           issue-number: ${{ github.event.issue.number }}
           body: |
-             kubernetes
+            update success!
