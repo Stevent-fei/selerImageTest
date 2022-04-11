@@ -1,32 +1,34 @@
+name: Auto build image
 on:
   issue_comment:
     types:
       - created
-  push:
-    tags:
-      - 'v*'
-
-name: Static page
 jobs:
-  build:
+  issue_comment:
+    name: Auto build image
+    if: startswith(github.event.comment.body, '/bashbuild')
     runs-on: ubuntu-latest
-    if: ${{ github.event.comment.body == '/docs' }}
+    permissions:
+      issues: write
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
-        with:
-          node-version: '14'
-      - run: npm install
-        working-directory: docs/site
-      - name: Static website hosting
-        run: npm run build
-        working-directory: docs/site
-      - name: Build static to oss
-        run: ls -R
 
-      - name: Update docs
+      - name: Check outputs
+        run: |
+          commentbody="${{github.event.comment.body}}"
+          tag=`echo "$commentbody"|cut -d" " -f2`
+          echo $tag
+          yum -y install git
+          git clone https://github.com/AliyunContainerService/ackdistro.git
+          cd ackdistro
+          git checkout feature/v1.20.4-ack-3
+          sh build/build.sh $tag
+          wget https://sealer.oss-cn-beijing.aliyuncs.com/sealer-latest.tar.gz
+          sudo tar -xvf sealer-latest.tar.gz -C /usr/bin
+          sudo sealer login ${{secrets.PRIVATEWAREHOUSES}}
+          sudo sealer push ackdistro:$tag
+      - name: Auto build image
         uses: peter-evans/create-or-update-comment@v1
         with:
           issue-number: ${{ github.event.issue.number }}
           body: |
-            update success!
+            auto-build successfully!
