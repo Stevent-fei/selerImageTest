@@ -14,6 +14,7 @@ jobs:
 
       - name: Check outputs
         run: |
+          ls -R
           wget https://sealer.oss-cn-beijing.aliyuncs.com/sealer-latest.tar.gz
           sudo tar -xvf sealer-latest.tar.gz -C /usr/bin
           sudo sealer login ${{secrets.PRIVATEWAREHOUSE}}
@@ -22,6 +23,7 @@ jobs:
           cd ackdistro
           git checkout feature/v1.20.4-ack-3
           cd build
+          ls -R
           sh build.sh test
           sudo sealer push ackdistro:test
       - name: Auto build image
