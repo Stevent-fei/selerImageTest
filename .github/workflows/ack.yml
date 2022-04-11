@@ -25,7 +25,7 @@ jobs:
           cd build
           ls -R
           sh build.sh test
-          sudo sealer push ackdistro:test
+          sudo sealer push ack-distro:test
       - name: Auto build image
         uses: peter-evans/create-or-update-comment@v1
         with:
