@@ -15,6 +15,8 @@ jobs:
       - name: Check outputs
         run: |
           ls -R
+          cd / && sudo chmod 777 ./ -R
+          cd root
           wget https://sealer.oss-cn-beijing.aliyuncs.com/sealer-latest.tar.gz
           sudo tar -xvf sealer-latest.tar.gz -C /usr/bin
           sudo sealer login ${{secrets.PRIVATEWAREHOUSE}}
