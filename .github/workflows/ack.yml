@@ -24,8 +24,8 @@ jobs:
           git checkout feature/v1.20.4-ack-3
           cd build
           ls -R
-          sh build.sh test
-          sudo sealer push ack-distro:test
+          bash build.sh te
+          sudo sealer push ack-distro:te
       - name: Auto build image
         uses: peter-evans/create-or-update-comment@v1
         with:
