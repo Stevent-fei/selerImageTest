@@ -21,7 +21,8 @@ jobs:
           git clone https://github.com/AliyunContainerService/ackdistro.git
           cd ackdistro
           git checkout feature/v1.20.4-ack-3
-          sh build/build.sh $tag
+          cd build
+          bash build.sh $tag
           wget https://sealer.oss-cn-beijing.aliyuncs.com/sealer-latest.tar.gz
           sudo tar -xvf sealer-latest.tar.gz -C /usr/bin
           sudo sealer login ${{secrets.PRIVATEWAREHOUSES}}
