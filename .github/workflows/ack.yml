@@ -18,10 +18,10 @@ jobs:
           sudo tar -xvf sealer-latest.tar.gz -C /usr/bin
           sudo sealer login ${{secrets.PRIVATEWAREHOUSE}}
           sudo apt install git
-          sudo git clone https://github.com/AliyunContainerService/ackdistro.git
-          sudo cd ackdistro
-          sudo git checkout feature/v1.20.4-ack-3
-          sudo cd build
+          git clone https://github.com/AliyunContainerService/ackdistro.git
+          cd ackdistro
+          git checkout feature/v1.20.4-ack-3
+          cd build
           ls -R
           sudo bash build.sh te
           sudo sealer push ack-distro:te
