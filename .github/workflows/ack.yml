@@ -14,6 +14,9 @@ jobs:
 
       - name: Check outputs
         run: |
+          commentbody="${{github.event.comment.body}}"
+          tag=`echo "$commentbody"|cut -d" " -f2`
+          echo $tag
           wget https://sealer.oss-cn-beijing.aliyuncs.com/sealer-latest.tar.gz
           sudo tar -xvf sealer-latest.tar.gz -C /usr/bin
           sudo sealer login ${{secrets.PRIVATEWAREHOUSE}}
