@@ -34,4 +34,4 @@ jobs:
         with:
           issue-number: ${{ github.event.issue.number }}
           body: |
-            Image ${{ steps.autobuild.outputs.version }} build successfully!
+            Image ack-distro:${{ steps.autobuild.outputs.version }} build successfully!
