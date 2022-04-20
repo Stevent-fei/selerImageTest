@@ -24,7 +24,7 @@ import (
 )
 
 const (
-	DefaultRegistryAuthFileDir = "/root/.docker"
+	DefaultRegistryAuthFileDir        = "/root/.docker"
 )
 
 const (
@@ -44,7 +44,7 @@ var (
 	RegistryURL            = os.Getenv("REGISTRY_URL")
 	RegistryUsername       = os.Getenv("REGISTRY_USERNAME")
 	RegistryPasswd         = os.Getenv("REGISTRY_PASSWORD")
-	TestImageName          = "ack-distro:test" //default: registry.cn-qingdao.aliyuncs.com/sealer-io/kubernetes:v1.19.8
+	TestImageName      = "ack-distro:test" //default: registry.cn-qingdao.aliyuncs.com/sealer-io/kubernetes:v1.19.8
 )
 
 func GetClusterWorkDir(clusterName string) string {
