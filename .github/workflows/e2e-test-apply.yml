@@ -1,6 +1,8 @@
 name: Sealer-Test-Apply
 
 on:
+  push:
+    branches: "release*"
   issue_comment:
     types:
       - created
