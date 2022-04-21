@@ -17,9 +17,9 @@ package test
 import (
 	. "github.com/onsi/ginkgo"
 
-	"blog/test/suites/image"
-	"blog/test/suites/registry"
-	"blog/test/testhelper/settings"
+	"blog/testsuites/image"
+	"blog/testsuites/registry"
+	"blog/testtesthelper/settings"
 )
 
 var _ = Describe("sealer login", func() {

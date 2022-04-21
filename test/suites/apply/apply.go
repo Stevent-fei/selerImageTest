@@ -1,40 +1,25 @@
-// Copyright © 2021 Alibaba Group Holding Ltd.
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//     http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-
 package apply
 
 import (
-	"bytes"
+	"blog/test/testhelper"
+	"blog/test/testhelper/settings"
 	"fmt"
+	"github.com/alibaba/sealer/pkg/infra"
+	v1 "github.com/alibaba/sealer/types/api/v1"
+	"github.com/alibaba/sealer/utils"
+	"github.com/onsi/gomega"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"path/filepath"
 	"strconv"
 	"strings"
-	"time"
-
-	"github.com/alibaba/sealer/pkg/checker"
-	"github.com/alibaba/sealer/utils/ssh"
-
-	"github.com/onsi/gomega"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"sigs.k8s.io/yaml"
-
-	"github.com/alibaba/sealer/pkg/infra"
-	"blog/test/testhelper"
-	"blog/test/testhelper/settings"
-	v1 "github.com/alibaba/sealer/types/api/v1"
-	"github.com/alibaba/sealer/utils"
 )
+
+func LoadClusterFileFromDisk(clusterFilePath string) *v1.Cluster {
+	clusters, err := utils.DecodeCluster(clusterFilePath)
+	testhelper.CheckErr(err)
+	testhelper.CheckNotNil(clusters[0])
+	return &clusters[0]
+}
 
 func getFixtures() string {
 	pwd := settings.DefaultTestEnvDir
@@ -46,88 +31,56 @@ func GetRawClusterFilePath() string {
 	return filepath.Join(fixtures, "cluster_file_for_test.yaml")
 }
 
-func GetRawConfigPluginFilePath() string {
-	fixtures := getFixtures()
-	return filepath.Join(fixtures, "config_plugin_for_test.yaml")
+func CreateAliCloudInfraAndSave(cluster *v1.Cluster, clusterFile string) *v1.Cluster {
+	CreateAliCloudInfra(cluster)
+	//save used cluster file
+	cluster.Spec.Provider = settings.BAREMETAL
+	MarshalClusterToFile(clusterFile, cluster)
+	cluster.Spec.Provider = settings.AliCloud
+	return cluster
 }
 
-func DeleteClusterByFile(clusterFile string) {
-	testhelper.RunCmdAndCheckResult(SealerDeleteCmd(clusterFile), 0)
+func CreateAliCloudInfra(cluster *v1.Cluster) {
+	cluster.DeletionTimestamp = nil
+	infraManager, err := infra.NewDefaultProvider(cluster)
+	testhelper.CheckErr(err)
+	err = infraManager.Apply()
+	testhelper.CheckErr(err)
 }
 
-func WriteClusterFileToDisk(cluster *v1.Cluster, clusterFilePath string) {
+func MarshalClusterToFile(ClusterFile string, cluster *v1.Cluster) {
+	err := testhelper.MarshalYamlToFile(ClusterFile, &cluster)
+	testhelper.CheckErr(err)
 	testhelper.CheckNotNil(cluster)
-	err := testhelper.MarshalYamlToFile(clusterFilePath, cluster)
-	testhelper.CheckErr(err)
 }
 
-func LoadClusterFileFromDisk(clusterFilePath string) *v1.Cluster {
-	clusters, err := utils.DecodeCluster(clusterFilePath)
-	testhelper.CheckErr(err)
-	testhelper.CheckNotNil(clusters[0])
-	return &clusters[0]
-}
-
-func LoadConfigFromDisk(clusterFilePath string) []v1.Config {
-	configs, err := utils.DecodeConfigs(clusterFilePath)
-	testhelper.CheckErr(err)
-	testhelper.CheckNotNil(configs)
-	return configs
-}
-
-func LoadPluginFromDisk(clusterFilePath string) []v1.Plugin {
-	plugins, err := utils.DecodePlugins(clusterFilePath)
-	testhelper.CheckErr(err)
-	testhelper.CheckNotNil(plugins)
-	return plugins
-}
-
-func GenerateClusterfile(clusterfile string) {
-	filepath := GetRawConfigPluginFilePath()
-	cluster := LoadClusterFileFromDisk(clusterfile)
-	cluster.Spec.Env = []string{"env=TestEnv"}
-	data, err := yaml.Marshal(cluster)
-	testhelper.CheckErr(err)
-	appendData := [][]byte{data}
-	plugins := LoadPluginFromDisk(filepath)
-	configs := LoadConfigFromDisk(filepath)
-	for _, plugin := range plugins {
-		if plugin.Spec.Type == "LABEL" {
-			pluginData := "\n"
-			for _, ip := range cluster.Spec.Masters.IPList {
-				pluginData += fmt.Sprintf(" %s sealer-test=true \n", ip)
-			}
-			plugin.Spec.Data = pluginData
-		}
-		if plugin.Spec.Type == "HOSTNAME" {
-			pluginData := "\n"
-			for i, ip := range cluster.Spec.Masters.IPList {
-				pluginData += fmt.Sprintf("%s master-%s\n", ip, strconv.Itoa(i))
-			}
-			for i, ip := range cluster.Spec.Nodes.IPList {
-				pluginData += fmt.Sprintf("%s node-%s\n", ip, strconv.Itoa(i))
-			}
-			plugin.Spec.Data = pluginData
-		}
-		data, err := yaml.Marshal(plugin)
-		testhelper.CheckErr(err)
-		appendData = append(appendData, []byte("---\n"), data)
+func CleanUpAliCloudInfra(cluster *v1.Cluster) {
+	if cluster == nil {
+		return
 	}
-	for _, config := range configs {
-		data, err := yaml.Marshal(config)
-		testhelper.CheckErr(err)
-		appendData = append(appendData, []byte("---\n"), data)
+	if cluster.Spec.Provider != settings.AliCloud {
+		cluster.Spec.Provider = settings.AliCloud
 	}
-	err = utils.WriteFile(clusterfile, bytes.Join(appendData, []byte("")))
+	t := metav1.Now()
+	cluster.DeletionTimestamp = &t
+	infraManager, err := infra.NewDefaultProvider(cluster)
+	testhelper.CheckErr(err)
+	err = infraManager.Apply()
 	testhelper.CheckErr(err)
 }
 
-func SealerDeleteCmd(clusterFile string) string {
-	return fmt.Sprintf("%s delete -f %s --force -d", settings.DefaultSealerBin, clusterFile)
+func SendAndRunCluster(sshClient *testhelper.SSHClient, clusterFile string, joinMasters, joinNodes, passwd string) {
+	SendAndRemoteExecCluster(sshClient, clusterFile, SealerRunCmd(joinMasters, joinNodes, passwd, ""))
 }
 
-func SealerApplyCmd(clusterFile string) string {
-	return fmt.Sprintf("%s apply -f %s --force -d", settings.DefaultSealerBin, clusterFile)
+func SendAndRemoteExecCluster(sshClient *testhelper.SSHClient, clusterFile string, remoteCmd string) {
+	// send tmp cluster file to remote server and run apply cmd
+	gomega.Eventually(func() bool {
+		err := sshClient.SSH.Copy(sshClient.RemoteHostIP, clusterFile, clusterFile)
+		return err == nil
+	}, settings.MaxWaiteTime).Should(gomega.BeTrue())
+	err := sshClient.SSH.CmdAsync(sshClient.RemoteHostIP, remoteCmd)
+	testhelper.CheckErr(err)
 }
 
 func SealerRunCmd(masters, nodes, passwd string, provider string) string {
@@ -146,89 +99,6 @@ func SealerRunCmd(masters, nodes, passwd string, provider string) string {
 	return fmt.Sprintf("%s run %s %s %s %s %s -d", settings.DefaultSealerBin, settings.TestImageName, masters, nodes, passwd, provider)
 }
 
-func SealerRun(masters, nodes, passwd, provider string) {
-	testhelper.RunCmdAndCheckResult(SealerRunCmd(masters, nodes, passwd, provider), 0)
-}
-
-func SealerJoinCmd(masters, nodes string) string {
-	if masters != "" {
-		masters = fmt.Sprintf("-m %s", masters)
-	}
-	if nodes != "" {
-		nodes = fmt.Sprintf("-n %s", nodes)
-	}
-	return fmt.Sprintf("%s join %s %s -c my-test-cluster -d", settings.DefaultSealerBin, masters, nodes)
-}
-
-func SealerJoin(masters, nodes string) {
-	testhelper.RunCmdAndCheckResult(SealerJoinCmd(masters, nodes), 0)
-}
-
-func CreateAliCloudInfraAndSave(cluster *v1.Cluster, clusterFile string) *v1.Cluster {
-	CreateAliCloudInfra(cluster)
-	//save used cluster file
-	cluster.Spec.Provider = settings.BAREMETAL
-	MarshalClusterToFile(clusterFile, cluster)
-	cluster.Spec.Provider = settings.AliCloud
-	return cluster
-}
-
-func ChangeMasterOrderAndSave(cluster *v1.Cluster, clusterFile string) *v1.Cluster {
-	cluster.Spec.Masters.Count = strconv.Itoa(3)
-	CreateAliCloudInfra(cluster)
-	//change master order and save used cluster file
-	cluster.Spec.Masters.IPList[0], cluster.Spec.Masters.IPList[1] = cluster.Spec.Masters.IPList[1], cluster.Spec.Masters.IPList[0]
-	cluster.Spec.Provider = settings.BAREMETAL
-	MarshalClusterToFile(clusterFile, cluster)
-	cluster.Spec.Provider = settings.AliCloud
-	return cluster
-}
-
-func CreateAliCloudInfra(cluster *v1.Cluster) {
-	cluster.DeletionTimestamp = nil
-	infraManager, err := infra.NewDefaultProvider(cluster)
-	testhelper.CheckErr(err)
-	err = infraManager.Apply()
-	testhelper.CheckErr(err)
-}
-
-func SendAndApplyCluster(sshClient *testhelper.SSHClient, clusterFile string) {
-	SendAndRemoteExecCluster(sshClient, clusterFile, SealerApplyCmd(clusterFile))
-}
-
-func SendAndJoinCluster(sshClient *testhelper.SSHClient, clusterFile string, joinMasters, joinNodes string) {
-	SendAndRemoteExecCluster(sshClient, clusterFile, SealerJoinCmd(joinMasters, joinNodes))
-}
-
-func SendAndRunCluster(sshClient *testhelper.SSHClient, clusterFile string, joinMasters, joinNodes, passwd string) {
-	SendAndRemoteExecCluster(sshClient, clusterFile, SealerRunCmd(joinMasters, joinNodes, passwd, ""))
-}
-
-func SendAndRemoteExecCluster(sshClient *testhelper.SSHClient, clusterFile string, remoteCmd string) {
-	// send tmp cluster file to remote server and run apply cmd
-	gomega.Eventually(func() bool {
-		err := sshClient.SSH.Copy(sshClient.RemoteHostIP, clusterFile, clusterFile)
-		return err == nil
-	}, settings.MaxWaiteTime).Should(gomega.BeTrue())
-	err := sshClient.SSH.CmdAsync(sshClient.RemoteHostIP, remoteCmd)
-	testhelper.CheckErr(err)
-}
-
-func CleanUpAliCloudInfra(cluster *v1.Cluster) {
-	if cluster == nil {
-		return
-	}
-	if cluster.Spec.Provider != settings.AliCloud {
-		cluster.Spec.Provider = settings.AliCloud
-	}
-	t := metav1.Now()
-	cluster.DeletionTimestamp = &t
-	infraManager, err := infra.NewDefaultProvider(cluster)
-	testhelper.CheckErr(err)
-	err = infraManager.Apply()
-	testhelper.CheckErr(err)
-}
-
 // CheckNodeNumWithSSH check node mum of remote cluster;for bare metal apply
 func CheckNodeNumWithSSH(sshClient *testhelper.SSHClient, expectNum int) {
 	if sshClient == nil {
@@ -240,50 +110,4 @@ func CheckNodeNumWithSSH(sshClient *testhelper.SSHClient, expectNum int) {
 	num, err := strconv.Atoi(strings.ReplaceAll(result, "\n", ""))
 	testhelper.CheckErr(err)
 	testhelper.CheckEqual(num, expectNum+1)
-}
-
-// CheckNodeNumLocally check node mum of remote cluster;for cloud apply
-func CheckNodeNumLocally(expectNum int) {
-	cmd := "sudo -E kubectl get nodes | wc -l"
-	result, err := utils.RunSimpleCmd(cmd)
-	testhelper.CheckErr(err)
-	num, err := strconv.Atoi(strings.ReplaceAll(result, "\n", ""))
-	testhelper.CheckErr(err)
-	testhelper.CheckEqual(num, expectNum+1)
-}
-
-func WaitAllNodeRunning() {
-	time.Sleep(30 * time.Second)
-	err := utils.Retry(10, 5*time.Second, func() error {
-		return checker.NewNodeChecker().Check(nil, checker.PhasePost)
-	})
-	testhelper.CheckErr(err)
-}
-
-func WaitAllNodeRunningBySSH(s ssh.Interface, masterIP string) {
-	time.Sleep(30 * time.Second)
-	err := utils.Retry(10, 5*time.Second, func() error {
-		result, err := s.CmdToString(masterIP, "kubectl get nodes", "")
-		if err != nil {
-			return err
-		}
-		if strings.Contains(result, "NotReady") {
-			return fmt.Errorf("node not ready: \n %s", result)
-		}
-		return nil
-	})
-	testhelper.CheckErr(err)
-}
-
-func MarshalClusterToFile(ClusterFile string, cluster *v1.Cluster) {
-	err := testhelper.MarshalYamlToFile(ClusterFile, &cluster)
-	testhelper.CheckErr(err)
-	testhelper.CheckNotNil(cluster)
-}
-
-func CheckDockerAndSwapOff() {
-	_, err := utils.RunSimpleCmd("docker -v")
-	testhelper.CheckErr(err)
-	_, err = utils.RunSimpleCmd("swapoff -a")
-	testhelper.CheckErr(err)
 }

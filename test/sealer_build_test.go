@@ -18,10 +18,10 @@ import (
 	"os"
 	"path/filepath"
 
-	"blog/test/suites/build"
-	"blog/test/suites/registry"
-	"blog/test/testhelper"
-	"blog/test/testhelper/settings"
+	"blog/testsuites/build"
+	"blog/testsuites/registry"
+	"blog/testtesthelper"
+	"blog/testtesthelper/settings"
 	. "github.com/onsi/ginkgo"
 )
 

@@ -25,7 +25,7 @@ import (
 	"github.com/onsi/gomega/gexec"
 	"sigs.k8s.io/yaml"
 
-	"blog/test/testhelper/settings"
+	"blog/testtesthelper/settings"
 	v1 "github.com/alibaba/sealer/types/api/v1"
 	"github.com/alibaba/sealer/utils"
 	"github.com/alibaba/sealer/utils/ssh"

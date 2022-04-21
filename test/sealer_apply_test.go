@@ -18,13 +18,13 @@ import (
 	"strings"
 	"time"
 
-	"blog/test/suites/build"
+	"blog/testsuites/build"
 
 	. "github.com/onsi/ginkgo"
 
-	"blog/test/suites/apply"
-	"blog/test/testhelper"
-	"blog/test/testhelper/settings"
+	"blog/testsuites/apply"
+	"blog/testtesthelper"
+	"blog/testtesthelper/settings"
 )
 
 var _ = Describe("sealer apply", func() {

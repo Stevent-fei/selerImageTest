@@ -25,7 +25,7 @@ import (
 
 	"github.com/onsi/gomega"
 
-	"blog/test/testhelper/settings"
+	"blog/testtesthelper/settings"
 	"github.com/alibaba/sealer/utils"
 )
 

@@ -25,8 +25,8 @@ import (
 	. "github.com/onsi/gomega"
 
 	"github.com/alibaba/sealer/common"
-	"blog/test/testhelper"
-	"blog/test/testhelper/settings"
+	"blog/testtesthelper"
+	"blog/testtesthelper/settings"
 )
 
 func TestSealerTests(t *testing.T) {

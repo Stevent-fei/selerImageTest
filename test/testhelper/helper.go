@@ -24,7 +24,7 @@ import (
 	"github.com/onsi/gomega"
 	"github.com/onsi/gomega/gexec"
 
-	"blog/test/testhelper/settings"
+	"blog/testtesthelper/settings"
 )
 
 // Start sealer cmd and return *gexec.Session
