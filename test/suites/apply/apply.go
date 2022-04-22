@@ -96,7 +96,7 @@ func SealerRunCmd(masters, nodes, passwd string, provider string) string {
 	if provider != "" {
 		provider = fmt.Sprintf("--provider %s", provider)
 	}
-	return fmt.Sprintf("%s run %s %s %s %s %s -d", settings.DefaultSealerBin, settings.TestImageName, masters, nodes, passwd, provider)
+	return fmt.Sprintf("%s run %s -e %s %s %s %s %s -d", settings.DefaultSealerBin, settings.TestImageName, settings.CustomCalicoEnv , masters, nodes, passwd, provider)
 }
 
 // CheckNodeNumWithSSH check node mum of remote cluster;for bare metal apply
