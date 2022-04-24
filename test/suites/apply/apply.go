@@ -3,15 +3,19 @@ package apply
 import (
 	"blog/test/testhelper"
 	"blog/test/testhelper/settings"
+	"bytes"
 	"fmt"
 	"github.com/alibaba/sealer/pkg/infra"
 	v1 "github.com/alibaba/sealer/types/api/v1"
 	"github.com/alibaba/sealer/utils"
+	"github.com/alibaba/sealer/utils/ssh"
 	"github.com/onsi/gomega"
+	"gopkg.in/yaml.v2"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"path/filepath"
 	"strconv"
 	"strings"
+	"time"
 )
 
 func LoadClusterFileFromDisk(clusterFilePath string) *v1.Cluster {
@@ -110,4 +114,85 @@ func CheckNodeNumWithSSH(sshClient *testhelper.SSHClient, expectNum int) {
 	num, err := strconv.Atoi(strings.ReplaceAll(result, "\n", ""))
 	testhelper.CheckErr(err)
 	testhelper.CheckEqual(num, expectNum+1)
+}
+
+func GenerateClusterfile(clusterfile string) {
+	filepath := GetRawClusterFilePath()
+	cluster := LoadClusterFileFromDisk(filepath)
+	cluster.Spec.Env = []string{"Network=calico"}
+	data, err := yaml.Marshal(cluster)
+	testhelper.CheckErr(err)
+	appendData := [][]byte{data} //二维数组，key，value
+	plugins := LoadPluginFromDisk(filepath)
+	configs := LoadConfigFromDisk(filepath)
+	for _, plugin := range plugins {
+		if plugin.Spec.Type == "LABEL" {
+			pluginData := "\n"
+			for _, ip := range cluster.Spec.Masters.IPList {
+				pluginData += fmt.Sprintf("%s sealer-test=true \n", ip)
+			}
+			plugin.Spec.Data = pluginData
+		}
+		if plugin.Spec.Type == "HOSTNAME" {
+			pluginData := "\n"
+			for i, ip := range cluster.Spec.Masters.IPList {
+				pluginData += fmt.Sprintf("%s master-%s\n", ip, strconv.Itoa(i))
+			}
+			for i, ip := range cluster.Spec.Nodes.IPList {
+				pluginData += fmt.Sprintf("%s master-%s\n", ip, strconv.Itoa(i))
+			}
+			plugin.Spec.Data = pluginData
+		}
+		data, err := yaml.Marshal(plugin)
+		testhelper.CheckErr(err)
+		appendData = append(appendData, []byte("---\n"), data)
+	}
+	for _, config := range configs{
+		data, err := yaml.Marshal(config)
+		testhelper.CheckErr(err)
+		appendData = append(appendData, []byte("---\n"), data)
+	}
+	err = utils.WriteFile(clusterfile, bytes.Join(appendData, []byte("")))
+	testhelper.CheckErr(err)
+}
+
+func LoadPluginFromDisk(ClusterfilePath string)[]v1.Plugin  {
+	plugins, err := utils.DecodePlugins(ClusterfilePath)
+	testhelper.CheckErr(err)
+	testhelper.CheckNotNil(plugins)
+	return plugins
+}
+
+func LoadConfigFromDisk(Clusterfilepath string)[]v1.Config  {
+	configs, err := utils.DecodeConfigs(Clusterfilepath)
+	testhelper.CheckErr(err)
+	testhelper.CheckNotNil(configs)
+	return configs
+}
+
+func SendAndApplyCluster(sshClient *testhelper.SSHClient, clusterFile string) {
+	SendAndRemoteExecCluster(sshClient, clusterFile, SealerApplyCmd(clusterFile))
+}
+
+func SealerApplyCmd(clusterFile string) string {
+	return fmt.Sprintf("%s apply -f %s --force -d", settings.DefaultSealerBin, clusterFile)
+}
+
+func WaitAllNodeRunningBySSH(s ssh.Interface, masterIp string) {
+	time.Sleep(30 * time.Second)
+	err := utils.Retry(10,5 * time.Second, func() error {
+		result, err := s.CmdToString(masterIp, "kubectl get node", "")
+		if err != nil{
+			return err
+		}
+		if strings.Contains(result, "NotReady") {
+			return fmt.Errorf("node not ready: \n %s", result)
+		}
+		return nil
+	})
+	testhelper.CheckErr(err)
+}
+
+func SealerDeleteCmd(clusterFile string) string {
+	return fmt.Sprintf("%s delete -f %s --force -d", settings.DefaultSealerBin,clusterFile)
 }
