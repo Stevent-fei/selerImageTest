@@ -20,11 +20,13 @@ var _ = Describe("sealer apply", func() {
 				apply.MarshalClusterToFile(rawClusterFilePath, rawCluster)
 			}
 		})
+
 		Context("check regular scenario that provider is bare metal, executes machine is master0", func() {
 			var tempFile string
 			BeforeEach(func() {
 				tempFile = testhelper.CreateTempFile()
 			})
+
 			AfterEach(func() {
 				testhelper.RemoveTempFile(tempFile)
 			})
@@ -37,13 +39,14 @@ var _ = Describe("sealer apply", func() {
 				defer apply.CleanUpAliCloudInfra(cluster)
 				sshClient := testhelper.NewSSHClientByCluster(cluster)
 				testhelper.CheckFuncBeTrue(func() bool {
-					err := sshClient.SSH.Copy(sshClient.RemoteHostIP,settings.DefaultSealerBin,settings.DefaultSealerBin)
+					err := sshClient.SSH.Copy(sshClient.RemoteHostIP, settings.DefaultSealerBin, settings.DefaultSealerBin)
 					return err == nil
 				}, settings.MaxWaiteTime)
+
 				By("start to init cluster")
 				apply.GenerateClusterfile(tempFile)
-				apply.SendAndApplyCluster(sshClient,tempFile)
-				apply.CheckNodeNumWithSSH(sshClient,2)
+				apply.SendAndApplyCluster(sshClient, tempFile)
+				apply.CheckNodeNumWithSSH(sshClient, 2)
 
 				By("Wait for the cluster to be ready", func() {
 					apply.WaitAllNodeRunningBySSH(sshClient.SSH,sshClient.RemoteHostIP)
