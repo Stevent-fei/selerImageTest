@@ -119,7 +119,7 @@ func CheckNodeNumWithSSH(sshClient *testhelper.SSHClient, expectNum int) {
 func GenerateClusterfile(clusterfile string) {
 	filepath := GetRawConfigPluginFilePath()
 	cluster := LoadClusterFileFromDisk(clusterfile)
-	cluster.Spec.Env = []string{"env=TestEnv"}
+	cluster.Spec.Env = []string{"Network=calico"}
 	data, err := yaml.Marshal(cluster)
 	testhelper.CheckErr(err)
 	appendData := [][]byte{data}
