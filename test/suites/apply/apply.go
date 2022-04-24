@@ -156,8 +156,8 @@ func GenerateClusterfile(clusterfile string) {
 	testhelper.CheckErr(err)
 }
 
-func LoadPluginFromDisk(clusterfilePath string)[]v1.Plugin  {
-	plugins, err := utils.DecodePlugins(clusterfilePath)
+func LoadPluginFromDisk(clusterFilePath string)[]v1.Plugin  {
+	plugins, err := utils.DecodePlugins(clusterFilePath)
 	testhelper.CheckErr(err)
 	testhelper.CheckNotNil(plugins)
 	return plugins
