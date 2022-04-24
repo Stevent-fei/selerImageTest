@@ -123,7 +123,7 @@ func CheckErr(err error) {
 }
 
 func CheckNotNil(obj interface{}) {
-	gomega.Expect(obj).NotTo(gomega.BeNil())
+	gomega.Expect(obj).To(gomega.BeNil())
 }
 
 func CheckEqual(obj1 interface{}, obj2 interface{}) {
