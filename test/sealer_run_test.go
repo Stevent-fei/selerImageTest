@@ -15,9 +15,9 @@
 package test
 
 import (
-	"strings"
-
+	"fmt"
 	. "github.com/onsi/ginkgo"
+	"strings"
 
 	"blog/test/suites/apply"
 	"blog/test/testhelper"
@@ -25,6 +25,7 @@ import (
 )
 
 var _ = Describe("sealer run", func() {
+	fmt.Println("start to exec calico network cluster test")
 
 	Context("run on bareMetal", func() {
 		var tempFile string
@@ -59,4 +60,5 @@ var _ = Describe("sealer run", func() {
 
 		})
 	})
+	fmt.Println("calico network cluster test is ok")
 })
