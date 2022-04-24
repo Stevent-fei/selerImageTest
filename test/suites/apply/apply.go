@@ -117,19 +117,19 @@ func CheckNodeNumWithSSH(sshClient *testhelper.SSHClient, expectNum int) {
 }
 
 func GenerateClusterfile(clusterfile string) {
-	filepath := GetRawClusterFilePath()
+	filepath := GetRawConfigPluginFilePath()
 	cluster := LoadClusterFileFromDisk(clusterfile)
-	cluster.Spec.Env = []string{"Network=calico"}
+	cluster.Spec.Env = []string{"env=TestEnv"}
 	data, err := yaml.Marshal(cluster)
 	testhelper.CheckErr(err)
-	appendData := [][]byte{data} //二维数组，key，value
+	appendData := [][]byte{data}
 	plugins := LoadPluginFromDisk(filepath)
 	configs := LoadConfigFromDisk(filepath)
 	for _, plugin := range plugins {
 		if plugin.Spec.Type == "LABEL" {
 			pluginData := "\n"
 			for _, ip := range cluster.Spec.Masters.IPList {
-				pluginData += fmt.Sprintf("%s sealer-test=true \n", ip)
+				pluginData += fmt.Sprintf(" %s sealer-test=true \n", ip)
 			}
 			plugin.Spec.Data = pluginData
 		}
@@ -139,7 +139,7 @@ func GenerateClusterfile(clusterfile string) {
 				pluginData += fmt.Sprintf("%s master-%s\n", ip, strconv.Itoa(i))
 			}
 			for i, ip := range cluster.Spec.Nodes.IPList {
-				pluginData += fmt.Sprintf("%s master-%s\n", ip, strconv.Itoa(i))
+				pluginData += fmt.Sprintf("%s node-%s\n", ip, strconv.Itoa(i))
 			}
 			plugin.Spec.Data = pluginData
 		}
@@ -147,13 +147,18 @@ func GenerateClusterfile(clusterfile string) {
 		testhelper.CheckErr(err)
 		appendData = append(appendData, []byte("---\n"), data)
 	}
-	for _, config := range configs{
+	for _, config := range configs {
 		data, err := yaml.Marshal(config)
 		testhelper.CheckErr(err)
 		appendData = append(appendData, []byte("---\n"), data)
 	}
 	err = utils.WriteFile(clusterfile, bytes.Join(appendData, []byte("")))
 	testhelper.CheckErr(err)
+}
+
+func GetRawConfigPluginFilePath() string {
+	fixtures := getFixtures()
+	return filepath.Join(fixtures, "config_plugin_for_test.yaml")
 }
 
 func LoadPluginFromDisk(clusterFilePath string)[]v1.Plugin  {
