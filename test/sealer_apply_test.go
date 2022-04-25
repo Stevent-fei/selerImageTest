@@ -44,7 +44,7 @@ var _ = Describe("sealer apply", func() {
 				}, settings.MaxWaiteTime)
 
 				By("start to init cluster")
-				//apply.GenerateClusterfile(tempFile)
+				apply.GenerateClusterfile(tempFile)
 				apply.SendAndApplyCluster(sshClient, tempFile)
 				apply.CheckNodeNumWithSSH(sshClient, 2)
 
