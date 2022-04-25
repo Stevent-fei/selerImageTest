@@ -2,7 +2,6 @@ package test
 
 import (
 	"blog/test/testhelper"
-	"fmt"
 	. "github.com/onsi/ginkgo"
 
 	"blog/test/suites/apply"
@@ -22,7 +21,7 @@ var _ = Describe("sealer apply", func() {
 			}
 		})
 
-		Context("check regular scenario that provider is bare metal, executes machine is master0", func() {
+		Context("check regular scenario that provider is bare metal, executes machine is not master0", func() {
 			var tempFile string
 			BeforeEach(func() {
 				tempFile = testhelper.CreateTempFile()
@@ -30,31 +29,28 @@ var _ = Describe("sealer apply", func() {
 
 			AfterEach(func() {
 				testhelper.RemoveTempFile(tempFile)
+				testhelper.DeleteFileLocally(settings.GetClusterWorkClusterfile(rawCluster.Name))
 			})
-			It("init, clean up", func() {
+			It("init, scale up, scale down, clean up", func() {
 				By("start to prepare infra")
-				cluster := rawCluster.DeepCopy()
+				cluster := apply.LoadClusterFileFromDisk(rawClusterFilePath)
 				cluster.Spec.Provider = settings.AliCloud
-				cluster.Spec.Image = settings.TestImageName
-				cluster = apply.CreateAliCloudInfraAndSave(cluster, tempFile)
-				defer apply.CleanUpAliCloudInfra(cluster)
-				sshClient := testhelper.NewSSHClientByCluster(cluster)
+				usedCluster := apply.ChangeMasterOrderAndSave(cluster, tempFile)
+				defer apply.CleanUpAliCloudInfra(usedCluster)
+				sshClient := testhelper.NewSSHClientByCluster(usedCluster)
 				testhelper.CheckFuncBeTrue(func() bool {
 					err := sshClient.SSH.Copy(sshClient.RemoteHostIP, settings.DefaultSealerBin, settings.DefaultSealerBin)
 					return err == nil
 				}, settings.MaxWaiteTime)
 
 				By("start to init cluster")
-				apply.GenerateClusterfile(tempFile)
-				fmt.Println("11111111111111")
 				apply.SendAndApplyCluster(sshClient, tempFile)
-				fmt.Println("222222222222222")
-				apply.CheckNodeNumWithSSH(sshClient, 2)
-				fmt.Println("1111111111111111122222222223333333333")
+				apply.CheckNodeNumWithSSH(sshClient, 4)
 
 				By("Wait for the cluster to be ready", func() {
-					apply.WaitAllNodeRunningBySSH(sshClient.SSH,sshClient.RemoteHostIP)
+					apply.WaitAllNodeRunningBySSH(sshClient.SSH, sshClient.RemoteHostIP)
 				})
+
 				By("start to delete cluster")
 				err := sshClient.SSH.CmdAsync(sshClient.RemoteHostIP, apply.SealerDeleteCmd(tempFile))
 				testhelper.CheckErr(err)

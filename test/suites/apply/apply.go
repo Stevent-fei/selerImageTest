@@ -201,3 +201,14 @@ func WaitAllNodeRunningBySSH(s ssh.Interface, masterIp string) {
 func SealerDeleteCmd(clusterFile string) string {
 	return fmt.Sprintf("%s delete -f %s --force -d", settings.DefaultSealerBin,clusterFile)
 }
+
+func ChangeMasterOrderAndSave(cluster *v1.Cluster, clusterFile string) *v1.Cluster {
+	cluster.Spec.Masters.Count = strconv.Itoa(1)
+	CreateAliCloudInfra(cluster)
+	//change master order and save used cluster file
+	cluster.Spec.Masters.IPList[0], cluster.Spec.Masters.IPList[1] = cluster.Spec.Masters.IPList[1], cluster.Spec.Masters.IPList[0]
+	cluster.Spec.Provider = settings.BAREMETAL
+	MarshalClusterToFile(clusterFile, cluster)
+	cluster.Spec.Provider = settings.AliCloud
+	return cluster
+}
