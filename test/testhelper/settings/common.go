@@ -82,6 +82,7 @@ var (
 	TestNydusImageName = "" //default: registry.cn-qingdao.aliyuncs.com/sealer-io/kubernetes-nydus:v1.19.8
 	CustomCalicoEnv    = "Network=calico"
 	CustomhybridnetEnv = "Network=hybridnet"
+	CalicoEnv		   = []string{"Network=calico"}
 
 )
 

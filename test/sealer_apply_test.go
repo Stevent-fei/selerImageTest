@@ -14,6 +14,7 @@ var _ = Describe("sealer apply", func() {
 		rawClusterFilePath := apply.GetRawClusterFilePath()
 		rawCluster := apply.LoadClusterFileFromDisk(rawClusterFilePath)
 		rawCluster.Spec.Image = settings.TestImageName
+		rawCluster.Spec.Env = settings.CalicoEnv
 		BeforeEach(func() {
 			if rawCluster.Spec.Image != settings.TestImageName {
 				//rawCluster imageName updated to customImageName
