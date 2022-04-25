@@ -2,6 +2,7 @@ package test
 
 import (
 	"blog/test/testhelper"
+	"fmt"
 	. "github.com/onsi/ginkgo"
 
 	"blog/test/suites/apply"
@@ -44,8 +45,11 @@ var _ = Describe("sealer apply", func() {
 				}, settings.MaxWaiteTime)
 
 				By("start to init cluster")
-				apply.GenerateClusterfile(tempFile)
+				fmt.Println("1111111111111")
+				apply.GenerateClusterfile1(tempFile)
+				fmt.Println("22222222222222")
 				apply.SendAndApplyCluster(sshClient, tempFile)
+				fmt.Println("333333333333333")
 				apply.CheckNodeNumWithSSH(sshClient, 2)
 
 				By("Wait for the cluster to be ready", func() {
