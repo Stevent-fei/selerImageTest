@@ -57,8 +57,11 @@ var _ = Describe("sealer run", func() {
 				apply.SendAndRunCluster(sshClient, tempFile, masters, nodes, usedCluster.Spec.SSH.Passwd)
 				apply.CheckNodeNumWithSSH(sshClient, 2)
 			})
-
+			By("Wait for the cluster to be ready", func() {
+				apply.WaitAllNodeRunningBySSH(sshClient.SSH,sshClient.RemoteHostIP)
+			})
+			fmt.Println("calico network cluster test is ok")
 		})
 	})
-	fmt.Println("calico network cluster test is ok")
+
 })
