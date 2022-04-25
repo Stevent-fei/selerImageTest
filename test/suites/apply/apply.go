@@ -119,11 +119,12 @@ func CheckNodeNumWithSSH(sshClient *testhelper.SSHClient, expectNum int) {
 func GenerateClusterfile(clusterfile string) {
 	filepath := GetRawConfigPluginFilePath()
 	cluster := LoadClusterFileFromDisk(clusterfile)
-	cluster.Spec.Env = []string{"Network=calico"}
+	cluster.Spec.Env = []string{"env=TestEnv"}
 	data, err := yaml.Marshal(cluster)
 	testhelper.CheckErr(err)
 	appendData := [][]byte{data}
 	plugins := LoadPluginFromDisk(filepath)
+	configs := LoadConfigFromDisk(filepath)
 	for _, plugin := range plugins {
 		if plugin.Spec.Type == "LABEL" {
 			pluginData := "\n"
@@ -143,6 +144,11 @@ func GenerateClusterfile(clusterfile string) {
 			plugin.Spec.Data = pluginData
 		}
 		data, err := yaml.Marshal(plugin)
+		testhelper.CheckErr(err)
+		appendData = append(appendData, []byte("---\n"), data)
+	}
+	for _, config := range configs {
+		data, err := yaml.Marshal(config)
 		testhelper.CheckErr(err)
 		appendData = append(appendData, []byte("---\n"), data)
 	}
