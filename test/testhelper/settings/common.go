@@ -83,7 +83,7 @@ var (
 	CustomCalicoEnv    = "Network=calico"
 	CustomhybridnetEnv = "Network=hybridnet"
 	CalicoEnv		   = []string{"Network=calico"}
-
+	HybridnetEnv	   = []string{"Network=hybridnet"}
 )
 
 func GetClusterWorkDir(clusterName string) string {

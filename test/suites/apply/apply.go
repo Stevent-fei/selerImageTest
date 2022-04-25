@@ -77,6 +77,10 @@ func SendAndRunCluster(sshClient *testhelper.SSHClient, clusterFile string, join
 	SendAndRemoteExecCluster(sshClient, clusterFile, SealerRunCmd(joinMasters, joinNodes, passwd, ""))
 }
 
+func SendAndRunHybirdnetCluster(sshClient *testhelper.SSHClient, clusterFile string, joinMasters, joinNodes, passwd string) {
+	SendAndRemoteExecCluster(sshClient, clusterFile, SealerRunHybridnetCmd(joinMasters, joinNodes, passwd, ""))
+}
+
 func SendAndRemoteExecCluster(sshClient *testhelper.SSHClient, clusterFile string, remoteCmd string) {
 	// send tmp cluster file to remote server and run apply cmd
 	gomega.Eventually(func() bool {
@@ -101,6 +105,22 @@ func SealerRunCmd(masters, nodes, passwd string, provider string) string {
 		provider = fmt.Sprintf("--provider %s", provider)
 	}
 	return fmt.Sprintf("%s run %s -e %s %s %s %s %s -d", settings.DefaultSealerBin, settings.TestImageName, settings.CustomCalicoEnv , masters, nodes, passwd, provider)
+}
+
+func SealerRunHybridnetCmd(masters, nodes, passwd string, provider string) string {
+	if masters != "" {
+		masters = fmt.Sprintf("-m %s", masters)
+	}
+	if nodes != "" {
+		nodes = fmt.Sprintf("-n %s", nodes)
+	}
+	if passwd != "" {
+		passwd = fmt.Sprintf("-p %s", passwd)
+	}
+	if provider != "" {
+		provider = fmt.Sprintf("--provider %s", provider)
+	}
+	return fmt.Sprintf("%s run %s -e %s %s %s %s %s -d", settings.DefaultSealerBin, settings.TestImageName, settings.CustomhybridnetEnv , masters, nodes, passwd, provider)
 }
 
 // CheckNodeNumWithSSH check node mum of remote cluster;for bare metal apply
