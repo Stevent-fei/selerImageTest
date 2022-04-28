@@ -49,6 +49,7 @@ jobs:
 
       - name: Run sealer apply test
         shell: bash
+        working-directory: src/github.com/Stevent-fei/blog
         env:
           IMAGE_NAME: ${{ secrets.IMAGE_NAME}}
           ACCESSKEYID: ${{ secrets.ACCESSKEYID }}
