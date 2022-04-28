@@ -49,7 +49,6 @@ jobs:
 
       - name: Run sealer apply test
         shell: bash
-        working-directory: src/github.com/alibaba/sealer
         env:
           IMAGE_NAME: ${{ secrets.IMAGE_NAME}}
           ACCESSKEYID: ${{ secrets.ACCESSKEYID }}
