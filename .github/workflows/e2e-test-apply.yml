@@ -56,4 +56,5 @@ jobs:
           RegionID: ${{ secrets.RegionID }}
         if: ${{ github.event.comment.body == '/test apply' || github.event.comment.body == '/test all' || github.event_name == 'push' }}
         run: |
+          ls -R
           ginkgo -v --focus="sealer apply" test
