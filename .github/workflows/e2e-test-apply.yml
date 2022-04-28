@@ -28,6 +28,13 @@ jobs:
           echo "::set-output name=repo_name::${{ fromJson(steps.request.outputs.data).head.repo.full_name }}"
           echo "::set-output name=repo_clone_url::${{ fromJson(steps.request.outputs.data).head.repo.clone_url }}"
           echo "::set-output name=repo_ssh_url::${{ fromJson(steps.request.outputs.data).head.repo.ssh_url }}"
+      - name: Check out code into the Go module directory
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          repository: ${{fromJson(steps.request.outputs.data).head.repo.full_name}}
+          ref: ${{fromJson(steps.request.outputs.data).head.ref}}
+          path: src/github.com/alibaba/sealer
 
       - name: Set up Go 1.16
         uses: actions/setup-go@v1
@@ -49,7 +56,7 @@ jobs:
 
       - name: Run sealer apply test
         shell: bash
-        working-directory: src/github.com/Stevent-fei/blog
+        working-directory: src/github.com/alibaba/sealer
         env:
           IMAGE_NAME: ${{ secrets.IMAGE_NAME}}
           ACCESSKEYID: ${{ secrets.ACCESSKEYID }}
@@ -58,4 +65,4 @@ jobs:
         if: ${{ github.event.comment.body == '/test apply' || github.event.comment.body == '/test all' || github.event_name == 'push' }}
         run: |
           ls -R
-          ginkgo -v --focus="sealer apply" test
+#          ginkgo -v --focus="sealer apply" test
