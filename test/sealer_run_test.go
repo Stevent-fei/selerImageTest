@@ -25,7 +25,6 @@ import (
 )
 
 var _ = Describe("sealer run", func() {
-	fmt.Println("start to exec calico network cluster test")
 
 	Context("run on bareMetal", func() {
 		var tempFile string
@@ -61,7 +60,6 @@ var _ = Describe("sealer run", func() {
 		})
 	})
 
-	fmt.Println("start to exec hybridnet network cluster test")
 
 	Context("run on bareMetal hybridnet", func() {
 		var tempFile string
