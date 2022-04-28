@@ -98,7 +98,7 @@ var _ = Describe("sealer run", func() {
 			By("Wait for the cluster to be ready", func() {
 				apply.WaitAllNodeRunningBySSH(sshClient.SSH,sshClient.RemoteHostIP)
 			})
-			fmt.Println("calico network cluster test is ok")
+			fmt.Println("hybridnet network cluster test is ok")
 		})
 	})
 

@@ -73,7 +73,7 @@ func CleanUpAliCloudInfra(cluster *v1.Cluster) {
 }
 
 func SendAndRunCluster(sshClient *testhelper.SSHClient, clusterFile string, joinMasters, joinNodes, passwd string) {
-	SendAndRemoteExecCluster(sshClient, clusterFile, SealerRunCmd(joinMasters, joinNodes, passwd, ""))
+	SendAndRemoteExecCluster(sshClient, clusterFile, SealerRunCalicoCmd(joinMasters, joinNodes, passwd, ""))
 }
 
 func SendAndRunHybirdnetCluster(sshClient *testhelper.SSHClient, clusterFile string, joinMasters, joinNodes, passwd string) {
@@ -90,7 +90,7 @@ func SendAndRemoteExecCluster(sshClient *testhelper.SSHClient, clusterFile strin
 	testhelper.CheckErr(err)
 }
 
-func SealerRunCmd(masters, nodes, passwd string, provider string) string {
+func SealerRunCalicoCmd(masters, nodes, passwd string, provider string) string {
 	if masters != "" {
 		masters = fmt.Sprintf("-m %s", masters)
 	}
@@ -135,9 +135,8 @@ func CheckNodeNumWithSSH(sshClient *testhelper.SSHClient, expectNum int) {
 	testhelper.CheckEqual(num, expectNum+1)
 }
 
-func GenerateClusterfile1(clusterfile string) {
+func GenerateClusterfile(clusterfile string) {
 	cluster := LoadClusterFileFromDisk(clusterfile)
-	cluster.Spec.Env = []string{"Network=calico"}
 	data, err := yaml.Marshal(cluster)
 	testhelper.CheckErr(err)
 	testhelper.CheckNotNil(data)

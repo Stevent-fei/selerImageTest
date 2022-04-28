@@ -22,7 +22,7 @@ var (
 	DefaultTestEnvDir      = ""
 	CustomImageName        = os.Getenv("IMAGE_NAME")
 
-	TestImageName      = "ack-distro:test" //default: registry.cn-qingdao.aliyuncs.com/sealer-io/kubernetes:v1.19.8
+	TestImageName      = "ack-distro:test" //default: ack-distro:test
 	CustomCalicoEnv    = "Network=calico"
 	CustomhybridnetEnv = "Network=hybridnet"
 	CalicoEnv		   = []string{"Network=calico"}
