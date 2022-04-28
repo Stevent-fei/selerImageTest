@@ -15,26 +15,13 @@ jobs:
     env:
       GO111MODULE: on
     steps:
-      - name: Github API Request
-        id: request
-        uses: octokit/request-action@v2.0.2
-        with:
-          route: ${{ github.event.issue.pull_request.url }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Get PR informations
         id: pr_data
         run: |
           echo "::set-output name=repo_name::${{ fromJson(steps.request.outputs.data).head.repo.full_name }}"
           echo "::set-output name=repo_clone_url::${{ fromJson(steps.request.outputs.data).head.repo.clone_url }}"
           echo "::set-output name=repo_ssh_url::${{ fromJson(steps.request.outputs.data).head.repo.ssh_url }}"
-      - name: Check out code into the Go module directory
-        uses: actions/checkout@v2
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          repository: ${{fromJson(steps.request.outputs.data).head.repo.full_name}}
-          ref: ${{fromJson(steps.request.outputs.data).head.ref}}
-          path: src/github.com/alibaba/sealer
+          ls -R
 
       - name: Set up Go 1.16
         uses: actions/setup-go@v1
@@ -52,7 +39,7 @@ jobs:
           GOPATH=`go env GOPATH`
           echo "$GOPATH/bin" >> $GITHUB_PATH
           ls -R
-        #working-directory: src/github.com/alibaba/sealer
+        working-directory: src/github.com/alibaba/sealer
 
 
       - name: Run sealer apply test
