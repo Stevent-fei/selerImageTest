@@ -15,6 +15,13 @@ jobs:
     env:
       GO111MODULE: on
     steps:
+      - name: Github API Request
+        id: request
+        uses: octokit/request-action@v2.0.2
+        with:
+          route: ${{ github.event.issue.pull_request.url }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Get PR informations
         id: pr_data
         run: |
