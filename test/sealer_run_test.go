@@ -55,44 +55,46 @@ var _ = Describe("sealer run", func() {
 				nodes := strings.Join(usedCluster.Spec.Nodes.IPList, ",")
 				apply.SendAndRunCluster(sshClient, tempFile, masters, nodes, usedCluster.Spec.SSH.Passwd)
 				apply.CheckNodeNumWithSSH(sshClient, 2)
+				//删除集群
+				apply.SealerDelete()
+			})
+			By("run sealer apply calico", func() {
+
+				Context("run on bareMetal hybridnet", func() {
+					var tempFile string
+					BeforeEach(func() {
+						tempFile = testhelper.CreateTempFile()
+					})
+
+					AfterEach(func() {
+						testhelper.RemoveTempFile(tempFile)
+					})
+
+					It("bareMetal run", func() {
+						rawCluster := apply.LoadClusterFileFromDisk(apply.GetRawClusterFilePath())
+						By("start to prepare infra")
+						usedCluster := apply.CreateAliCloudInfraAndSave(rawCluster, tempFile)
+						//defer to delete cluster
+						defer func() {
+							apply.CleanUpAliCloudInfra(usedCluster)
+						}()
+						sshClient := testhelper.NewSSHClientByCluster(usedCluster)
+						testhelper.CheckFuncBeTrue(func() bool {
+							err := sshClient.SSH.Copy(sshClient.RemoteHostIP, settings.DefaultSealerBin, settings.DefaultSealerBin)
+							return err == nil
+						}, settings.MaxWaiteTime)
+
+						By("start to init cluster", func() {
+							masters := strings.Join(usedCluster.Spec.Masters.IPList, ",")
+							nodes := strings.Join(usedCluster.Spec.Nodes.IPList, ",")
+							apply.SendAndRunHybirdnetCluster(sshClient, tempFile, masters, nodes, usedCluster.Spec.SSH.Passwd)
+							apply.CheckNodeNumWithSSH(sshClient, 2)
+						})
+						fmt.Println("hybridnet network cluster test is ok")
+					})
+				})
 			})
 			fmt.Println("calico network cluster test is ok")
 		})
 	})
-
-
-	Context("run on bareMetal hybridnet", func() {
-		var tempFile string
-		BeforeEach(func() {
-			tempFile = testhelper.CreateTempFile()
-		})
-
-		AfterEach(func() {
-			testhelper.RemoveTempFile(tempFile)
-		})
-
-		It("bareMetal run", func() {
-			rawCluster := apply.LoadClusterFileFromDisk(apply.GetRawClusterFilePath())
-			By("start to prepare infra")
-			usedCluster := apply.CreateAliCloudInfraAndSave(rawCluster, tempFile)
-			//defer to delete cluster
-			defer func() {
-				apply.CleanUpAliCloudInfra(usedCluster)
-			}()
-			sshClient := testhelper.NewSSHClientByCluster(usedCluster)
-			testhelper.CheckFuncBeTrue(func() bool {
-				err := sshClient.SSH.Copy(sshClient.RemoteHostIP, settings.DefaultSealerBin, settings.DefaultSealerBin)
-				return err == nil
-			}, settings.MaxWaiteTime)
-
-			By("start to init cluster", func() {
-				masters := strings.Join(usedCluster.Spec.Masters.IPList, ",")
-				nodes := strings.Join(usedCluster.Spec.Nodes.IPList, ",")
-				apply.SendAndRunHybirdnetCluster(sshClient, tempFile, masters, nodes, usedCluster.Spec.SSH.Passwd)
-				apply.CheckNodeNumWithSSH(sshClient, 2)
-			})
-			fmt.Println("hybridnet network cluster test is ok")
-		})
-	})
-
 })

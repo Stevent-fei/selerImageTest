@@ -168,3 +168,7 @@ func WaitAllNodeRunningBySSH(s ssh.Interface, masterIp string) {
 func SealerDeleteCmd(clusterFile string) string {
 	return fmt.Sprintf("%s delete -f %s --force -d", settings.DefaultSealerBin,clusterFile)
 }
+
+func SealerDelete() string {
+	return fmt.Sprintf("%s delete -a --force -d", settings.DefaultSealerBin)
+}
