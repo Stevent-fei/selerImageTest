@@ -2,8 +2,10 @@ package test
 
 import (
 	"blog/test/testhelper"
+	"fmt"
 	. "github.com/onsi/ginkgo"
 	"strings"
+	"time"
 
 	"blog/test/suites/apply"
 	"blog/test/testhelper/settings"
@@ -54,12 +56,17 @@ var _ = Describe("sealer apply", func() {
 				By("start to delete cluster")
 				err := sshClient.SSH.CmdAsync(sshClient.RemoteHostIP, apply.SealerDeleteCmd(tempFile))
 				testhelper.CheckErr(err)
+				By("delete finish ==========================")
+				apply.SealerDelete()
+				By("apply.SealerDelete()")
+				time.Sleep(20 *time.Second)
 				By("sealer run calico", func() {
 					masters := strings.Join(cluster.Spec.Masters.IPList, ",")
 					nodes := strings.Join(cluster.Spec.Nodes.IPList, ",")
 					apply.SendAndRunCluster(sshClient, tempFile, masters, nodes, cluster.Spec.SSH.Passwd)
 					apply.CheckNodeNumWithSSH(sshClient, 2)
 				})
+				fmt.Println("test finish")
 			})
 		})
 	})
