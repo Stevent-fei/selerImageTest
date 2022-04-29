@@ -89,9 +89,9 @@ var _ = Describe("sealer run", func() {
 						By("Wait for the cluster to be ready", func() {
 							apply.WaitAllNodeRunningBySSH(sshClient.SSH,sshClient.RemoteHostIP)
 						})
-						By("start to delete cluster")
-						err := sshClient.SSH.CmdAsync(sshClient.RemoteHostIP, apply.SealerDeleteCmd(tempFile))
-						testhelper.CheckErr(err)
+						//By("start to delete cluster")
+						//err := sshClient.SSH.CmdAsync(sshClient.RemoteHostIP, apply.SealerDeleteCmd(tempFile))
+						//testhelper.CheckErr(err)
 					})
 				})
 			})
