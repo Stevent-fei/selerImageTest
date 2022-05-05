@@ -11,7 +11,7 @@ import (
 	"blog/test/testhelper/settings"
 )
 
-var _ = Describe("sealer apply", func() {
+var _ = Describe("sealer run calico", func() {
 	Context("start apply calico", func() {
 		rawClusterFilePath := apply.GetRawClusterFilePath()
 		rawCluster := apply.LoadClusterFileFromDisk(rawClusterFilePath)
