@@ -58,7 +58,7 @@ var _ = Describe("sealer apply", func() {
 				//testhelper.CheckErr(err)
 				apply.SealerDelete()
 				By("apply.SealerDelete()")
-				time.Sleep(10 *time.Second)
+				time.Sleep(20 *time.Second)
 				By("sealer run calico", func() {
 					masters := strings.Join(cluster.Spec.Masters.IPList, ",")
 					nodes := strings.Join(cluster.Spec.Nodes.IPList, ",")
