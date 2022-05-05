@@ -2,7 +2,7 @@ name: Sealer-Test-Apply
 
 on:
   push:
-    branches: "release*"
+    branches: "main"
   issue_comment:
     types:
       - created
@@ -22,12 +22,6 @@ jobs:
           route: ${{ github.event.issue.pull_request.url }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Get PR informations
-        id: pr_data
-        run: |
-          echo "::set-output name=repo_name::${{ fromJson(steps.request.outputs.data).head.repo.full_name }}"
-          echo "::set-output name=repo_clone_url::${{ fromJson(steps.request.outputs.data).head.repo.clone_url }}"
-          echo "::set-output name=repo_ssh_url::${{ fromJson(steps.request.outputs.data).head.repo.ssh_url }}"
       - name: Check out code into the Go module directory
         uses: actions/checkout@v2
         with:
@@ -64,4 +58,4 @@ jobs:
           RegionID: ${{ secrets.RegionID }}
         if: ${{ github.event.comment.body == '/test apply' || github.event.comment.body == '/test all' || github.event_name == 'push' }}
         run: |
-          ginkgo -v --focus="sealer apply" test
+          ginkgo -v --focus="sealer run calico" test
