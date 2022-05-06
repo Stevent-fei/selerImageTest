@@ -22,7 +22,7 @@ var (
 	DefaultTestEnvDir      = ""
 	CustomImageName        = os.Getenv("IMAGE_NAME")
 
-	TestImageName      = "cloud-image-registry.cn-shanghai.cr.aliyuncs.com/foundations/ackdistro:v1.20.4-ack-3" //default: ack-distro:test
+	TestImageName      = "ack-distro:test" //default: ack-distro:test
 	CustomCalicoEnv    = "Network=calico"
 	CustomhybridnetEnv = "Network=hybridnet"
 	CalicoEnv		   = []string{"Network=calico"}
