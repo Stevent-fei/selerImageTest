@@ -21,6 +21,7 @@ var (
 	DefaultSealerBin       = ""
 	DefaultTestEnvDir      = ""
 	CustomImageName        = os.Getenv("IMAGE_NAME")
+	LoadPath			   = ""
 
 	TestImageName      = "ack-distro:test" //default: ack-distro:test
 	CustomCalicoEnv    = "Network=calico"

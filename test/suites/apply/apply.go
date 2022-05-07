@@ -172,3 +172,17 @@ func SealerDeleteCmd(clusterFile string) string {
 func SealerDelete() string {
 	return fmt.Sprintf("%s delete -a --force -d", settings.DefaultSealerBin)
 }
+
+func GetE2eTest() string {
+	return fmt.Sprintf("wget https://sealer.oss-cn-beijing.aliyuncs.com/kubernetes_e2e_images_v1.20.0.tar.gz")
+}
+
+func GetShell() string {
+	path := settings.LoadPath
+	return filepath.Join(path, "suites", "apply", "fixtures")
+}
+
+func GetLoadFilePath() string {
+	fixtures := GetShell()
+	return filepath.Join(fixtures, "load.sh")
+}
