@@ -2,7 +2,7 @@ name: Sealer-Test-Apply
 
 on:
   push:
-    branches: "release*"
+    branches: "main"
   issue_comment:
     types:
       - created
@@ -58,4 +58,4 @@ jobs:
           RegionID: ${{ secrets.RegionID }}
         if: ${{ github.event.comment.body == '/test apply' || github.event.comment.body == '/test all' || github.event_name == 'push' }}
         run: |
-          ginkgo -v --focus="run hybirdnet " test
+          ginkgo -v --focus="run hybirdnet" test
