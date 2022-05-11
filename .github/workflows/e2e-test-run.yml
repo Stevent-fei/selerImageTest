@@ -2,7 +2,7 @@ name: Sealer-Test-Run
 
 on:
   push:
-    branches: "release*"
+    branches: "main"
   issue_comment:
     types:
       - created
@@ -57,4 +57,4 @@ jobs:
           RegionID: ${{ secrets.RegionID }}
         if: ${{ github.event.comment.body == '/test run' || github.event.comment.body == '/test all' || github.event_name == 'push' }}
         run: |
-          ginkgo -v --focus="sealer apply" test
+          ginkgo -v --focus="run calico" test
