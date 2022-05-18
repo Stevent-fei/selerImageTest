@@ -122,6 +122,22 @@ func SealerRunHybridnetCmd(masters, nodes, passwd string, provider string) strin
 	return fmt.Sprintf("%s run %s -e %s %s %s %s %s -d", settings.DefaultSealerBin, settings.TestImageName, settings.CustomhybridnetEnv , masters, nodes, passwd, provider)
 }
 
+func NodeRunCmd() string {
+	return fmt.Sprintf("sudo bash %s",settings.LoadPath)
+}
+
+func Permissions() string {
+	return fmt.Sprintf("cp .kube/config /tmp/kubeconfig && chmod +x /tmp/kubeconfig")
+}
+
+func GetE2eTestFile() string {
+	return fmt.Sprintf("wget https://sealer.oss-cn-beijing.aliyuncs.com/e2e/e2e.tar && tar -xvf e2e.tar")
+}
+
+func ExecE2eTestFile() string {
+	return fmt.Sprintf("sudo bash run.sh && sudo bash get-log.sh")
+}
+
 // CheckNodeNumWithSSH check node mum of remote cluster;for bare metal apply
 func CheckNodeNumWithSSH(sshClient *testhelper.SSHClient, expectNum int) {
 	if sshClient == nil {
@@ -143,6 +159,10 @@ func GenerateClusterfile(clusterfile string) {
 }
 
 func SendAndApplyCluster(sshClient *testhelper.SSHClient, clusterFile string) {
+	SendAndRemoteExecCluster(sshClient, clusterFile, SealerApplyCmd(clusterFile))
+}
+
+func SendAndLoad(sshClient *testhelper.SSHClient, clusterFile string) {
 	SendAndRemoteExecCluster(sshClient, clusterFile, SealerApplyCmd(clusterFile))
 }
 
@@ -186,3 +206,4 @@ func GetLoadFilePath() string {
 	fixtures := GetShell()
 	return filepath.Join(fixtures, "load.sh")
 }
+

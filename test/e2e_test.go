@@ -27,6 +27,9 @@ var _ = SynchronizedBeforeSuite(func() []byte {
 	settings.DefaultSealerBin = output
 	settings.DefaultTestEnvDir = testhelper.GetPwd()
 	settings.TestImageName = settings.CustomImageName
+	path, err := exec.LookPath("load.sh")
+	Expect(err).NotTo(HaveOccurred(), path)
+	settings.LoadPath = path
 	if settings.TestImageName == "" {
 		settings.TestImageName = settings.DefaultImage
 	}
