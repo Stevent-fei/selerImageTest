@@ -75,8 +75,8 @@ var _ = Describe("run hybirdnet", func() {
 				//	return err == nil
 				//},settings.MaxWaiteTime)
 
-				err = sshClient.SSH.CmdAsync(cluster.Spec.Masters.IPList[0], apply.NodeRunCmd())
-				testhelper.CheckErr(err)
+				//err = sshClient.SSH.CmdAsync(cluster.Spec.Masters.IPList[0], apply.NodeRunCmd())
+				//testhelper.CheckErr(err)
 
 				//进入到第二个节点进行docker load
 				//testhelper.CheckFuncBeTrue(func() bool {
@@ -84,17 +84,17 @@ var _ = Describe("run hybirdnet", func() {
 				//	return err == nil
 				//},settings.MaxWaiteTime)
 
-				err = sshClient.SSH.CmdAsync(cluster.Spec.Masters.IPList[1], apply.NodeRunCmd())
-				testhelper.CheckErr(err)
+				//err = sshClient.SSH.CmdAsync(cluster.Spec.Masters.IPList[1], apply.NodeRunCmd())
+				//testhelper.CheckErr(err)
 
 				//回到master0给执行权限
-				apply.Permissions()
+				//apply.Permissions()
 
 				//下载脚本,拿到run get-log clean 文件
-				apply.GetE2eTestFile()
+				//apply.GetE2eTestFile()
 
 				//执行run文件
-				apply.ExecE2eTestFile()
+				//apply.ExecE2eTestFile()
 
 
 			})
