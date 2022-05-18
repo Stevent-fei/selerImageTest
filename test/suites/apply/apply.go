@@ -123,7 +123,7 @@ func SealerRunHybridnetCmd(masters, nodes, passwd string, provider string) strin
 }
 
 func NodeRunCmd() string {
-	return fmt.Sprintf("sudo bash %s",settings.LoadPath)
+	return fmt.Sprintf("wget https://sealer.oss-cn-beijing.aliyuncs.com/e2e/load.sh  && sudo bash load.sh")
 }
 
 func Permissions() string {
@@ -197,13 +197,4 @@ func GetE2eTest() string {
 	return fmt.Sprintf("wget https://sealer.oss-cn-beijing.aliyuncs.com/kubernetes_e2e_images_v1.20.0.tar.gz")
 }
 
-func GetShell() string {
-	path := settings.LoadPath
-	return filepath.Join(path, "suites", "apply", "fixtures")
-}
-
-func GetLoadFilePath() string {
-	fixtures := GetShell()
-	return filepath.Join(fixtures, "load.sh")
-}
 

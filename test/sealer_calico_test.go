@@ -69,19 +69,19 @@ var _ = Describe("run calico ", func() {
 				apply.GetE2eTest()
 				//将kubernetes_e2e_images_v1.20.0.tar传输到孤岛环境，在每个k8s节点上执行docker load
 				//进入到第一个节点执行docker load
-				testhelper.CheckFuncBeTrue(func() bool {
-					err = sshClient.SSH.Copy(cluster.Spec.Masters.IPList[0], settings.LoadPath, settings.LoadPath)
-					return err == nil
-				},settings.MaxWaiteTime)
+				//testhelper.CheckFuncBeTrue(func() bool {
+				//	err = sshClient.SSH.Copy(cluster.Spec.Masters.IPList[0], settings.LoadPath, settings.LoadPath)
+				//	return err == nil
+				//},settings.MaxWaiteTime)
 
 				err = sshClient.SSH.CmdAsync(cluster.Spec.Masters.IPList[0], apply.NodeRunCmd())
 				testhelper.CheckErr(err)
 
 				//进入到第二个节点进行docker load
-				testhelper.CheckFuncBeTrue(func() bool {
-					err = sshClient.SSH.Copy(cluster.Spec.Masters.IPList[1], settings.LoadPath, settings.LoadPath)
-					return err == nil
-				},settings.MaxWaiteTime)
+				//testhelper.CheckFuncBeTrue(func() bool {
+				//	err = sshClient.SSH.Copy(cluster.Spec.Masters.IPList[1], settings.LoadPath, settings.LoadPath)
+				//	return err == nil
+				//},settings.MaxWaiteTime)
 
 				err = sshClient.SSH.CmdAsync(cluster.Spec.Masters.IPList[1], apply.NodeRunCmd())
 				testhelper.CheckErr(err)
