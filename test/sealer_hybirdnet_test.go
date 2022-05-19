@@ -55,7 +55,15 @@ var _ = Describe("run hybirdnet", func() {
 				By("exec e2e test")
 				load := apply.GetLoadFile()
 				testhelper.CheckFuncBeTrue(func() bool {
+					err := sshClient.SSH.Copy(sshClient.RemoteHostIP, load, load)
+					return err == nil
+				}, settings.MaxWaiteTime)
+				testhelper.CheckFuncBeTrue(func() bool {
 					err = sshClient.SSH.Copy(cluster.Spec.Masters.IPList[0], load, load)
+					return err == nil
+				},settings.MaxWaiteTime)
+				testhelper.CheckFuncBeTrue(func() bool {
+					err = sshClient.SSH.Copy(cluster.Spec.Nodes.IPList[0], load, load)
 					return err == nil
 				},settings.MaxWaiteTime)
 
