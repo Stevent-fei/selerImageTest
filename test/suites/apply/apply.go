@@ -34,6 +34,22 @@ func GetRawClusterFilePath() string {
 	return filepath.Join(fixtures, "cluster_file_for_test.yaml")
 }
 
+func GetLoadFile() string {
+	parh := getLoadPath()
+	return filepath.Join(parh,"load.sh")
+}
+
+func getLoadPath() string {
+	loadPath := settings.LoadPath
+	return filepath.Join(loadPath,"suites", "apply", "fixtures")
+}
+
+
+
+
+
+
+
 func CreateAliCloudInfraAndSave(cluster *v1.Cluster, clusterFile string) *v1.Cluster {
 	CreateAliCloudInfra(cluster)
 	//save used cluster file
