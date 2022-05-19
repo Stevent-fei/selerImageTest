@@ -44,6 +44,10 @@ func getLoadPath() string {
 	return filepath.Join(loadPath,"suites", "apply", "fixtures")
 }
 
+func SendLoadFile() string {
+	return fmt.Sprintf("ssh root@")
+}
+
 
 
 
