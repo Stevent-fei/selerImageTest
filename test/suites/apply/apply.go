@@ -44,8 +44,8 @@ func getLoadPath() string {
 	return filepath.Join(loadPath,"suites", "apply", "fixtures")
 }
 
-func SendLoadFile() string {
-	return fmt.Sprintf("ssh root@")
+func GetSSHPass() string {
+	return fmt.Sprintf("yum -y install sshpass")
 }
 
 

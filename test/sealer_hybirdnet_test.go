@@ -50,9 +50,19 @@ var _ = Describe("run hybirdnet", func() {
 					return err == nil
 				}, settings.MaxWaiteTime)
 
-				//必须进入到master0节点才能访问私有ip节点
-				err := sshClient.SSH.CmdAsync(sshClient.RemoteHostIP, fmt.Sprintf("scp -r %s root@%s", load, cluster.Spec.Nodes.IPList))
+				err := sshClient.SSH.CmdAsync(sshClient.RemoteHostIP, "bash load.sh")
 				testhelper.CheckErr(err)
+
+				//下载sshpass
+				err = sshClient.SSH.CmdAsync(sshClient.RemoteHostIP, apply.GetSSHPass())
+				testhelper.CheckErr(err)
+
+				//登陆到node节点进行下载load 运行load.sh 并退出
+				err = sshClient.SSH.CmdAsync(sshClient.RemoteHostIP, fmt.Sprintf("sshpass -p Sealer123 ssh root@%s && wget https://sealer.oss-cn-beijing.aliyuncs.com/e2e/load.sh && bash load.sh && exit",cluster.Spec.Nodes))
+				testhelper.CheckErr(err)
+
+
+
 
 				By("start to init cluster")
 				apply.GenerateClusterfile(tempFile)
