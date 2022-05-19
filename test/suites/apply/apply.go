@@ -35,8 +35,8 @@ func GetRawClusterFilePath() string {
 }
 
 func GetLoadFile() string {
-	parh := getLoadPath()
-	return filepath.Join(parh,"load.sh")
+	path := settings.LoadPath
+	return filepath.Join(path,"load.sh")
 }
 
 func getLoadPath() string {
