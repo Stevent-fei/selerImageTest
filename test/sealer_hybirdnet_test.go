@@ -43,7 +43,12 @@ var _ = Describe("run hybirdnet", func() {
 					return err == nil
 				}, settings.MaxWaiteTime)
 
+				By("start to init cluster")
+				apply.GenerateClusterfile(tempFile)
+				apply.SendAndApplyCluster(sshClient, tempFile)
+
 				By("exec e2e test")
+				apply.GetE2eTest()
 				load := apply.GetLoadFile()
 				testhelper.CheckFuncBeTrue(func() bool {
 					err := sshClient.SSH.Copy(sshClient.RemoteHostIP, load, load)
@@ -58,26 +63,14 @@ var _ = Describe("run hybirdnet", func() {
 				testhelper.CheckErr(err)
 
 				//登陆到node节点进行下载load 运行load.sh 并退出
-				err = sshClient.SSH.CmdAsync(sshClient.RemoteHostIP, fmt.Sprintf("sshpass -p Sealer123 ssh root@%s && wget https://sealer.oss-cn-beijing.aliyuncs.com/e2e/load.sh && bash load.sh && exit",cluster.Spec.Nodes))
+				err = sshClient.SSH.CmdAsync(sshClient.RemoteHostIP, fmt.Sprintf("sshpass -p Sealer123 ssh root@%s && wget https://sealer.oss-cn-beijing.aliyuncs.com/e2e/load.sh && bash load.sh && exit", cluster.Spec.Nodes))
 				testhelper.CheckErr(err)
 
-
-
-
-				By("start to init cluster")
-				apply.GenerateClusterfile(tempFile)
-				apply.SendAndApplyCluster(sshClient, tempFile)
-
-				By("start to delete cluster")
-				err = sshClient.SSH.CmdAsync(sshClient.RemoteHostIP, apply.SealerDeleteCmd(tempFile))
-				testhelper.CheckErr(err)
-
-
-
-
-
-
-
+				//By("start to delete cluster")
+				//err := sshClient.SSH.CmdAsync(sshClient.RemoteHostIP, apply.SealerDeleteCmd(tempFile))
+				//testhelper.CheckErr(err)
+				//
+				//
 				//By("apply.SealerDelete()")
 				//time.Sleep(20 *time.Second)
 				//
@@ -92,7 +85,24 @@ var _ = Describe("run hybirdnet", func() {
 				//apply.SendAndRunHybirdnetCluster(sshClient, tempFile, masters, nodes, cluster.Spec.SSH.Passwd)
 				//apply.CheckNodeNumWithSSH(sshClient, 2)
 				//fmt.Println("test finish")
-
+				//
+				//By("exec e2e test")
+				//load := apply.GetLoadFile()
+				//testhelper.CheckFuncBeTrue(func() bool {
+				//	err := sshClient.SSH.Copy(sshClient.RemoteHostIP, load, load)
+				//	return err == nil
+				//}, settings.MaxWaiteTime)
+				//
+				//err := sshClient.SSH.CmdAsync(sshClient.RemoteHostIP, "bash load.sh")
+				//testhelper.CheckErr(err)
+				//
+				////下载sshpass
+				//err = sshClient.SSH.CmdAsync(sshClient.RemoteHostIP, apply.GetSSHPass())
+				//testhelper.CheckErr(err)
+				//
+				////登陆到node节点进行下载load 运行load.sh 并退出
+				//err = sshClient.SSH.CmdAsync(sshClient.RemoteHostIP, fmt.Sprintf("sshpass -p Sealer123 ssh root@%s && wget https://sealer.oss-cn-beijing.aliyuncs.com/e2e/load.sh && bash load.sh && exit",cluster.Spec.Nodes))
+				//testhelper.CheckErr(err)
 
 				//By("exec e2e test")
 				//load := apply.GetLoadFile()
@@ -102,7 +112,6 @@ var _ = Describe("run hybirdnet", func() {
 				//},settings.MaxWaiteTime)
 				//
 				//By("wait 60s")
-
 
 				//下载e2e镜像包
 				//apply.GetE2eTest()
@@ -133,7 +142,6 @@ var _ = Describe("run hybirdnet", func() {
 
 				//执行run文件
 				//apply.ExecE2eTestFile()
-
 
 			})
 		})
