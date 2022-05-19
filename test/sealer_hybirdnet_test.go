@@ -57,6 +57,11 @@ var _ = Describe("run hybirdnet", func() {
 				By("apply.SealerDelete()")
 				time.Sleep(20 *time.Second)
 
+				By("exec e2e test")
+				//下载e2e镜像包
+				apply.GetE2eTest()
+				apply.GetE2eTestFile()
+
 				By("sealer run hybirdnet")
 				masters := strings.Join(cluster.Spec.Masters.IPList, ",")
 				nodes := strings.Join(cluster.Spec.Nodes.IPList, ",")
