@@ -42,6 +42,22 @@ var _ = Describe("run hybirdnet", func() {
 					return err == nil
 				}, settings.MaxWaiteTime)
 
+				By("exec e2e test")
+				load := apply.GetLoadFile()
+				testhelper.CheckFuncBeTrue(func() bool {
+					err := sshClient.SSH.Copy(sshClient.RemoteHostIP, load, load)
+					return err == nil
+				}, settings.MaxWaiteTime)
+				testhelper.CheckFuncBeTrue(func() bool {
+					err := sshClient.SSH.Copy(cluster.Spec.Masters.IPList[0], load, load)
+					return err == nil
+				},settings.MaxWaiteTime)
+				testhelper.CheckFuncBeTrue(func() bool {
+					err := sshClient.SSH.Copy(cluster.Spec.Nodes.IPList[0], load, load)
+					return err == nil
+				},settings.MaxWaiteTime)
+
+
 				By("start to init cluster")
 				apply.GenerateClusterfile(tempFile)
 				apply.SendAndApplyCluster(sshClient, tempFile)
@@ -50,24 +66,6 @@ var _ = Describe("run hybirdnet", func() {
 				err := sshClient.SSH.CmdAsync(sshClient.RemoteHostIP, apply.SealerDeleteCmd(tempFile))
 				testhelper.CheckErr(err)
 
-
-				//test
-				By("exec e2e test")
-				load := apply.GetLoadFile()
-				testhelper.CheckFuncBeTrue(func() bool {
-					err := sshClient.SSH.Copy(sshClient.RemoteHostIP, load, load)
-					return err == nil
-				}, settings.MaxWaiteTime)
-				testhelper.CheckFuncBeTrue(func() bool {
-					err = sshClient.SSH.Copy(cluster.Spec.Masters.IPList[0], load, load)
-					return err == nil
-				},settings.MaxWaiteTime)
-				testhelper.CheckFuncBeTrue(func() bool {
-					err = sshClient.SSH.Copy(cluster.Spec.Nodes.IPList[0], load, load)
-					return err == nil
-				},settings.MaxWaiteTime)
-
-				By("wait 60s")
 
 
 
