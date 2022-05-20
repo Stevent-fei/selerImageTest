@@ -48,28 +48,28 @@ var _ = Describe("run hybirdnet", func() {
 				apply.SendAndApplyCluster(sshClient, tempFile)
 
 				By("exec e2e test")
-				err := sshClient.SSH.CmdAsync(sshClient.RemoteHostIP, "wget https://sealer.oss-cn-beijing.aliyuncs.com/e2e/kubernetes_e2e_images_v1.20.0.tar.gz")
+				//下载e2e && sshcmd文件并且给予sshcmd执行权限
+				err := sshClient.SSH.CmdAsync(sshClient.RemoteHostIP, "wget https://sealer.oss-cn-beijing.aliyuncs.com/e2e/kubernetes_e2e_images_v1.20.0.tar.gz",
+					"wget https://sealer.oss-cn-beijing.aliyuncs.com/e2e/sshcmd","chmod +x sshcmd","")
 				testhelper.CheckErr(err)
 
+				//获取load.sh文件
 				load := apply.GetLoadFile()
 				testhelper.CheckFuncBeTrue(func() bool {
 					err := sshClient.SSH.Copy(sshClient.RemoteHostIP, load, load)
 					return err == nil
 				}, settings.MaxWaiteTime)
 
-				err = sshClient.SSH.CmdAsync(sshClient.RemoteHostIP, "bash load.sh")
+				//master0执行load.sh,发送e2e文件到node节点，然后再执行load.sh
+				err = sshClient.SSH.CmdAsync(sshClient.RemoteHostIP, "bash load.sh","./sshcmd --user root --passwd Sealer123 --host "+cluster.Spec.Nodes.IPList[0]+
+					" --mode 'scp' --local-path 'kubernetes_e2e_images_v1.20.0.tar.gz' --remote-path 'kubernetes_e2e_images_v1.20.0.tar.gz'","./sshcmd --user root --passwd Sealer123 --host "+cluster.Spec.Nodes.IPList[0]+
+					" --mode 'scp' --local-path 'load.sh' --remote-path 'load.sh'","./sshcmd --user root --passwd Sealer123 --host "+cluster.Spec.Nodes.IPList[0]+
+					" --cmd 'bash load.sh'")
 				testhelper.CheckErr(err)
 
-				//下载sshpass
-				err = sshClient.SSH.CmdAsync(sshClient.RemoteHostIP, apply.GetSSHPass())
-				testhelper.CheckErr(err)
-
-				//登陆到node节点进行下载load 运行load.sh 并退出
-				err = sshClient.SSH.CmdAsync(sshClient.RemoteHostIP, "sshpass -p Sealer123 ssh root"+cluster.Spec.Nodes.IPList[0]+"&& wget https://sealer.oss-cn-beijing.aliyuncs.com/e2e/load.sh && bash load.sh && exit")
-				testhelper.CheckErr(err)
 
 				By("apply.SealerDelete()")
-				time.Sleep(20 * time.Second)
+				time.Sleep(30 * time.Second)
 
 				//By("start to delete cluster")
 				//err := sshClient.SSH.CmdAsync(sshClient.RemoteHostIP, apply.SealerDeleteCmd(tempFile))
