@@ -5,8 +5,6 @@ import (
 	"blog/test/testhelper"
 	"blog/test/testhelper/settings"
 	. "github.com/onsi/ginkgo"
-	"strings"
-	"time"
 )
 
 var _ = Describe("run hybirdnet", func() {
@@ -47,23 +45,23 @@ var _ = Describe("run hybirdnet", func() {
 				By("start to init cluster")
 				apply.GenerateClusterfile(tempFile)
 				apply.SendAndApplyCluster(sshClient, tempFile)
-
-				By("start to delete cluster")
-				err := sshClient.SSH.CmdAsync(sshClient.RemoteHostIP, apply.SealerDeleteCmd(tempFile))
-				testhelper.CheckErr(err)
-
-				By("apply.SealerDelete()")
-				time.Sleep(20 * time.Second)
-
-				By("sealer run hybirdnet")
-				masters := strings.Join(cluster.Spec.Masters.IPList, ",")
-				nodes := strings.Join(cluster.Spec.Nodes.IPList, ",")
-				apply.SendAndRunHybirdnetCluster(sshClient, tempFile, masters, nodes, cluster.Spec.SSH.Passwd)
-				apply.CheckNodeNumWithSSH(sshClient, 2)
+				//
+				//By("start to delete cluster")
+				//err := sshClient.SSH.CmdAsync(sshClient.RemoteHostIP, apply.SealerDeleteCmd(tempFile))
+				//testhelper.CheckErr(err)
+				//
+				//By("apply.SealerDelete()")
+				//time.Sleep(20 * time.Second)
+				//
+				//By("sealer run hybirdnet")
+				//masters := strings.Join(cluster.Spec.Masters.IPList, ",")
+				//nodes := strings.Join(cluster.Spec.Nodes.IPList, ",")
+				//apply.SendAndRunHybirdnetCluster(sshClient, tempFile, masters, nodes, cluster.Spec.SSH.Passwd)
+				//apply.CheckNodeNumWithSSH(sshClient, 2)
 
 				By("exec e2e test")
 				//下载e2e && sshcmd文件并且给予sshcmd执行权限
-				err = sshClient.SSH.CmdAsync(sshClient.RemoteHostIP, "wget https://sealer.oss-cn-beijing.aliyuncs.com/e2e/kubernetes_e2e_images_v1.20.0.tar.gz",
+				err := sshClient.SSH.CmdAsync(sshClient.RemoteHostIP, "wget https://sealer.oss-cn-beijing.aliyuncs.com/e2e/kubernetes_e2e_images_v1.20.0.tar.gz",
 					"wget https://sealer.oss-cn-beijing.aliyuncs.com/e2e/sshcmd", "chmod 777 sshcmd", "")
 				testhelper.CheckErr(err)
 
