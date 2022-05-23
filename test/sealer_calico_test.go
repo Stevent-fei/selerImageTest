@@ -24,7 +24,7 @@ var _ = Describe("run calico ", func() {
 			}
 		})
 
-		Context("check regular scenario that provider is bare metal, executes machine is master0", func() {
+		Context(" executes machine is master0", func() {
 			var tempFile string
 			BeforeEach(func() {
 				tempFile = testhelper.CreateTempFile()

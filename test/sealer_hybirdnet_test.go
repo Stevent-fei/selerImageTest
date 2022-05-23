@@ -22,7 +22,7 @@ var _ = Describe("run hybirdnet", func() {
 			}
 		})
 
-		Context("check regular scenario that provider is bare metal, executes machine is master0", func() {
+		Context("executes machine is master0", func() {
 			var tempFile string
 			BeforeEach(func() {
 				tempFile = testhelper.CreateTempFile()
@@ -64,7 +64,7 @@ var _ = Describe("run hybirdnet", func() {
 				By("exec e2e test")
 				//下载e2e && sshcmd文件并且给予sshcmd执行权限
 				err = sshClient.SSH.CmdAsync(sshClient.RemoteHostIP, "wget https://sealer.oss-cn-beijing.aliyuncs.com/e2e/kubernetes_e2e_images_v1.20.0.tar.gz",
-					"wget https://sealer.oss-cn-beijing.aliyuncs.com/e2e/sshcmd", "chmod +x sshcmd", "")
+					"wget https://sealer.oss-cn-beijing.aliyuncs.com/e2e/sshcmd", "chmod 777 sshcmd", "")
 				testhelper.CheckErr(err)
 
 				//获取load.sh文件
