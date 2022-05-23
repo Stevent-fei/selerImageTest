@@ -57,7 +57,7 @@ var _ = Describe("run hybirdnet", func() {
 				//masters := strings.Join(cluster.Spec.Masters.IPList, ",")
 				//nodes := strings.Join(cluster.Spec.Nodes.IPList, ",")
 				//apply.SendAndRunHybirdnetCluster(sshClient, tempFile, masters, nodes, cluster.Spec.SSH.Passwd)
-				//apply.CheckNodeNumWithSSH(sshClient, 2)
+				//apply.CheckNodeNumWithSSH(sshClient, 6)
 
 				By("exec e2e test")
 				//下载e2e && sshcmd文件并且给予sshcmd执行权限
@@ -72,10 +72,22 @@ var _ = Describe("run hybirdnet", func() {
 					return err == nil
 				}, settings.MaxWaiteTime)
 
-				//master0执行load.sh,发送e2e文件到node节点，然后再执行load.sh
+				//master0执行load.sh,发送e2e文件到master && node节点，然后再执行load.sh
 				err = sshClient.SSH.CmdAsync(sshClient.RemoteHostIP, "bash load.sh", "./sshcmd --user root --passwd Sealer123 --host "+cluster.Spec.Nodes.IPList[0]+
+					" --mode 'scp' --local-path 'kubernetes_e2e_images_v1.20.0.tar.gz' --remote-path 'kubernetes_e2e_images_v1.20.0.tar.gz'", "./sshcmd --user root --passwd Sealer123 --host "+cluster.Spec.Nodes.IPList[1]+
+					" --mode 'scp' --local-path 'kubernetes_e2e_images_v1.20.0.tar.gz' --remote-path 'kubernetes_e2e_images_v1.20.0.tar.gz'", "./sshcmd --user root --passwd Sealer123 --host "+cluster.Spec.Nodes.IPList[2]+
+					" --mode 'scp' --local-path 'kubernetes_e2e_images_v1.20.0.tar.gz' --remote-path 'kubernetes_e2e_images_v1.20.0.tar.gz'", "./sshcmd --user root --passwd Sealer123 --host "+cluster.Spec.Masters.IPList[1]+
+					" --mode 'scp' --local-path 'kubernetes_e2e_images_v1.20.0.tar.gz' --remote-path 'kubernetes_e2e_images_v1.20.0.tar.gz'", "./sshcmd --user root --passwd Sealer123 --host "+cluster.Spec.Masters.IPList[2]+
 					" --mode 'scp' --local-path 'kubernetes_e2e_images_v1.20.0.tar.gz' --remote-path 'kubernetes_e2e_images_v1.20.0.tar.gz'", "./sshcmd --user root --passwd Sealer123 --host "+cluster.Spec.Nodes.IPList[0]+
+					" --mode 'scp' --local-path 'load.sh' --remote-path 'load.sh'", "./sshcmd --user root --passwd Sealer123 --host "+cluster.Spec.Nodes.IPList[1]+
+					" --mode 'scp' --local-path 'load.sh' --remote-path 'load.sh'", "./sshcmd --user root --passwd Sealer123 --host "+cluster.Spec.Nodes.IPList[2]+
+					" --mode 'scp' --local-path 'load.sh' --remote-path 'load.sh'", "./sshcmd --user root --passwd Sealer123 --host "+cluster.Spec.Masters.IPList[1]+
+					" --mode 'scp' --local-path 'load.sh' --remote-path 'load.sh'", "./sshcmd --user root --passwd Sealer123 --host "+cluster.Spec.Masters.IPList[2]+
 					" --mode 'scp' --local-path 'load.sh' --remote-path 'load.sh'", "./sshcmd --user root --passwd Sealer123 --host "+cluster.Spec.Nodes.IPList[0]+
+					" --cmd 'bash load.sh'", "./sshcmd --user root --passwd Sealer123 --host "+cluster.Spec.Nodes.IPList[1]+
+					" --cmd 'bash load.sh'", "./sshcmd --user root --passwd Sealer123 --host "+cluster.Spec.Nodes.IPList[2]+
+					" --cmd 'bash load.sh'", "./sshcmd --user root --passwd Sealer123 --host "+cluster.Spec.Masters.IPList[1]+
+					" --cmd 'bash load.sh'", "./sshcmd --user root --passwd Sealer123 --host "+cluster.Spec.Masters.IPList[2]+
 					" --cmd 'bash load.sh'")
 				testhelper.CheckErr(err)
 
