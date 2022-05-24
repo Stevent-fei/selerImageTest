@@ -60,7 +60,7 @@ var _ = Describe("run calico", func() {
 				masters := strings.Join(cluster.Spec.Masters.IPList, ",")
 				nodes := strings.Join(cluster.Spec.Nodes.IPList, ",")
 				apply.SendAndRunCluster(sshClient, tempFile, masters, nodes, cluster.Spec.SSH.Passwd)
-				apply.CheckNodeNumWithSSH(sshClient, 2)
+				apply.CheckNodeNumWithSSH(sshClient, 6)
 
 				By("exec e2e test")
 				//下载e2e && sshcmd文件并且给予sshcmd执行权限
