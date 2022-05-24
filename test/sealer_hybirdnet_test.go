@@ -93,7 +93,7 @@ var _ = Describe("run hybirdnet", func() {
 
 				//给定执行权限 && 下载并执行脚本
 				err = sshClient.SSH.CmdAsync(sshClient.RemoteHostIP, "sudo cp .kube/config /tmp/kubeconfig", "chmod 777 /tmp/kubeconfig",
-					"wget https://sealer.oss-cn-beijing.aliyuncs.com/e2e/run.sh", "wget https://sealer.oss-cn-beijing.aliyuncs.com/e2e/get-log.sh", "bash run.sh", "bash get-log.sh")
+					"wget https://sealer.oss-cn-beijing.aliyuncs.com/e2e/run.sh", "wget https://sealer.oss-cn-beijing.aliyuncs.com/e2e/get-log.sh", "bash run.sh & bash get-log.sh")
 				testhelper.CheckErr(err)
 			})
 		})
