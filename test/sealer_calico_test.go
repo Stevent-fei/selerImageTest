@@ -65,7 +65,7 @@ var _ = Describe("run calico", func() {
 				By("exec e2e test")
 				//下载e2e && sshcmd文件并且给予sshcmd执行权限
 				err = sshClient.SSH.CmdAsync(sshClient.RemoteHostIP, "wget https://sealer.oss-cn-beijing.aliyuncs.com/e2e/kubernetes_e2e_images_v1.20.0.tar.gz",
-					"wget https://sealer.oss-cn-beijing.aliyuncs.com/e2e/sshcmd", "chmod 777 sshcmd", "")
+					"wget https://sealer.oss-cn-beijing.aliyuncs.com/e2e/sshcmd", "chmod 777 sshcmd")
 				testhelper.CheckErr(err)
 
 				//获取load.sh文件
@@ -96,7 +96,8 @@ var _ = Describe("run calico", func() {
 
 				//给定执行权限 && 下载并执行脚本
 				err = sshClient.SSH.CmdAsync(sshClient.RemoteHostIP, "sudo cp .kube/config /tmp/kubeconfig", "chmod 777 /tmp/kubeconfig",
-					"wget https://sealer.oss-cn-beijing.aliyuncs.com/e2e/run.sh", "wget https://sealer.oss-cn-beijing.aliyuncs.com/e2e/get-log.sh", "bash run.sh &>/dev/null &", "bash get-log.sh &>/dev/null &")
+					"wget https://sealer.oss-cn-beijing.aliyuncs.com/e2e/run.sh", "wget https://sealer.oss-cn-beijing.aliyuncs.com/e2e/get-log.sh",
+					"bash run.sh &>/dev/null &", "bash get-log.sh &>/dev/null &")
 				testhelper.CheckErr(err)
 			})
 		})
