@@ -4,14 +4,15 @@ import (
 	"os"
 	"time"
 )
+
 const (
 	FileMode0755 = 0755
 	FileMode0644 = 0644
 )
 const (
-	BAREMETAL         = "BAREMETAL"
-	AliCloud          = "ALI_CLOUD"
-	DefaultImage      = "ack-distro:test"
+	BAREMETAL    = "BAREMETAL"
+	AliCloud     = "ALI_CLOUD"
+	DefaultImage = "ack-agility-registry.cn-shanghai.cr.aliyuncs.com/ecp_builder/ack-distro:"
 )
 
 var (
@@ -21,11 +22,11 @@ var (
 	DefaultSealerBin       = ""
 	DefaultTestEnvDir      = ""
 	CustomImageName        = os.Getenv("IMAGE_NAME")
-	LoadPath			   = ""
+	LoadPath               = ""
 
-	TestImageName      = "ack-distro:test" //default: ack-distro:test
+	TestImageName      = "ack-agility-registry.cn-shanghai.cr.aliyuncs.com/ecp_builder/ack-distro:" //default: ack-distro:test
 	CustomCalicoEnv    = "Network=calico"
 	CustomhybridnetEnv = "Network=hybridnet"
-	CalicoEnv		   = []string{"Network=calico"}
-	HybridnetEnv	   = []string{"Network=hybridnet"}
+	CalicoEnv          = []string{"Network=calico"}
+	HybridnetEnv       = []string{"Network=hybridnet"}
 )
