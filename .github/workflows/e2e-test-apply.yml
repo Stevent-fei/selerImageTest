@@ -58,4 +58,4 @@ jobs:
           RegionID: ${{ secrets.RegionID }}
         if: ${{ github.event.comment.body == '/test apply' || github.event.comment.body == '/test all' || github.event_name == 'push' }}
         run: |
-          ginkgo -v --focus="run hybirdnet" test
+          ginkgo -v --focus="sealer run" test
