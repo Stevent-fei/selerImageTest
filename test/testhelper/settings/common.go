@@ -29,4 +29,5 @@ var (
 	CustomhybridnetEnv = "Network=hybridnet"
 	CalicoEnv          = []string{"Network=calico"}
 	HybridnetEnv       = []string{"Network=hybridnet"}
+	aaa                = "aaa"
 )
