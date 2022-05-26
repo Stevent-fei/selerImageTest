@@ -1,7 +1,7 @@
 apiVersion: zlink.aliyun.com/v1alpha1
 kind: Cluster
 metadata:
-  name: my-test-cluster
+  name: my-cluster
 spec:
   image: ack-distro:test
   provider: ALI_CLOUD
