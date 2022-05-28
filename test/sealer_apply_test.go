@@ -10,7 +10,7 @@ import (
 	"blog/test/testhelper/settings"
 )
 
-var _ = Describe("calico", func() {
+var _ = Describe("sealer apply", func() {
 	Context("start apply calico", func() {
 		rawClusterFilePath := apply.GetRawClusterFilePath()
 		rawCluster := apply.LoadClusterFileFromDisk(rawClusterFilePath)
@@ -101,6 +101,8 @@ var _ = Describe("calico", func() {
 				}()
 
 				By("exec bash get-log.sh")
+				//wait 20s，then exec get-log.sh
+				time.Sleep(20 * time.Second)
 				err = sshClient.SSH.CmdAsync(sshClient.RemoteHostIP, "bash get-log.sh")
 				testhelper.CheckErr(err)
 			})
