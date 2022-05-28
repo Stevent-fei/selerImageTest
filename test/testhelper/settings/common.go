@@ -24,7 +24,7 @@ var (
 	CustomImageName        = os.Getenv("IMAGE_NAME")
 	LoadPath               = ""
 
-	TestImageName      = "ack-agility-registry.cn-shanghai.cr.aliyuncs.com/ecp_builder/ackdistro:test" //default: ack-distro:test
+	TestImageName      = "ack-agility-registry.cn-shanghai.cr.aliyuncs.com/ecp_builder/ackdistro:test"
 	CustomCalicoEnv    = "Network=calico"
 	CustomhybridnetEnv = "Network=hybridnet"
 	CalicoEnv          = []string{"Network=calico"}
