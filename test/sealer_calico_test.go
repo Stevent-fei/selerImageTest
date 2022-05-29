@@ -102,9 +102,10 @@ var _ = Describe("run calico", func() {
 
 				By("get-log.sh")
 				//wait 20s exec get-log.sh
-				time.Sleep(20 * time.Second)
+				time.Sleep(10 * time.Second)
 				err = sshClient.SSH.CmdAsync(sshClient.RemoteHostIP, "bash get-log.sh")
 				testhelper.CheckErr(err)
+				time.Sleep(time.Second)
 			})
 		})
 	})
