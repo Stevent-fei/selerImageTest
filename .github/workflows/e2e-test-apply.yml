@@ -8,7 +8,7 @@ jobs:
   build:
     name: test
     runs-on: ubuntu-latest
-    if: ${{ github.event.comment.body == '/test calico' || github.event.comment.body == '/test all' }}
+    if: startswith(github.event.comment.body, '/test')
     env:
       GO111MODULE: on
     steps:
@@ -52,7 +52,7 @@ jobs:
           ACCESSKEYID: ${{ secrets.ACCESSKEYID }}
           ACCESSKEYSECRET: ${{ secrets.ACCESSKEYSECRET }}
           RegionID: ${{ secrets.RegionID }}
-        if: ${{ github.event.comment.body == '/test calico' || github.event.comment.body == '/test all' }}
+        if: startswith(github.event.comment.body, '/test')
         run: |
           commentbody="${{github.event.comment.body}}"
           version=`echo "$commentbody"|cut -d" " -f2`
