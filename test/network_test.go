@@ -66,7 +66,11 @@ var _ = Describe("test network", func() {
 				By("sealer run calico")
 				masters := strings.Join(cluster.Spec.Masters.IPList, ",")
 				nodes := strings.Join(cluster.Spec.Nodes.IPList, ",")
-				apply.SendAndRunCluster(sshClient, tempFile, masters, nodes, cluster.Spec.SSH.Passwd)
+				if network == "calico" {
+					apply.SendAndRunCluster(sshClient, tempFile, masters, nodes, cluster.Spec.SSH.Passwd)
+				} else {
+					apply.SendAndRunHybirdnetCluster(sshClient, tempFile, masters, nodes, cluster.Spec.SSH.Passwd)
+				}
 				apply.CheckNodeNumWithSSH(sshClient, 4)
 
 				By("exec e2e test")
