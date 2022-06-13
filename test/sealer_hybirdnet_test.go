@@ -9,8 +9,8 @@ import (
 	"time"
 )
 
-var _ = Describe("run hybirdnet", func() {
-	Context("start apply hybirdnet", func() {
+var _ = Describe("run hybridnet", func() {
+	Context("start apply hybridnet", func() {
 		rawClusterFilePath := apply.GetRawClusterFilePath()
 		rawCluster := apply.LoadClusterFileFromDisk(rawClusterFilePath)
 		rawCluster.Spec.Image = settings.TestImageName
