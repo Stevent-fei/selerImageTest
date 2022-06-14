@@ -12,7 +12,7 @@ const (
 const (
 	BAREMETAL    = "BAREMETAL"
 	AliCloud     = "ALI_CLOUD"
-	DefaultImage = " ack-agility-registry.cn-shanghai.cr.aliyuncs.com/ecp_builder/ackdistro:v1-20-4-ack-4"
+	DefaultImage = "ack-agility-registry.cn-shanghai.cr.aliyuncs.com/ecp_builder/ackdistro:v1-20-4-ack-3"
 )
 
 var (
@@ -24,7 +24,7 @@ var (
 	CustomImageName        = os.Getenv("IMAGE_NAME")
 	LoadPath               = ""
 
-	TestImageName      = " ack-agility-registry.cn-shanghai.cr.aliyuncs.com/ecp_builder/ackdistro:v1-20-4-ack-4"
+	TestImageName      = "ack-agility-registry.cn-shanghai.cr.aliyuncs.com/ecp_builder/ackdistro:v1-20-4-ack-3"
 	CustomCalicoEnv    = "Network=calico"
 	CustomhybridnetEnv = "Network=hybridnet"
 	CalicoEnv          = []string{"Network=calico"}

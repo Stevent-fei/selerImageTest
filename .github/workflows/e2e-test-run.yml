@@ -2,7 +2,7 @@ name: Sealer-Test-Run
 
 on:
   push:
-    branches: "main"
+    branches: "release*"
   issue_comment:
     types:
       - created
