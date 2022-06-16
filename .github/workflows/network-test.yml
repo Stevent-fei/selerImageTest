@@ -63,4 +63,4 @@ jobs:
           export network=$network
           e2e=`echo "$commentbody"|cut -d" " -f3`
           export e2e=$e2e
-          ginkgo -v --focus="test network" test
+          ginkgo -v --focus="test" test
