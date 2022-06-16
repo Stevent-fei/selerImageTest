@@ -38,7 +38,7 @@ var _ = Describe("run calico", func() {
 				cluster.Spec.Provider = settings.AliCloud
 				cluster.Spec.Image = settings.TestImageName
 				cluster = apply.CreateAliCloudInfraAndSave(cluster, tempFile)
-				//defer apply.CleanUpAliCloudInfra(cluster)
+				defer apply.CleanUpAliCloudInfra(cluster)
 				sshClient := testhelper.NewSSHClientByCluster(cluster)
 				testhelper.CheckFuncBeTrue(func() bool {
 					err := sshClient.SSH.Copy(sshClient.RemoteHostIP, settings.DefaultSealerBin, settings.DefaultSealerBin)
@@ -102,10 +102,9 @@ var _ = Describe("run calico", func() {
 
 				By("get-log.sh")
 				//wait 20s exec get-log.sh
-				time.Sleep(10 * time.Second)
+				time.Sleep(20 * time.Second)
 				err = sshClient.SSH.CmdAsync(sshClient.RemoteHostIP, "bash get-log.sh")
 				testhelper.CheckErr(err)
-				time.Sleep(time.Second)
 			})
 		})
 	})

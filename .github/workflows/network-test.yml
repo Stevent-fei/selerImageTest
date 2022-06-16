@@ -57,11 +57,10 @@ jobs:
         #if: ${{ github.event.comment.body == '/test hybirdnet' || github.event.comment.body == '/test all' }}
         if: startswith(github.event.comment.body, '/testnetwork')
         run: |
+          set -x
           commentbody="${{github.event.comment.body}}"
           network=`echo "$commentbody"|cut -d" " -f2`
           export network=$network
-          echo $network
           e2e=`echo "$commentbody"|cut -d" " -f3`
           export e2e=$e2e
-          echo $e2e
           ginkgo -v --focus="test network" test
