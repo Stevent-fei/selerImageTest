@@ -21,6 +21,15 @@ jobs:
           branch=`echo "$commentbody"|cut -d" " -f3`
           multi_arch=`echo "$commentbody"|cut -d" " -f4`
 
+          if [ "$multi_arch" == "multiarch" ]
+          then
+          sudo bash build.sh $tag true
+          echo "::set-output name=multiarch::$multi_arch"
+          else
+          sudo bash build.sh $tag
+          fi
+          
+          echo "::set-output name=version::$tag"
 #          wget https://sealer.oss-cn-beijing.aliyuncs.com/sealer-latest.tar.gz
 #          sudo tar -xvf sealer-latest.tar.gz -C /usr/bin
 #          sudo sealer login ${{secrets.PRIVATEWAREHOUSE}}
@@ -30,17 +39,11 @@ jobs:
 #          git checkout ${branch}
 #          cd build
 
-          if [ "$multi_arch" == "multiarch" ]
-          then
-          sudo bash build.sh $tag true
-          echo "::set-output name=multiarch::$multi_arch"
-          else
-          sudo bash build.sh $tag
-          fi
+
 
 #          sudo sealer tag ack-distro:$tag ack-agility-registry.cn-shanghai.cr.aliyuncs.com/ecp_builder/ackdistro:$tag
 #          sudo sealer push ack-agility-registry.cn-shanghai.cr.aliyuncs.com/ecp_builder/ackdistro:$tag
-          echo "::set-output name=version::$tag"
+           
       - name: Auto build image
         uses: peter-evans/create-or-update-comment@v1
         with:
