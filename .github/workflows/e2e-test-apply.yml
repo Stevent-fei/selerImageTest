@@ -10,7 +10,7 @@ jobs:
   build:
     name: test
     runs-on: ubuntu-latest
-    if: startswith(github.event.comment.body, '/testaaa')
+    #if: startswith(github.event.comment.body, '/testaaa')
     env:
       GO111MODULE: on
     steps:
@@ -54,7 +54,7 @@ jobs:
           ACCESSKEYID: ${{ secrets.ACCESSKEYID }}
           ACCESSKEYSECRET: ${{ secrets.ACCESSKEYSECRET }}
           RegionID: ${{ secrets.RegionID }}
-        if: startswith(github.event.comment.body, '/testaaa')
+        #if: startswith(github.event.comment.body, '/testaaa')
         run: |
           commentbody="${{github.event.comment.body}}"
           version=`echo "$commentbody"|cut -d" " -f2`

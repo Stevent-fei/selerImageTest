@@ -3,6 +3,7 @@ package test
 import (
 	"os"
 	"strings"
+	"sync"
 	"time"
 
 	v1 "github.com/alibaba/sealer/types/api/v1"
@@ -13,6 +14,9 @@ import (
 	"blog/test/testhelper"
 	"blog/test/testhelper/settings"
 )
+
+var wg sync.WaitGroup
+var lock sync.Mutex
 
 var _ = Describe("test", func() {
 	Context("start apply calico", func() {
@@ -47,7 +51,10 @@ var _ = Describe("test", func() {
 				cluster.Spec.Provider = settings.AliCloud
 				cluster.Spec.Image = settings.TestImageName
 				cluster = apply.CreateAliCloudInfraAndSave(cluster, tempFile)
-				defer apply.CleanUpAliCloudInfra(cluster)
+				clean := os.Getenv("clean")
+				if clean == "clean" {
+					defer apply.CleanUpAliCloudInfra(cluster)
+				}
 				sshClient := testhelper.NewSSHClientByCluster(cluster)
 				testhelper.CheckFuncBeTrue(func() bool {
 					err := sshClient.SSH.Copy(sshClient.RemoteHostIP, settings.DefaultSealerBin, settings.DefaultSealerBin)
@@ -80,14 +87,14 @@ var _ = Describe("test", func() {
 				e2e := os.Getenv("e2e")
 
 				if e2e == "e2e" {
-					e2eTest(sshClient, cluster)
+					e2eTest1(sshClient, cluster)
 				}
 			})
 		})
 	})
 })
 
-func e2eTest(sshClient *testhelper.SSHClient, cluster *v1.Cluster) {
+func e2eTest1(sshClient *testhelper.SSHClient, cluster *v1.Cluster) {
 	//download e2e && sshcmdfile and give sshcmd exec permissions
 	err := sshClient.SSH.CmdAsync(sshClient.RemoteHostIP, "wget https://sealer.oss-cn-beijing.aliyuncs.com/e2e/kubernetes_e2e_images_v1.20.0.tar.gz",
 		"wget https://sealer.oss-cn-beijing.aliyuncs.com/e2e/sshcmd", "chmod 777 sshcmd")
@@ -100,12 +107,18 @@ func e2eTest(sshClient *testhelper.SSHClient, cluster *v1.Cluster) {
 	}, settings.MaxWaiteTime)
 
 	err = sshClient.SSH.CmdAsync(sshClient.RemoteHostIP, "bash load.sh", "./sshcmd --user root --passwd Sealer123 --host "+cluster.Spec.Nodes.IPList[0]+
+		" --mode 'scp' --local-path 'kubernetes_e2e_images_v1.20.0.tar.gz' --remote-path 'kubernetes_e2e_images_v1.20.0.tar.gz'", "./sshcmd --user root --passwd Sealer123 --host "+cluster.Spec.Nodes.IPList[1]+
+		" --mode 'scp' --local-path 'kubernetes_e2e_images_v1.20.0.tar.gz' --remote-path 'kubernetes_e2e_images_v1.20.0.tar.gz'", "./sshcmd --user root --passwd Sealer123 --host "+cluster.Spec.Nodes.IPList[2]+
 		" --mode 'scp' --local-path 'kubernetes_e2e_images_v1.20.0.tar.gz' --remote-path 'kubernetes_e2e_images_v1.20.0.tar.gz'", "./sshcmd --user root --passwd Sealer123 --host "+cluster.Spec.Masters.IPList[1]+
 		" --mode 'scp' --local-path 'kubernetes_e2e_images_v1.20.0.tar.gz' --remote-path 'kubernetes_e2e_images_v1.20.0.tar.gz'", "./sshcmd --user root --passwd Sealer123 --host "+cluster.Spec.Masters.IPList[2]+
 		" --mode 'scp' --local-path 'kubernetes_e2e_images_v1.20.0.tar.gz' --remote-path 'kubernetes_e2e_images_v1.20.0.tar.gz'", "./sshcmd --user root --passwd Sealer123 --host "+cluster.Spec.Nodes.IPList[0]+
+		" --mode 'scp' --local-path 'load.sh' --remote-path 'load.sh'", "./sshcmd --user root --passwd Sealer123 --host "+cluster.Spec.Nodes.IPList[1]+
+		" --mode 'scp' --local-path 'load.sh' --remote-path 'load.sh'", "./sshcmd --user root --passwd Sealer123 --host "+cluster.Spec.Nodes.IPList[2]+
 		" --mode 'scp' --local-path 'load.sh' --remote-path 'load.sh'", "./sshcmd --user root --passwd Sealer123 --host "+cluster.Spec.Masters.IPList[1]+
 		" --mode 'scp' --local-path 'load.sh' --remote-path 'load.sh'", "./sshcmd --user root --passwd Sealer123 --host "+cluster.Spec.Masters.IPList[2]+
 		" --mode 'scp' --local-path 'load.sh' --remote-path 'load.sh'", "./sshcmd --user root --passwd Sealer123 --host "+cluster.Spec.Nodes.IPList[0]+
+		" --cmd 'bash load.sh'", "./sshcmd --user root --passwd Sealer123 --host "+cluster.Spec.Nodes.IPList[1]+
+		" --cmd 'bash load.sh'", "./sshcmd --user root --passwd Sealer123 --host "+cluster.Spec.Nodes.IPList[2]+
 		" --cmd 'bash load.sh'", "./sshcmd --user root --passwd Sealer123 --host "+cluster.Spec.Masters.IPList[1]+
 		" --cmd 'bash load.sh'", "./sshcmd --user root --passwd Sealer123 --host "+cluster.Spec.Masters.IPList[2]+
 		" --cmd 'bash load.sh'")
@@ -116,16 +129,18 @@ func e2eTest(sshClient *testhelper.SSHClient, cluster *v1.Cluster) {
 	testhelper.CheckErr(err)
 
 	go func() {
+		wg.Add(1)
+		lock.Lock()
 		err := sshClient.SSH.CmdAsync(sshClient.RemoteHostIP, "bash run.sh")
 		testhelper.CheckErr(err)
 	}()
+	lock.Unlock()
 
 	//wait 20s exec get-log.sh
 	time.Sleep(10 * time.Second)
-	go func() {
-		err = sshClient.SSH.CmdAsync(sshClient.RemoteHostIP, "bash get-log.sh")
-		testhelper.CheckErr(err)
-	}()
+
+	err = sshClient.SSH.CmdAsync(sshClient.RemoteHostIP, "bash get-log.sh")
+	testhelper.CheckErr(err)
 
 	time.Sleep(30 * time.Second)
 }
