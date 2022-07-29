@@ -15,7 +15,6 @@ jobs:
       - name: Auto build image
         id: autobuild
         run: |
-          set -x
           commentbody="${{github.event.comment.body}}"
           version=`echo "$commentbody"|cut -d" " -f2`
           ##gt || eq v1.24.0 cri must be containerd
@@ -30,6 +29,7 @@ jobs:
           ## nerdctl: 0.19.0; cri-containerd: 1.6.4;
           sudo wget https://sealer.oss-cn-beijing.aliyuncs.com/auto-build/cri-context.tar.gz && sudo tar -zxf cri-context.tar.gz && cd context
           sudo wget https://sealer.oss-cn-beijing.aliyuncs.com/auto-build/${cri}-context.tar.gz && sudo tar -zxf ${cri}-context.tar.gz
+
           #amd64
           sudo curl -L https://dl.k8s.io/release/$version/bin/linux/amd64/kubectl -o ./amd64/bin/kubectl
           sudo curl -L https://dl.k8s.io/release/$version/bin/linux/amd64/kubelet -o ./amd64/bin/kubelet
