@@ -15,6 +15,7 @@ jobs:
       - name: Auto build image
         id: autobuild
         run: |
+          set -x
           commentbody="${{github.event.comment.body}}"
           version=`echo "$commentbody"|cut -d" " -f2`
           ##gt || eq v1.24.0 cri must be containerd
