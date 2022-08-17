@@ -22,7 +22,7 @@ jobs:
       - name: Auto build image
         uses: peter-evans/create-or-update-comment@v1
         with:
-          issue-number: ${{ github.event.issue.number }}
+          issue-number: 9
           body: |
             #${{ steps.autobuild.outputs.multiarch }} Image:[ ack-agility-registry.cn-shanghai.cr.aliyuncs.com/ecp_builder/ackdistro:${{ steps.autobuild.outputs.version }} ]  build successfully!
 
