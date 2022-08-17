@@ -18,11 +18,14 @@ jobs:
           set -x
           info=${{ github.event.issue.number }}
           echo $info
+          echo "::set-output name=image::[ ack-agility-registry.cn-shanghai.cr.aliyuncs.com/ecp_builder/ackdistro:"
+          echo "::set-output name=version::$tag ]"
+          echo "::set-output name=state::successfully"
 
       - name: Auto build image
         uses: peter-evans/create-or-update-comment@v1
         with:
           issue-number: 9
           body: |
-            #${{ steps.autobuild.outputs.multiarch }} Image:[ ack-agility-registry.cn-shanghai.cr.aliyuncs.com/ecp_builder/ackdistro:${{ steps.autobuild.outputs.version }} ]  build successfully!
+            #${{ steps.autobuild.outputs.multiarch }} Image: ${{ steps.autobuild.outputs.image }}${{ steps.autobuild.outputs.version }}  build ${{ steps.autobuild.outputs.state }}!
 
