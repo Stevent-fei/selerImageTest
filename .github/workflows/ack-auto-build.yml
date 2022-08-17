@@ -1,0 +1,28 @@
+name: Auto build image
+on:
+  issue_comment:
+    types:
+      - created
+jobs:
+  issue_comment:
+    name: Auto build image
+    if: startswith(github.event.comment.body, '/ackimagebuild')
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+
+      - name: Check outputs
+        id: autobuild
+        run: |
+          set -x
+          info=${{ github.event.issue.number }}
+          echo $info
+
+      - name: Auto build image
+        uses: peter-evans/create-or-update-comment@v1
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          body: |
+            #${{ steps.autobuild.outputs.multiarch }} Image:[ ack-agility-registry.cn-shanghai.cr.aliyuncs.com/ecp_builder/ackdistro:${{ steps.autobuild.outputs.version }} ]  build successfully!
+
