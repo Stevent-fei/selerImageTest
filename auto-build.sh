@@ -103,7 +103,7 @@ sudo ./sealer build -t "${buildName}" -f Kubefile --platform "${platform}" .
 sealer tag registry.cn-qingdao.aliyuncs.com/sealer-io/kubernetes:v1.19.8 18791106690/registry:v1.19.8
 if [[ "$push" == "true" ]]; then
   if [[ -n "$username" ]] && [[ -n "$password" ]]; then
-    sudo ./sealer login "$(echo "$buildName" | cut -d "/" -f1)" -u "${username}" -p "${password}"
+    sudo ./sealer login  docker.io -u "${username}" -p "${password}"
   fi
   sudo ./sealer push 18791106690/registry:v1.19.8
 fi
