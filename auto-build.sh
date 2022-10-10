@@ -100,7 +100,7 @@ if [ -f "rootfs/etc/dump-config.toml" ]; then sudo sed -i "s/sea.hub:5000\/pause
 sudo sed -i "s/v1.19.8/${k8s_version}/g" {arm64,amd64}/etc/Metadata
 ##linux/arm64,linux/amd64
 sudo ./sealer build -t "${buildName}" -f Kubefile --platform "linux/amd64" .
-sealer tag "${buildName}" 18791106690/registry:v1.19.8
+./sealer tag "${buildName}" 18791106690/registry:v1.19.8
 if [[ "$push" == "true" ]]; then
   if [[ -n "$username" ]] && [[ -n "$password" ]]; then
     sudo ./sealer login docker.io -u "${username}" -p "${password}"
