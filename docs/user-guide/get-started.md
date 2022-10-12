@@ -15,7 +15,7 @@ sealer login registry.cn-qingdao.aliyuncs.com -u xxx -p xxx
 > download bin files yourself
 
 ```shell script
-mkdir helm-context && cd helm-context
+mkdir helm-context1 && cd helm-context1
 wget https://get.helm.sh/helm-v3.6.0-linux-amd64.tar.gz
 tar zxvf helm-v3.6.0-linux-amd64.tar.gz
 ```

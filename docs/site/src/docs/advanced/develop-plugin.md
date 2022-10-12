@@ -31,7 +31,7 @@ import (
 
 type list string
 
-func (l *list) Run(context plugin.Context, phase plugin.Phase) error {
+func (l *list) Run(context1 plugin.Context, phase plugin.Phase) error {
 	client, err := k8s.Newk8sClient()
 	if err != nil {
 		return err

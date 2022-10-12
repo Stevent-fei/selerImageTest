@@ -1,9 +1,26 @@
 #!/bin/bash
+# shellcheck disable=SC1091
 
-scripts_path=$(cd `dirname $0`; pwd)
-source "${scripts_path}"/utils.sh
+# Open ipvs
+modprobe -- ip_vs
+modprobe -- ip_vs_rr
+modprobe -- ip_vs_wrr
+modprobe -- ip_vs_sh
+modprobe -- br_netfilter
+## version_ge 4.19 4.19 true ;
+## version_ge 5.4 4.19 true ;
+## version_ge 3.10 4.19 false ;
 
-set -x
+version_ge() {
+  test "$(echo "$@" | tr ' ' '\n' | sort -rV | head -n 1)" == "$1"
+}
+
+disable_selinux() {
+  if [ -s /etc/selinux/config ] && grep 'SELINUX=enforcing' /etc/selinux/config; then
+    sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config
+    setenforce 0
+  fi
+}
 
 get_distribution() {
   lsb_dist=""
@@ -33,34 +50,32 @@ disable_firewalld() {
   esac
 }
 
-copy_bins() {
-  RPM_DIR=${scripts_path}/../rpm/
-  for rpm in socat kubernetes-cni;do
-    if ! rpm -qa | grep ${rpm};then
-      rpm -ivh --force --nodeps ${RPM_DIR}/${rpm}*.rpm
-    fi
-  done
-  chmod -R 755 ../bin/*
-  chmod 644 ../bin
-  cp ../bin/* /usr/bin
-  cp ../scripts/kubelet-pre-start.sh /usr/bin
-  chmod +x /usr/bin/kubelet-pre-start.sh
-}
+kernel_version=$(uname -r | cut -d- -f1)
+if version_ge "${kernel_version}" 4.19; then
+  modprobe -- nf_conntrack
+else
+  modprobe -- nf_conntrack_ipv4
+fi
 
-copy_kubelet_service(){
-  mkdir -p /etc/systemd/system
-  cp ../etc/kubelet.service /etc/systemd/system/
-  [ -d /etc/systemd/system/kubelet.service.d ] || mkdir /etc/systemd/system/kubelet.service.d
-  cp ../etc/10-kubeadm.conf /etc/systemd/system/kubelet.service.d/
-}
-
+cat <<EOF >/etc/sysctl.d/k8s.conf
+net.bridge.bridge-nf-call-ip6tables = 1
+net.bridge.bridge-nf-call-iptables = 1
+net.ipv4.conf.all.rp_filter=0
+EOF
+sysctl --system
+sysctl -w net.ipv4.ip_forward=1
 disable_firewalld
-copy_bins
-copy_kubelet_service
-[ -d /var/lib/kubelet ] || mkdir -p /var/lib/kubelet/
-/usr/bin/kubelet-pre-start.sh
-systemctl enable kubelet
-bash ${scripts_path}/install-lvm.sh || exit 1
+swapoff -a || true
+disable_selinux
 
-# nvidia-docker.sh need set kubelet labels, it should be run after kubelet
-bash ${scripts_path}/nvidia-docker.sh || exit 1
+chmod -R 755 ../bin/*
+chmod 644 ../bin
+cp ../bin/* /usr/bin
+cp ../scripts/kubelet-pre-start.sh /usr/bin
+# Cgroup driver
+mkdir -p /etc/systemd/system
+cp ../etc/kubelet.service /etc/systemd/system/
+[ -d /etc/systemd/system/kubelet.service.d ] || mkdir /etc/systemd/system/kubelet.service.d
+cp ../etc/10-kubeadm.conf /etc/systemd/system/kubelet.service.d/
+
+systemctl daemon-reload && systemctl enable kubelet
