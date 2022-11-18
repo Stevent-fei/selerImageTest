@@ -1,4 +1,0 @@
-FROM scratch
-COPY rootfs/* .
-COPY ${ARCH}/* . 
-COPY imageList manifests

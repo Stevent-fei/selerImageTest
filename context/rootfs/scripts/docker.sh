@@ -13,13 +13,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-scripts_path=$(cd `dirname $0`; pwd)
-source "${scripts_path}"/utils.sh
-
 set -x
+set -e
 
+scripts_path=$(cd `dirname $0`; pwd)
 image_dir="$scripts_path/../images"
-DOCKER_VERSION="19.03.15"
+DOCKER_VERSION="19.03.14-sealer"
 
 get_distribution() {
   lsb_dist=""
@@ -76,11 +75,6 @@ if ! utils_command_exists docker; then
     fi
     ;;
   centos | rhel | anolis | ol | sles | kylin | neokylin)
-    RPM_DIR=${scripts_path}/../rpm/
-    rpm=libseccomp
-    if ! rpm -qa | grep ${rpm};then
-      rpm -ivh --force --nodeps ${RPM_DIR}/${rpm}*.rpm
-    fi
     cp "${scripts_path}"/../etc/docker.service /usr/lib/systemd/system/docker.service
     ;;
   alios)
@@ -88,11 +82,6 @@ if ! utils_command_exists docker; then
     if [ "$docker0" != "1" ]; then
         ip link add name docker0 type bridge
         ip addr add dev docker0 172.17.0.1/16
-    fi
-    RPM_DIR=${scripts_path}/../rpm/
-    rpm=libseccomp
-    if ! rpm -qa | grep ${rpm};then
-      rpm -ivh --force --nodeps ${RPM_DIR}/${rpm}*.rpm
     fi
     cp "${scripts_path}"/../etc/docker.service /usr/lib/systemd/system/docker.service
     ;;
