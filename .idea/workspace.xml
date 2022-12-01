@@ -2,40 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="57416555-66d7-496a-85aa-23850a801cab" name="Default Changelist" comment="image test">
-      <change afterPath="$PROJECT_DIR$/context/rootfs/scripts/docker.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/context/rootfs/scripts/nvidia-docker.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/context/rootfs/scripts/uninstall-docker.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/context/rootfs/scripts/utils.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/context/rootfs/scripts/clean-kube.sh" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/context/rootfs/scripts/init-kube.sh" beforeDir="false" afterPath="$PROJECT_DIR$/context/rootfs/scripts/init-kube.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/context/rootfs/scripts/init-registry.sh" beforeDir="false" afterPath="$PROJECT_DIR$/context/rootfs/scripts/init-registry.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/context/rootfs/scripts/init.sh" beforeDir="false" afterPath="$PROJECT_DIR$/context/rootfs/scripts/init.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/context/rootfs/scripts/install-cri.sh" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/context/rootfs/scripts/kubelet-pre-start.sh" beforeDir="false" afterPath="$PROJECT_DIR$/context/rootfs/scripts/kubelet-pre-start.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/context1/Kubefile" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/context1/amd64/etc/Metadata" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/context1/arm64/etc/Metadata" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/context1/containerd/rootfs/etc/dump-config.toml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/context1/containerd/rootfs/scripts/clean.sh" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/context1/docker/rootfs/etc/daemon.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/context1/docker/rootfs/etc/docker.service" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/context1/docker/rootfs/scripts/clean.sh" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/context1/download.sh" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/context1/imageList" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/context1/rootfs/etc/10-kubeadm.conf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/context1/rootfs/etc/kubeadm.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/context1/rootfs/etc/kubelet.service" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/context1/rootfs/etc/registry.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/context1/rootfs/lib/install_libseccomp.sh" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/context1/rootfs/scripts/docker.sh" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/context1/rootfs/scripts/init-kube.sh" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/context1/rootfs/scripts/init-registry.sh" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/context1/rootfs/scripts/kubelet-pre-start.sh" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/context1/rootfs/scripts/nvidia-docker.sh" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/context1/rootfs/scripts/uninstall-docker.sh" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/context1/rootfs/scripts/utils.sh" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/context1/rootfs/statics/audit-policy.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/context1/version.sh" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/.github/ISSUE_TEMPLATE/bug-report.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.github/ISSUE_TEMPLATE/config.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.github/ISSUE_TEMPLATE/feature_request.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -75,7 +45,7 @@
     <property name="go.sdk.automatically.set" value="true" />
     <property name="go.tried.to.enable.integration.vgo.integrator" value="true" />
     <property name="go.vendoring.notification.had.been.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/.github" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
@@ -83,6 +53,7 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/.github" />
       <recent name="$PROJECT_DIR$" />
     </key>
   </component>
