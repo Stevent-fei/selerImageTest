@@ -42,8 +42,8 @@ jobs:
 
           sudo chmod +x amd64/bin/kube* && sudo chmod +x arm64/bin/kube*
           sudo apt install git -y
-          sudo git clone https://github.com/sealerio/sealer && cd sealer && git checkout main && make linux && cp _output/bin/sealer/linux_amd64/sealer /usr/bin/ && cd ..
-          sudo git clone https://github.com/sealerio/basefs && cd basefs && git checkout new_basefs && cp -r rootfs/context/rootfs/scripts/* ../dockerRootfs/rootfs/scripts/ & cd ..
+          sudo git clone https://github.com/sealerio/sealer.git && cd sealer && git checkout main && make linux && cp _output/bin/sealer/linux_amd64/sealer /usr/bin/ && cd ..
+          sudo git clone https://github.com/sealerio/basefs.git && cd basefs && git checkout new_basefs && cp -r rootfs/context/rootfs/scripts/* ../dockerRootfs/rootfs/scripts/ & cd ..
           #sudo wget https://sealer.oss-cn-beijing.aliyuncs.com/sealer-latest.tar.gz && sudo tar -xvf sealer-latest.tar.gz -C /usr/bin
           sudo sealer login ${{secrets.PRIVATEWAREHOUSE}}
 
