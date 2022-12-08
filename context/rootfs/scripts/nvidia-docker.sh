@@ -1,6 +1,14 @@
 #!/bin/bash
 
-scripts_path=$(cd `dirname $0`; pwd)
+# shellcheck disable=SC2046
+# shellcheck disable=SC2164
+# shellcheck disable=SC2092
+# shellcheck disable=SC1102
+# shellcheck disable=SC2006
+# shellcheck disable=SC2005
+# shellcheck disable=SC2181
+# shellcheck disable=SC1091
+scripts_path=$(cd `dirname "$0"`; pwd)
 source "${scripts_path}"/utils.sh
 
 set -x
@@ -46,7 +54,7 @@ public::nvidia::enable_gpu_device_plugin() {
 }
 
 kube::nvidia::detect_gpu(){
-    tar -xvf ${scripts_path}/../tgz/nvidia.tgz -C ${scripts_path}/../rpm/
+    tar -xvf "${scripts_path}"/../tgz/nvidia.tgz -C "${scripts_path}"/../rpm/
     kube::nvidia::setup_lspci
     lspci | grep -i nvidia > /dev/null 2>&1
     if [[ "$?" == "0" ]]; then
@@ -59,7 +67,7 @@ kube::nvidia::setup_lspci(){
         return
     fi
     utils_info "lspci command not exist, install it"
-    rpm -ivh --force --nodeps ${RPM_DIR}/pciutils*.rpm
+    rpm -ivh --force --nodeps "${RPM_DIR}"/pciutils*.rpm
     if [[ "$?" != "0" ]]; then
         panic "failed to install pciutils via command (rpm -ivh --force --nodeps ${RPM_DIR}/pciutils*.rpm) in dir ${PWD}, please run it for debug"
     fi
@@ -76,12 +84,13 @@ public::nvidia::install_nvidia_driver(){
 public::nvidia::install_nvidia_docker2(){
     sleep 3
     if  `which nvidia-container-runtime > /dev/null 2>&1` && [ $(echo $((docker info | grep nvidia) | wc -l)) -gt 1 ] ; then
-        utils_info 'nvidia-container-runtime is already insatlled'
+        utils_info 'nvidia-container-runtime is already installed'
         return
     fi
 
     # 1. Install nvidia-container-runtime
-    if ! output=$(rpm -ivh --force --nodeps `ls ${RPM_DIR}/*.rpm` 2>&1);then
+    # shellcheck disable=SC2046
+    if ! output=$(rpm -ivh --force --nodeps `ls "${RPM_DIR}"/*.rpm` 2>&1);then
         panic "failed to install rpm, output:${output}, maybe your rpm db was broken, please see https://cloudlinux.zendesk.com/hc/en-us/articles/115004075294-Fix-rpmdb-Thread-died-in-Berkeley-DB-library for help"
     fi
 
@@ -108,9 +117,9 @@ public::nvidia::install_nvidia_docker2(){
 # deploy nvidia plugin in static pod
 public::nvidia::deploy_static_pod() {
     mkdir -p /etc/kubernetes/manifests
-    cp -f ${scripts_path}/../statics/nvidia-device-plugin.yml /etc/kubernetes/manifests/nvidia-device-plugin.yml
+    cp -f "${scripts_path}"/../statics/nvidia-device-plugin.yml /etc/kubernetes/manifests/nvidia-device-plugin.yml
 
-    utils_info "nvidia-device-plugin yaml succefully deployed ..."
+    utils_info "nvidia-device-plugin yaml successfully deployed ..."
 }
 
 public::nvidia::enable_gpu_capability

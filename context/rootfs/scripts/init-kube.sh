@@ -1,6 +1,10 @@
 #!/bin/bash
 
-scripts_path=$(cd `dirname $0`; pwd)
+# shellcheck disable=SC2046
+# shellcheck disable=SC2164
+# shellcheck disable=SC2006
+# shellcheck disable=SC1091
+scripts_path=$(cd `dirname "$0"`; pwd)
 source "${scripts_path}"/utils.sh
 
 set -x
@@ -56,4 +60,4 @@ copy_kubelet_service
 systemctl enable kubelet
 
 # nvidia-docker.sh need set kubelet labels, it should be run after kubelet
-bash ${scripts_path}/nvidia-docker.sh || exit 1
+bash "${scripts_path}"/nvidia-docker.sh || exit 1

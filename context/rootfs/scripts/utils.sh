@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# shellcheck disable=SC2145
+# shellcheck disable=SC2155
+# shellcheck disable=SC2126
+# shellcheck disable=SC2002
 utils_version_ge() {
   test "$(echo "$@" | tr ' ' '\n' | sort -rV | head -n 1)" == "$1"
 }
@@ -59,7 +63,7 @@ utils_os_env() {
     elif [ "$anolis" == 1 ];then
         export OS="Anolis"
     else
-       panic "unkown os...   exit"
+       panic "unknown os...   exit"
     fi
 
     case "$OS" in

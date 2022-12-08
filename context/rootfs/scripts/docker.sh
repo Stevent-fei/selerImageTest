@@ -16,10 +16,13 @@
 set -x
 set -e
 
-scripts_path=$(cd `dirname $0`; pwd)
+# shellcheck disable=SC2046
+# shellcheck disable=SC2006
+scripts_path=$(cd `dirname "$0"`; pwd)
 image_dir="$scripts_path/../images"
 DOCKER_VERSION="19.03.14-sealer"
 
+# shellcheck disable=SC1091
 get_distribution() {
   lsb_dist=""
   # Every system that we officially support has /etc/os-release
@@ -46,6 +49,7 @@ load_images() {
   done
 }
 
+# shellcheck disable=SC2006
 check_docker_valid() {
   if ! docker info 2>&1; then
     panic "docker is not healthy: $(docker info 2>&1), please check"
@@ -58,7 +62,7 @@ check_docker_valid() {
 }
 
 storage=${1:-/var/lib/docker}
-mkdir -p $storage
+mkdir -p "$storage"
 if ! utils_command_exists docker; then
   lsb_dist=$(get_distribution)
   lsb_dist="$(echo "$lsb_dist" | tr '[:upper:]' '[:lower:]')"
