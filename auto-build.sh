@@ -80,7 +80,7 @@ echo "cri: ${cri}, kubernetes version: ${k8s_version}, build image name: ${build
 kubeadmApiVersion=$( (version_compare "$k8s_version" "v1.23.0" && echo 'kubeadm.k8s.io\/v1beta3') || (version_compare "$k8s_version" "v1.15.0" && echo 'kubeadm.k8s.io\/v1beta2') ||
   (version_compare "$k8s_version" "v1.13.0" && echo 'kubeadm.k8s.io\/v1beta1') || (echo "Version must be greater than 1.13: ${k8s_version}" && exit 1))
 
-workdir="$(mktemp -d auto-build-XXXXX)" && sudo cp -r context "${workdir}" && cd "${workdir}/context" && sudo cp -rf "${cri}"/* .
+workdir="$(mktemp -d auto-build-XXXXX)" && sudo cp -r context1 "${workdir}" && cd "${workdir}/context1" && sudo cp -rf "${cri}"/* .
 
 # shellcheck disable=SC1091
 sudo chmod +x version.sh download.sh && export kube_install_version="$k8s_version" && source version.sh
@@ -99,11 +99,10 @@ pauseImage=$(./"${ARCH}"/bin/kubeadm config images list --config "rootfs/etc/kub
 if [ -f "rootfs/etc/dump-config.toml" ]; then sudo sed -i "s/sea.hub:5000\/pause:3.6/$(echo "$pauseImage" | sed 's/\//\\\//g')/g" rootfs/etc/dump-config.toml; fi
 sudo sed -i "s/v1.19.8/${k8s_version}/g" {arm64,amd64}/etc/Metadata
 ##linux/arm64,linux/amd64
-sudo ./sealer build -t "${buildName}" -f Kubefile --platform "linux/amd64" .
-./sealer tag "${buildName}" 18791106690/registry:v1.19.8
+sudo ./sealer build -t "${buildName}" -f Kubefile --platform "${platform}" .
 if [[ "$push" == "true" ]]; then
   if [[ -n "$username" ]] && [[ -n "$password" ]]; then
-    sudo ./sealer login docker.io -u "${username}" -p "${password}"
+    sudo ./sealer login "$(echo "$buildName" | cut -d "/" -f1)" -u "${username}" -p "${password}"
   fi
-  sudo ./sealer push 18791106690/registry:v1.19.8
+  sudo ./sealer push "${buildName}"
 fi
