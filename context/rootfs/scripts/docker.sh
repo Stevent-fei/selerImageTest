@@ -94,7 +94,7 @@ if ! utils_command_exists docker; then
   [ -d /etc/docker/ ] || mkdir /etc/docker/ -p
 
   chmod -R 755 "${scripts_path}"/../cri
-  tar -zxvf "${scripts_path}"/../cri/docker.tar.gz -C /usr/bin
+  tar -zxvf "${scripts_path}"/../cri/docker-amd.tar.gz -C /usr/bin
   chmod a+x /usr/bin
   chmod a+x /usr/bin/docker
   chmod a+x /usr/bin/dockerd
