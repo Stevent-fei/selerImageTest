@@ -33,7 +33,6 @@ image_dir="$rootfs/images"
 
 mkdir -p "$VOLUME" || true
 
-# shellcheck disable=SC2106
 startRegistry() {
     n=1
     while (( n <= 3 ))
@@ -85,25 +84,22 @@ regArgs="-d --restart=always \
 -v $certs_dir:/certs \
 -v $VOLUME:/var/lib/registry \
 -e REGISTRY_HTTP_TLS_CERTIFICATE=/certs/$REGISTRY_DOMAIN.crt \
--e REGISTRY_HTTP_TLS_KEY=/certs/$REGISTRY_DOMAIN.key \
--e REGISTRY_HTTP_DEBUG_ADDR=0.0.0.0:5001 \
--e REGISTRY_HTTP_DEBUG_PROMETHEUS_ENABLED=true"
+-e REGISTRY_HTTP_TLS_KEY=/certs/$REGISTRY_DOMAIN.key"
 
-if [ -f "$config" ]; then
-    sed -i "s/5000/$1/g" "$config"
+if [ -f $config ]; then
+    sed -i "s/5000/$1/g" $config
     regArgs="$regArgs \
     -v $config:/etc/docker/registry/config.yml"
 fi
 
- # shellcheck disable=SC2086
-if [ -f "$htpasswd" ]; then
-    docker run "$regArgs" \
+if [ -f $htpasswd ]; then
+    docker run $regArgs \
             -v $htpasswd:/htpasswd \
             -e REGISTRY_AUTH=htpasswd \
             -e REGISTRY_AUTH_HTPASSWD_PATH=/htpasswd \
             -e REGISTRY_AUTH_HTPASSWD_REALM="Registry Realm" registry:2.7.1 || startRegistry
 else
-    docker run "$regArgs" registry:2.7.1 || startRegistry
+    docker run $regArgs registry:2.7.1 || startRegistry
 fi
 
 check_registry
