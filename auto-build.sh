@@ -71,7 +71,7 @@ if [ "$k8s_version" = "" ]; then echo "pls use --k8s-version to set Clusterimage
 #cri=$([[ -n "$cri" ]] && echo "$cri" || echo docker)
 cri=$( (version_compare "$k8s_version" "v1.24.0" && echo "containerd") || ([[ -n "$cri" ]] && echo "$cri" || echo "docker"))
 if [[ -z "$buildName" ]]; then
-  buildName="registry.cn-qingdao.aliyuncs.com/sealer-io/kubernetes:${k8s_version}"
+  buildName="docker.io/18791106690/kubernetes:${k8s_version}"
   if [[ "$cri" == "containerd" ]] && ! version_compare "$k8s_version" "v1.24.0"; then buildName=${buildName}-containerd; fi
 fi
 platform=$(if [[ -z "$platform" ]]; then echo "linux/arm64,linux/amd64"; else echo "$platform"; fi)
@@ -92,6 +92,7 @@ sudo sed -i "s/v1.19.8/$k8s_version/g" rootfs/etc/kubeadm.yml ##change k8s_versi
 if [[ "$cri" == "containerd" ]]; then sudo sed -i "s/\/var\/run\/dockershim.sock/\/run\/containerd\/containerd.sock/g" rootfs/etc/kubeadm.yml; fi
 sudo sed -i "s/kubeadm.k8s.io\/v1beta2/$kubeadmApiVersion/g" rootfs/etc/kubeadm.yml
 sudo ./"${ARCH}"/bin/kubeadm config images list --config "rootfs/etc/kubeadm.yml"
+sudo mkdir manifests
 sudo ./"${ARCH}"/bin/kubeadm config images list --config "rootfs/etc/kubeadm.yml" 2>/dev/null | sed "/WARNING/d" >>imageList
 if [ "$(sudo ./"${ARCH}"/bin/kubeadm config images list --config rootfs/etc/kubeadm.yml 2>/dev/null | grep -c "coredns/coredns")" -gt 0 ]; then sudo sed -i "s/#imageRepository/imageRepository/g" rootfs/etc/kubeadm.yml; fi
 sudo sed -i "s/k8s.gcr.io/sea.hub:5000/g" rootfs/etc/kubeadm.yml
@@ -99,10 +100,10 @@ pauseImage=$(./"${ARCH}"/bin/kubeadm config images list --config "rootfs/etc/kub
 if [ -f "rootfs/etc/dump-config.toml" ]; then sudo sed -i "s/sea.hub:5000\/pause:3.6/$(echo "$pauseImage" | sed 's/\//\\\//g')/g" rootfs/etc/dump-config.toml; fi
 sudo sed -i "s/v1.19.8/${k8s_version}/g" {arm64,amd64}/etc/Metadata
 ##linux/arm64,linux/amd64
-sudo ./sealer build -t "${buildName}" -f Kubefile --platform "${platform}" .
+sudo ./sealer build -t "docker.io/18791106690/kubernetes:${k8s_version}" -f Kubefile --platform "${platform}" .
 if [[ "$push" == "true" ]]; then
   if [[ -n "$username" ]] && [[ -n "$password" ]]; then
     sudo ./sealer login "$(echo "$buildName" | cut -d "/" -f1)" -u "${username}" -p "${password}"
   fi
-  sudo ./sealer push "${buildName}"
+  sudo ./sealer push "docker.io/18791106690/kubernetes:${k8s_version}"
 fi
