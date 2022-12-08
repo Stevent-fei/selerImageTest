@@ -1,24 +1,7 @@
 #!/bin/bash
-# Copyright © 2021 Alibaba Group Holding Ltd.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
 
 systemctl stop docker
-systemctl disable docker
-docker0=$(ip addr show docker0 | head -1 | tr " " "\n" | grep "<" | grep -iwo "UP" | wc -l)
-if [ "$docker0" == "1" ]; then
-  ip link delete docker0 type bridge
-fi
+ip link delete docker0 type bridge || true
 rm -rf /lib/systemd/system/docker.service
 rm -rf /usr/lib/systemd/system/docker.service
 rm -rf /etc/docker/daemon.json
@@ -35,8 +18,6 @@ rm -f /usr/bin/docker
 rm -f /usr/bin/docker-init
 rm -f /usr/bin/docker-proxy
 rm -f /usr/bin/dockerd
-
-systemctl disable kubelet
 rm -f /usr/bin/kubeadm
 rm -f /usr/bin/kubectl
 rm -f /usr/bin/kubelet
@@ -53,4 +34,3 @@ rm -f /etc/systemd/system/kubelet.service
 rm -rf /etc/systemd/system/kubelet.service.d
 rm -rf /var/lib/kubelet/
 rm -f /var/lib/kubelet/config.yaml
-systemctl daemon-reload
