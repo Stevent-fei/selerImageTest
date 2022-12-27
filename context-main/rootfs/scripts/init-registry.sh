@@ -24,21 +24,6 @@ REGISTRY_PORT=${1-5000}
 VOLUME=${2-/var/lib/registry}
 REGISTRY_DOMAIN=${3-sea.hub}
 
-# shellcheck disable=SC2068
-utils_command_exists() {
-  command -v $@ >/dev/null 2>&1
-}
-
-CONTAINER_RUNTIME=docker
-if ! utils_command_exists docker; then
-  if containerd --version; then
-    CONTAINER_RUNTIME=containerd
-  else
-    echo "either docker and containerd not found, please check" >&2
-    exit 1
-  fi
-fi
-
 container=sealer-registry
 rootfs=$(dirname "$(pwd)")
 config="$rootfs/etc/registry_config.yml"
@@ -48,86 +33,50 @@ image_dir="$rootfs/images"
 
 mkdir -p "$VOLUME" || true
 
-# shellcheck disable=SC2068
-runtimeRun() {
-  if [ "$CONTAINER_RUNTIME" == "containerd" ]; then
-    nerdctl container run $@
-  else
-    docker run $@
-  fi
-}
-
-# shellcheck disable=SC2068
-runtimeStart() {
-  if [ "$CONTAINER_RUNTIME" == "containerd" ]; then
-    nerdctl start $@
-  else
-    docker start $@
-  fi
-}
-
-# shellcheck disable=SC2068
-runtimeInspect() {
-  if [ "$CONTAINER_RUNTIME" == "containerd" ]; then
-    nerdctl container inspect $@
-  else
-    docker inspect $@
-  fi
-}
-
-# shellcheck disable=SC2068
-runtimeGetContainerStatus() {
-  if [ "$CONTAINER_RUNTIME" == "containerd" ]; then
-    nerdctl container inspect $@ | grep '"Status"' | awk '{print $2}' | tr -d ','
-  else
-    docker inspect --format '{{json .State.Status}}' $@
-  fi
-}
-
+# shellcheck disable=SC2106
 startRegistry() {
-  n=1
-  while ((n <= 3)); do
-    echo "attempt to start registry"
-    runtimeStart $container && break
-    ((n++))
-    sleep 3
-  done
+    n=1
+    while (( n <= 3 ))
+    do
+        echo "attempt to start registry"
+        (docker start $container && break) || (( n < 3))
+        (( n++ ))
+        sleep 3
+    done
 }
 
 load_images() {
-  for image in "$image_dir"/*; do
-    if [ ! -f "${image}" ]; then
-      continue
-    fi
-    if [ "$CONTAINER_RUNTIME" == "containerd" ]; then
-      ctr image import "${image}"
-    else
-      docker load -q -i "${image}"
-    fi
-  done
+for image in "$image_dir"/*
+do
+ if [ -f "${image}" ]
+ then
+  docker load -q -i "${image}"
+ fi
+done
 }
 
 check_registry() {
-  n=1
-  while ((n <= 3)); do
-    registry_status=$(runtimeGetContainerStatus sealer-registry)
-    [[ "$registry_status" == \"running\" ]] && break
-    ((n++))
-    sleep 3
-  done
-  if [[ "$registry_status" != \"running\" ]]; then
-    echo "sealer-registry is not running, status: $registry_status" >&2
-    exit 1
-  fi
+    n=1
+    while (( n <= 3 ))
+    do
+        registry_status=$(docker inspect --format '{{json .State.Status}}' sealer-registry)
+        if [[ "$registry_status" == \"running\" ]]; then
+            break
+        fi
+        if [[ $n -eq 3 ]]; then
+           echo "sealer-registry is not running, status: $registry_status"
+           exit 1
+        fi
+        (( n++ ))
+        sleep 3
+    done
 }
 
 load_images
 
 ## rm container if exist.
-if [ "$CONTAINER_RUNTIME" == "containerd" ]; then
-  runtimeInspect $container &>/dev/null && nerdctl rm -f $container
-else
-  docker inspect $container &>/dev/null && docker rm -f $container
+if [ "$(docker ps -aq -f name=$container)" ]; then
+    docker rm -f $container
 fi
 
 regArgs="-d --restart=always \
@@ -146,7 +95,6 @@ if [ -f $config ]; then
     regArgs="$regArgs \
     -v $config:/etc/docker/registry/config.yml"
 fi
-
 # shellcheck disable=SC2086
 if [ -f $htpasswd ]; then
     docker run $regArgs \

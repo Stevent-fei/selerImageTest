@@ -13,21 +13,21 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# shellcheck disable=SC2181
-STORAGE=${1:-/var/lib/docker}
+set -e
+set -x
+
+#STORAGE=${1:-/var/lib/docker} will delete
 REGISTRY_DOMAIN=${2-sea.hub}
 REGISTRY_PORT=${3-5000}
 
-# Install docker
-chmod a+x docker.sh
-#./docker.sh  /var/docker/lib  sealer.hub 5001
-bash docker.sh "${STORAGE}" "${REGISTRY_DOMAIN}" "$REGISTRY_PORT"
-if [  $? -ne 0 ]; then
-  exit 1
-fi
+chmod -R 755 ../bin/*
+chmod 644 ../bin
+cp ../bin/* /usr/bin
+
+chmod a+x install-cri.sh
+
+./install-cri.sh "$STORAGE" "$REGISTRY_DOMAIN" "$REGISTRY_PORT"
 
 chmod a+x init-kube.sh
+
 bash init-kube.sh
-if [  $? -ne 0 ]; then
-  exit 1
-fi

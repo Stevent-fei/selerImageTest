@@ -80,7 +80,7 @@ echo "cri: ${cri}, kubernetes version: ${k8s_version}, build image name: ${build
 kubeadmApiVersion=$( (version_compare "$k8s_version" "v1.23.0" && echo 'kubeadm.k8s.io\/v1beta3') || (version_compare "$k8s_version" "v1.15.0" && echo 'kubeadm.k8s.io\/v1beta2') ||
   (version_compare "$k8s_version" "v1.13.0" && echo 'kubeadm.k8s.io\/v1beta1') || (echo "Version must be greater than 1.13: ${k8s_version}" && exit 1))
 
-workdir="$(mktemp -d auto-build-XXXXX)" && sudo cp -r context "${workdir}" && cd "${workdir}/context" && sudo cp -rf "${cri}"/* .
+workdir="$(mktemp -d auto-build-XXXXX)" && sudo cp -r context-main "${workdir}" && cd "${workdir}/context-main" && sudo cp -rf "${cri}"/* .
 
 # shellcheck disable=SC1091
 sudo chmod +x version.sh download.sh && export kube_install_version="$k8s_version" && source version.sh
@@ -89,19 +89,19 @@ sudo chmod +x version.sh download.sh && export kube_install_version="$k8s_versio
 sudo chmod +x amd64/bin/kube* && sudo chmod +x arm64/bin/kube*
 #下载最新版本的sealer
 sudo git clone https://github.com/sealerio/sealer && cd sealer && git checkout main && make build-in-docker && cp _output/bin/sealer/linux_amd64/sealer /usr/bin/ && cd ..
-#sudo git clone https://github.com/sealerio/basefs && cd basefs && git checkout new_basefs && cp -r rootfs/context/rootfs/scripts/* ../context/rootfs/context/rootfs/scripts/
+#sudo git clone https://github.com/sealerio/basefs && cd basefs && git checkout new_basefs && cp -r rootfs/context-old-main/rootfs/scripts/* ../context-old-main/rootfs/context-old-main/rootfs/scripts/
 #sudo wget "https://sealer.oss-cn-beijing.aliyuncs.com/sealers/sealer-v0.8.5-linux-${ARCH}.tar.gz" && sudo tar -xvf "sealer-v0.8.5-linux-${ARCH}.tar.gz"
-sudo sed -i "s/v1.19.8/$k8s_version/g" rootfs/etc/kubeadm.yml ##change k8s_version
-if [[ "$cri" == "containerd" ]]; then sudo sed -i "s/\/var\/run\/dockershim.sock/\/run\/containerd\/containerd.sock/g" rootfs/etc/kubeadm.yml; fi
-sudo sed -i "s/kubeadm.k8s.io\/v1beta2/$kubeadmApiVersion/g" rootfs/etc/kubeadm.yml
-sudo ./"${ARCH}"/bin/kubeadm config images list --config "rootfs/etc/kubeadm.yml"
+sudo sed -i "s/v1.19.8/$k8s_version/g" rootfs/etc/kubeadm.yml.tmpl ##change k8s_version
+if [[ "$cri" == "containerd" ]]; then sudo sed -i "s/\/var\/run\/dockershim.sock/\/run\/containerd\/containerd.sock/g" rootfs/etc/kubeadm.yml.tmpl; fi
+sudo sed -i "s/kubeadm.k8s.io\/v1beta2/$kubeadmApiVersion/g" rootfs/etc/kubeadm.yml.tmpl
+sudo ./"${ARCH}"/bin/kubeadm config images list --config "rootfs/etc/kubeadm.yml.tmpl"
 sudo mkdir manifests
-sudo ./"${ARCH}"/bin/kubeadm config images list --config "rootfs/etc/kubeadm.yml" 2>/dev/null | sed "/WARNING/d" >>imageList
-if [ "$(sudo ./"${ARCH}"/bin/kubeadm config images list --config rootfs/etc/kubeadm.yml 2>/dev/null | grep -c "coredns/coredns")" -gt 0 ]; then sudo sed -i "s/#imageRepository/imageRepository/g" rootfs/etc/kubeadm.yml; fi
-sudo sed -i "s/k8s.gcr.io/sea.hub:5000/g" rootfs/etc/kubeadm.yml
-pauseImage=$(./"${ARCH}"/bin/kubeadm config images list --config "rootfs/etc/kubeadm.yml" 2>/dev/null | sed "/WARNING/d" | grep pause)
+sudo ./"${ARCH}"/bin/kubeadm config images list --config "rootfs/etc/kubeadm.yml.tmpl" 2>/dev/null | sed "/WARNING/d" >>imageList
+if [ "$(sudo ./"${ARCH}"/bin/kubeadm config images list --config rootfs/etc/kubeadm.yml.tmpl 2>/dev/null | grep -c "coredns/coredns")" -gt 0 ]; then sudo sed -i "s/#imageRepository/imageRepository/g" rootfs/etc/kubeadm.yml; fi
+sudo sed -i "s/k8s.gcr.io/sea.hub:5000/g" rootfs/etc/kubeadm.yml.tmpl
+pauseImage=$(./"${ARCH}"/bin/kubeadm config images list --config "rootfs/etc/kubeadm.yml.tmpl" 2>/dev/null | sed "/WARNING/d" | grep pause)
 if [ -f "rootfs/etc/dump-config.toml" ]; then sudo sed -i "s/sea.hub:5000\/pause:3.6/$(echo "$pauseImage" | sed 's/\//\\\//g')/g" rootfs/etc/dump-config.toml; fi
-sudo sed -i "s/v1.19.8/${k8s_version}/g" {arm64,amd64}/etc/Metadata
+#sudo sed -i "s/v1.19.8/${k8s_version}/g" {arm64,amd64}/etc/Metadata
 ##linux/arm64,linux/amd64
 sudo sealer build -t "docker.io/18791106690/kubernetes:${k8s_version}" -f Kubefile
 if [[ "$push" == "true" ]]; then
