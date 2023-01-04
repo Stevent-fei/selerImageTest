@@ -1,3 +1,4 @@
 FROM scratch
-COPY rootfs/* .
-COPY imageList manifests
+COPY rootfs .
+COPY amd64 .
+COPY manifests manifests
