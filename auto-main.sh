@@ -94,19 +94,13 @@ sudo git clone https://github.com/sealerio/sealer && cd sealer && git checkout m
 sudo sed -i "s/v1.19.8/$k8s_version/g" rootfs/etc/kubeadm.yml.tmpl ##change k8s_version
 if [[ "$cri" == "containerd" ]]; then sudo sed -i "s/\/var\/run\/dockershim.sock/\/run\/containerd\/containerd.sock/g" rootfs/etc/kubeadm.yml.tmpl; fi
 sudo sed -i "s/kubeadm.k8s.io\/v1beta2/$kubeadmApiVersion/g" rootfs/etc/kubeadm.yml.tmpl
-sudo ./"${ARCH}"/bin/kubeadm config images list --config "rootfs/etc/kubeadm.yml.tmpl"
+sudo ./"${ARCH}"/bin/kubeadm config images list --config "rootfs/etc/kubeadm.yml"
 #sudo mkdir manifests
-sudo echo "AAAAAAAAAAAAAAA"
-sudo ./"${ARCH}"/bin/kubeadm config images list --config "rootfs/etc/kubeadm.yml.tmpl" 2>/dev/null | sed "/WARNING/d" >>imageList
-sudo echo "AAAAAAAAAAAAAAB"
-if [ "$(sudo ./"${ARCH}"/bin/kubeadm config images list --config rootfs/etc/kubeadm.yml.tmpl 2>/dev/null | grep -c "coredns/coredns")" -gt 0 ]; then sudo sed -i "s/#imageRepository/imageRepository/g" rootfs/etc/kubeadm.yml.tmpl; fi
-sudo echo "AAAAAAAAAAAAAAC"
+sudo ./"${ARCH}"/bin/kubeadm config images list --config "rootfs/etc/kubeadm.yml" 2>/dev/null | sed "/WARNING/d" >>imageList
+if [ "$(sudo ./"${ARCH}"/bin/kubeadm config images list --config rootfs/etc/kubeadm.yml 2>/dev/null | grep -c "coredns/coredns")" -gt 0 ]; then sudo sed -i "s/#imageRepository/imageRepository/g" rootfs/etc/kubeadm.yml.tmpl; fi
 sudo sed -i "s/k8s.gcr.io/sea.hub:5000/g" rootfs/etc/kubeadm.yml.tmpl
-sudo echo "AAAAAAAAAAAAAAD"
-pauseImage=$(./"${ARCH}"/bin/kubeadm config images list --config "rootfs/etc/kubeadm.yml.tmpl" 2>/dev/null | sed "/WARNING/d" | grep pause)
-sudo echo "AAAAAAAAAAAAAAE"
+pauseImage=$(./"${ARCH}"/bin/kubeadm config images list --config "rootfs/etc/kubeadm.yml" 2>/dev/null | sed "/WARNING/d" | grep pause)
 if [ -f "rootfs/etc/dump-config.toml" ]; then sudo sed -i "s/sea.hub:5000\/pause:3.6/$(echo "$pauseImage" | sed 's/\//\\\//g')/g" rootfs/etc/dump-config.toml; fi
-sudo echo "AAAAAAAAAAAAAAF"
 #sudo sed -i "s/v1.19.8/${k8s_version}/g" {arm64,amd64}/etc/Metadata
 ##linux/arm64,linux/amd64
 sudo sealer build -f Kubefile -t "docker.io/18791106690/kubernetes:${k8s_version}-test" --platform linux/amd64,linux/arm64
