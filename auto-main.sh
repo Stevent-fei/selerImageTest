@@ -103,11 +103,11 @@ pauseImage=$(./"${ARCH}"/bin/kubeadm config images list --config "rootfs/etc/kub
 if [ -f "rootfs/etc/dump-config.toml" ]; then sudo sed -i "s/sea.hub:5000\/pause:3.6/$(echo "$pauseImage" | sed 's/\//\\\//g')/g" rootfs/etc/dump-config.toml; fi
 #sudo sed -i "s/v1.19.8/${k8s_version}/g" {arm64,amd64}/etc/Metadata
 ##linux/arm64,linux/amd64
-sudo sealer build -f Kubefile --manifest "docker.io/18791106690/kubernetes:${k8s_version}-test" --platform linux/amd64,linux/arm64
+sudo sealer build -f Kubefile -t "docker.io/18791106690/kubernetes:${k8s_version}-test" --platform linux/amd64,linux/arm64
 #sudo sealer build -t "docker.io/18791106690/kubernetes:${k8s_version}"-test -f Kubefile
 if [[ "$push" == "true" ]]; then
   if [[ -n "$username" ]] && [[ -n "$password" ]]; then
     sudo sealer login "$(echo "docker.io" | cut -d "/" -f1)" -u "${username}" -p "${password}"
   fi
-  sudo sealer push "docker.io/18791106690/kubernetes:${k8s_version}-test" --all
+  sudo sealer alpha manifest push "docker.io/18791106690/kubernetes:${k8s_version}-test" --all
 fi
