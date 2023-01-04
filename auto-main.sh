@@ -93,7 +93,7 @@ sudo git clone https://github.com/sealerio/sealer && cd sealer && git checkout m
 #sudo wget "https://sealer.oss-cn-beijing.aliyuncs.com/sealers/sealer-v0.8.5-linux-${ARCH}.tar.gz" && sudo tar -xvf "sealer-v0.8.5-linux-${ARCH}.tar.gz"
 sudo sed -i "s/v1.19.8/$k8s_version/g" rootfs/etc/kubeadm.yml.tmpl ##change k8s_version
 if [[ "$cri" == "containerd" ]]; then sudo sed -i "s/\/var\/run\/dockershim.sock/\/run\/containerd\/containerd.sock/g" rootfs/etc/kubeadm.yml.tmpl; fi
-sudo sed -i "s/kubeadm.k8s.io\/v1beta2/$kubeadmApiVersion/g" rootfs/etc/kubeadm.yml.tmpl
+sudo sed -i "s/kubeadm.k8s.io\/v1beta2/$kubeadmApiVersion/g" rootfs/etc/kubeadm.yml.tmpl && ls && tree
 sudo ./"${ARCH}"/bin/kubeadm config images list --config "rootfs/etc/kubeadm.yml"
 #sudo mkdir manifests
 sudo ./"${ARCH}"/bin/kubeadm config images list --config "rootfs/etc/kubeadm.yml" 2>/dev/null | sed "/WARNING/d" >>imageList
