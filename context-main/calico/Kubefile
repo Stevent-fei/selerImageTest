@@ -1,0 +1,5 @@
+FROM registry.cn-qingdao.aliyuncs.com/sealer-io/kubernetes:1.22.15
+COPY imageList manifests
+APP tigera-operator local://tigera-operator.yaml
+APP custom-resources local://custom-resources.yaml
+LAUNCH ["tigera-operator","custom-resources"]
