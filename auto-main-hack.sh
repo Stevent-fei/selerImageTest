@@ -80,7 +80,7 @@ echo "cri: ${cri}, kubernetes version: ${k8s_version}, build image name: ${build
 kubeadmApiVersion=$( (version_compare "$k8s_version" "v1.23.0" && echo 'kubeadm.k8s.io\/v1beta3') || (version_compare "$k8s_version" "v1.15.0" && echo 'kubeadm.k8s.io\/v1beta2') ||
   (version_compare "$k8s_version" "v1.13.0" && echo 'kubeadm.k8s.io\/v1beta1') || (echo "Version must be greater than 1.13: ${k8s_version}" && exit 1))
 
-workdir="$(mktemp -d auto-build-XXXXX)" && sudo cp -r context-main "${workdir}" && cd "${workdir}/context-main" && sudo cp -rf "${cri}"/* .
+workdir="$(mktemp -d auto-build-XXXXX)" && sudo cp -r context-main-hack "${workdir}" && cd "${workdir}/context-main-hack" && sudo cp -rf "${cri}"/* .
 
 # shellcheck disable=SC1091
 sudo chmod +x version.sh download.sh && export kube_install_version="$k8s_version" && source version.sh
@@ -104,14 +104,13 @@ pauseImage=$(./"${ARCH}"/bin/kubeadm config images list --config "rootfs/etc/kub
 if [ -f "rootfs/etc/dump-config.toml" ]; then sudo sed -i "s/sea.hub:5000\/pause:3.6/$(echo "$pauseImage" | sed 's/\//\\\//g')/g" rootfs/etc/dump-config.toml; fi
 ##linux/arm64,linux/amd64
 #sudo sealer build -f Kubefile -t "docker.io/18791106690/kubernetes:${k8s_version}-test" --platform linux/amd64,linux/arm64
-sudo sealer build -t "docker.io/18791106690/kubernetes:${k8s_version}-alpha" -f Kubefile
-#构建带网络插件calico的镜像
-sudo sed -i "s/v1.22.15/${k8s_version}/g" calico/Kubefile
-sudo sealer build -t "docker.io/18791106690/kubernetes:${k8s_version}-test" -f calico/Kubefile
+sudo sealer build -t "docker.io/18791106690/kubernetes:${k8s_version}-hack-alpha" -f Kubefile
+sudo sed -i "s/v1.22.15/${k8s_version}-hack/g" calico/Kubefile
+sudo sealer build -t "docker.io/18791106690/kubernetes:${k8s_version}-hack-test" -f calico/Kubefile
 if [[ "$push" == "true" ]]; then
   if [[ -n "$username" ]] && [[ -n "$password" ]]; then
     sudo sealer login "$(echo "docker.io" | cut -d "/" -f1)" -u "${username}" -p "${password}"
   fi
-  sudo sealer push "docker.io/18791106690/kubernetes:${k8s_version}-test"
+  sudo sealer push "docker.io/18791106690/kubernetes:${k8s_version}-hack-test"
   #sudo sealer alpha manifest push "docker.io/18791106690/kubernetes:${k8s_version}-test" --all
 fi
