@@ -1,47 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="171452f3-80c1-464e-8b90-19b58582ff4d" name="Default Changelist" comment="支持calico以app的形式注入集群">
-      <change afterPath="$PROJECT_DIR$/auto-main-hack.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/context-main-hack/Kubefile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/context-main-hack/calico/Kubefile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/context-main-hack/calico/calico.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/context-main-hack/calico/custom-resources.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/context-main-hack/calico/imageList" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/context-main-hack/calico/tigera-operator.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/context-main-hack/containerd/rootfs/etc/dump-config.toml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/context-main-hack/containerd/rootfs/scripts/containerd.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/context-main-hack/containerd/rootfs/scripts/uninstall-containerd.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/context-main-hack/docker/rootfs/etc/daemon.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/context-main-hack/docker/rootfs/etc/docker.service" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/context-main-hack/docker/rootfs/scripts/docker.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/context-main-hack/docker/rootfs/scripts/uninstall-docker.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/context-main-hack/download.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/context-main-hack/imageList" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/context-main-hack/rootfs/etc/10-kubeadm.conf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/context-main-hack/rootfs/etc/kubeadm.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/context-main-hack/rootfs/etc/kubeadm.yml.tmpl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/context-main-hack/rootfs/etc/kubelet.service" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/context-main-hack/rootfs/etc/registry_config.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/context-main-hack/rootfs/lib/install_libseccomp.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/context-main-hack/rootfs/scripts/init-kube.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/context-main-hack/rootfs/scripts/init-registry.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/context-main-hack/rootfs/scripts/kubelet-pre-start.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/context-main-hack/rootfs/statics/audit-policy.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/context-main-hack/version.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/context-main/calico/calico.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/context-old-main/rootfs/etc/registry_config.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auto-main.sh" beforeDir="false" afterPath="$PROJECT_DIR$/auto-main.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/context-main/calico/Kubefile" beforeDir="false" afterPath="$PROJECT_DIR$/context-main/calico/Kubefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/context-main/calico/imageList" beforeDir="false" afterPath="$PROJECT_DIR$/context-main/calico/imageList" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/context-main/calico/tigera-operator.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/context-main/calico/tigera-operator.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/context-main/docker/rootfs/etc/docker.service" beforeDir="false" afterPath="$PROJECT_DIR$/context-main/docker/rootfs/etc/docker.service" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/context-main/docker/rootfs/scripts/docker.sh" beforeDir="false" afterPath="$PROJECT_DIR$/context-main/docker/rootfs/scripts/docker.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/context-main/imageList" beforeDir="false" afterPath="$PROJECT_DIR$/context-main/imageList" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/context-main/rootfs/cri/docker.tar.gz" beforeDir="false" afterPath="$PROJECT_DIR$/context-main/amd64/cri/docker.tar.gz" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/context-main/rootfs/etc/kubeadm.yml.tmpl" beforeDir="false" afterPath="$PROJECT_DIR$/context-main/rootfs/etc/kubeadm.yml.tmpl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/context-old-main/Kubefile" beforeDir="false" afterPath="$PROJECT_DIR$/context-old-main/Kubefile" afterDir="false" />
-    </list>
+    <list default="true" id="171452f3-80c1-464e-8b90-19b58582ff4d" name="Default Changelist" comment="支持一键构建main分支原生docker镜像&#10;支持一键构建main分支hack docker镜像&#10;修改脚本中的bug" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -117,7 +77,8 @@
     <MESSAGE value="ackd自动化构建脚本" />
     <MESSAGE value="添加docker的tar包，支持自动化构建cri" />
     <MESSAGE value="支持calico以app的形式注入集群" />
-    <option name="LAST_COMMIT_MESSAGE" value="支持calico以app的形式注入集群" />
+    <MESSAGE value="支持一键构建main分支原生docker镜像&#10;支持一键构建main分支hack docker镜像&#10;修改脚本中的bug" />
+    <option name="LAST_COMMIT_MESSAGE" value="支持一键构建main分支原生docker镜像&#10;支持一键构建main分支hack docker镜像&#10;修改脚本中的bug" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
