@@ -102,15 +102,10 @@ if [ "$(sudo ./"${ARCH}"/bin/kubeadm config images list --config rootfs/etc/kube
 sudo sed -i "s/k8s.gcr.io/sea.hub:5000/g" rootfs/etc/kubeadm.yml.tmpl
 pauseImage=$(./"${ARCH}"/bin/kubeadm config images list --config "rootfs/etc/kubeadm.yml" 2>/dev/null | sed "/WARNING/d" | grep pause)
 if [ -f "rootfs/etc/dump-config.toml" ]; then sudo sed -i "s/sea.hub:5000\/pause:3.6/$(echo "$pauseImage" | sed 's/\//\\\//g')/g" rootfs/etc/dump-config.toml; fi
-##linux/arm64,linux/amd64
-#sudo sealer build -f Kubefile -t "docker.io/18791106690/kubernetes:${k8s_version}-test" --platform linux/amd64,linux/arm64
-sudo sealer build -t "docker.io/18791106690/kubernetes:${k8s_version}-hack-alpha" -f Kubefile
-sudo sed -i "s/v1.22.15/${k8s_version}-hack/g" calico/Kubefile
-sudo sealer build -t "docker.io/18791106690/kubernetes:${k8s_version}-hack-test" -f calico/Kubefile
+sudo sealer build -t "docker.io/18791106690/kubernetes:${k8s_version}-hack" -f Kubefile
 if [[ "$push" == "true" ]]; then
   if [[ -n "$username" ]] && [[ -n "$password" ]]; then
     sudo sealer login "$(echo "docker.io" | cut -d "/" -f1)" -u "${username}" -p "${password}"
   fi
-  sudo sealer push "docker.io/18791106690/kubernetes:${k8s_version}-hack-test"
-  #sudo sealer alpha manifest push "docker.io/18791106690/kubernetes:${k8s_version}-test" --all
+  sudo sealer push "docker.io/18791106690/kubernetes:${k8s_version}-hack"
 fi

@@ -2,3 +2,7 @@ FROM scratch
 COPY rootfs .
 COPY amd64 .
 COPY imageList manifests
+COPY tigera-operator.yaml applications/tigera-operator.yaml
+COPY custom-resources.yaml applications/custom-resources.yaml
+APP calico local://calico.sh
+LAUNCH ["calico"]
