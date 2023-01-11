@@ -6,7 +6,7 @@ on:
 jobs:
   issue_comment:
     name: Auto build image
-    if: startswith(github.event.comment.body, '/autobuild')
+    if: startswith(github.event.comment.body, '/auto-arm-build')
     runs-on: ubuntu-latest
     permissions:
       issues: write
