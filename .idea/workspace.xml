@@ -1,202 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="171452f3-80c1-464e-8b90-19b58582ff4d" name="Default Changelist" comment="支持一键构建main分支原生docker镜像&#10;支持一键构建main分支hack docker镜像&#10;修改脚本中的bug">
+    <list default="true" id="171452f3-80c1-464e-8b90-19b58582ff4d" name="Default Changelist" comment="删除没用的文件，保留自动化构建脚本">
+      <change afterPath="$PROJECT_DIR$/auto-main-arm.sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/context-main-arm/Kubefile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/context-main-arm/amd64/cri/docker.tar.gz" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/context-main-arm/arm64/cri/docker.tar.gz" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/context-main-arm/calico/Kubefile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/context-main-arm/calico/calico.sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/context-main-arm/calico/custom-resources.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/context-main-arm/calico/imageList" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/context-main-arm/calico/tigera-operator.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/context-main-arm/containerd/rootfs/etc/dump-config.toml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/context-main-arm/containerd/rootfs/scripts/containerd.sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/context-main-arm/containerd/rootfs/scripts/uninstall-containerd.sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/context-main-arm/docker/rootfs/etc/daemon.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/context-main-arm/docker/rootfs/etc/docker.service" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/context-main-arm/docker/rootfs/scripts/docker.sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/context-main-arm/docker/rootfs/scripts/uninstall-docker.sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/context-main-arm/download.sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/context-main-arm/imageList" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/context-main-arm/rootfs/etc/10-kubeadm.conf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/context-main-arm/rootfs/etc/kubeadm.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/context-main-arm/rootfs/etc/kubeadm.yml.tmpl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/context-main-arm/rootfs/etc/kubelet.service" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/context-main-arm/rootfs/etc/registry_config.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/context-main-arm/rootfs/lib/install_libseccomp.sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/context-main-arm/rootfs/scripts/init-kube.sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/context-main-arm/rootfs/scripts/init-registry.sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/context-main-arm/rootfs/scripts/kubelet-pre-start.sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/context-main-arm/rootfs/statics/audit-policy.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/context-main-arm/version.sh" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Quick-start.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/context-main-hack/rootfs/scripts/init-registry.sh" beforeDir="false" afterPath="$PROJECT_DIR$/context-main-hack/rootfs/scripts/init-registry.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/context-main/rootfs/scripts/init-registry.sh" beforeDir="false" afterPath="$PROJECT_DIR$/context-main/rootfs/scripts/init-registry.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/context-old-main/rootfs/scripts/init-registry.sh" beforeDir="false" afterPath="$PROJECT_DIR$/context-old-main/rootfs/scripts/init-registry.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/context/rootfs/scripts/init-registry.sh" beforeDir="false" afterPath="$PROJECT_DIR$/context/rootfs/scripts/init-registry.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/README_zh.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/api/cloudrootfs.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/api/clusterfile.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/api/kubefile.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/apply_zh.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/build/build_zh.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/commandline/sealer.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/commandline/sealer_apply.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/commandline/sealer_build.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/commandline/sealer_check.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/commandline/sealer_completion.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/commandline/sealer_debug.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/commandline/sealer_debug_clean.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/commandline/sealer_debug_node.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/commandline/sealer_debug_pod.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/commandline/sealer_debug_show-images.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/commandline/sealer_delete.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/commandline/sealer_gen-doc.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/commandline/sealer_images.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/commandline/sealer_inspect.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/commandline/sealer_join.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/commandline/sealer_load.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/commandline/sealer_login.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/commandline/sealer_pull.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/commandline/sealer_push.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/commandline/sealer_rmi.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/commandline/sealer_run.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/commandline/sealer_save.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/commandline/sealer_tag.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/commandline/sealer_version.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/contributing_zh.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/debug/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/debug/images/example.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/debug/images/implementation.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/design/build_zh.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/design/clusterfile-v2.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/design/global-config.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/design/global-config_zh.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/design/image-save_zh.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/design/plugin.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/design/plugin_zh.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/design/registry_zh.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/design/takeover-already-running-cluster.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/design/upgrade_cluster_zh.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/run_zh.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site/package.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site/src/.vuepress/components/Foo/Bar.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site/src/.vuepress/components/OtherComponent.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site/src/.vuepress/components/demo-component.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site/src/.vuepress/config.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site/src/.vuepress/enhanceApp.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site/src/.vuepress/styles/index.styl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site/src/.vuepress/styles/palette.styl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site/src/docs/advanced/architecture.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site/src/docs/advanced/arm-cloudimage.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site/src/docs/advanced/containerd-baseimage.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site/src/docs/advanced/define-cloudrootfs.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site/src/docs/advanced/develop-plugin.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site/src/docs/advanced/gpu-cloudimage.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site/src/docs/advanced/raw-docker-baseimage.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site/src/docs/advanced/use-kyverno-baseimage.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site/src/docs/contributing/code-of-conduct.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site/src/docs/contributing/contribute.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site/src/docs/getting-started/applications.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site/src/docs/getting-started/build-appimage.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site/src/docs/getting-started/build-cloudimage.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site/src/docs/getting-started/config.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site/src/docs/getting-started/introduction.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site/src/docs/getting-started/plugin.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site/src/docs/getting-started/quick-start.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site/src/docs/getting-started/run-cluster.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site/src/docs/getting-started/using-clusterfile.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site/src/docs/help/contact.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site/src/docs/help/faq.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site/src/docs/reference/cli.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site/src/docs/reference/cloudrootfs.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site/src/docs/reference/clusterfile.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site/src/docs/reference/kubefile.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site/src/index.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site/src/zh/advanced/architecture.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site/src/zh/advanced/arm-cloudimage.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site/src/zh/advanced/containerd-baseimage.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site/src/zh/advanced/define-cloudrootfs.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site/src/zh/advanced/develop-plugin.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site/src/zh/advanced/gpu-cloudimage.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site/src/zh/advanced/raw-docker-baseimage.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site/src/zh/advanced/use-kyverno-baseimage.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site/src/zh/contributing/code-of-conduct.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site/src/zh/contributing/contribute.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site/src/zh/getting-started/applications.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site/src/zh/getting-started/build-appimage.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site/src/zh/getting-started/build-cloudimage.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site/src/zh/getting-started/config.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site/src/zh/getting-started/introduction.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site/src/zh/getting-started/plugin.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site/src/zh/getting-started/quick-start.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site/src/zh/getting-started/run-cluster.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site/src/zh/getting-started/using-clusterfile.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site/src/zh/help/contact.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site/src/zh/help/faq.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site/src/zh/index.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site/src/zh/reference/cli.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site/src/zh/reference/cloudrootfs.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site/src/zh/reference/clusterfile.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site/src/zh/reference/kubefile.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/test-report/release-v0.1.5.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/user-guide/docker-image-cache.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/user-guide/get-started.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/installer.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mszlu/blog-parent/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mszlu/blog-parent/.idea/compiler.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mszlu/blog-parent/.idea/dataSources.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mszlu/blog-parent/.idea/encodings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mszlu/blog-parent/.idea/jarRepositories.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mszlu/blog-parent/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mszlu/blog-parent/.idea/runConfigurations.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mszlu/blog-parent/blog-api/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mszlu/blog-parent/blog-api/src/main/java/com/mszlu/blog/BlogApp.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mszlu/blog-parent/blog-api/src/main/java/com/mszlu/blog/config/MybatisPlusConfig.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mszlu/blog-parent/blog-api/src/main/java/com/mszlu/blog/config/WebConfig.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mszlu/blog-parent/blog-api/src/main/java/com/mszlu/blog/controller/ArticleController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mszlu/blog-parent/blog-api/src/main/java/com/mszlu/blog/controller/LoginController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mszlu/blog-parent/blog-api/src/main/java/com/mszlu/blog/controller/TagsController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mszlu/blog-parent/blog-api/src/main/java/com/mszlu/blog/dao/dos/Archives.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mszlu/blog-parent/blog-api/src/main/java/com/mszlu/blog/dao/mapper/ArticleMapper.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mszlu/blog-parent/blog-api/src/main/java/com/mszlu/blog/dao/mapper/SysUserMapper.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mszlu/blog-parent/blog-api/src/main/java/com/mszlu/blog/dao/mapper/TagMapper.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mszlu/blog-parent/blog-api/src/main/java/com/mszlu/blog/dao/pojo/Article.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mszlu/blog-parent/blog-api/src/main/java/com/mszlu/blog/dao/pojo/SysUser.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mszlu/blog-parent/blog-api/src/main/java/com/mszlu/blog/dao/pojo/Tag.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mszlu/blog-parent/blog-api/src/main/java/com/mszlu/blog/handler/AllExceptionHandler.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mszlu/blog-parent/blog-api/src/main/java/com/mszlu/blog/service/ArticleService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mszlu/blog-parent/blog-api/src/main/java/com/mszlu/blog/service/Impl/ArticleServiceImpl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mszlu/blog-parent/blog-api/src/main/java/com/mszlu/blog/service/Impl/LoginServiceImpl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mszlu/blog-parent/blog-api/src/main/java/com/mszlu/blog/service/Impl/SysUserServiceImpl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mszlu/blog-parent/blog-api/src/main/java/com/mszlu/blog/service/Impl/TagsServiceImpl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mszlu/blog-parent/blog-api/src/main/java/com/mszlu/blog/service/LoginService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mszlu/blog-parent/blog-api/src/main/java/com/mszlu/blog/service/SysUserService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mszlu/blog-parent/blog-api/src/main/java/com/mszlu/blog/service/TagsService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mszlu/blog-parent/blog-api/src/main/java/com/mszlu/blog/utils/JWTUtils.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mszlu/blog-parent/blog-api/src/main/java/com/mszlu/blog/vo/ArticleVo.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mszlu/blog-parent/blog-api/src/main/java/com/mszlu/blog/vo/Result.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mszlu/blog-parent/blog-api/src/main/java/com/mszlu/blog/vo/TagVo.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mszlu/blog-parent/blog-api/src/main/java/com/mszlu/blog/vo/UserVo.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mszlu/blog-parent/blog-api/src/main/java/com/mszlu/blog/vo/params/LoginParams.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mszlu/blog-parent/blog-api/src/main/java/com/mszlu/blog/vo/params/PageParams.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mszlu/blog-parent/blog-api/src/main/resources/application.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mszlu/blog-parent/blog-api/src/main/resources/com/mszlu/blog/dao/mapper/ArticleMapper.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mszlu/blog-parent/blog-api/src/main/resources/com/mszlu/blog/dao/mapper/TagMapper.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mszlu/blog-parent/blog-api/target/classes/application.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mszlu/blog-parent/blog-api/target/classes/com/mszlu/blog/BlogApp.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mszlu/blog-parent/blog-api/target/classes/com/mszlu/blog/config/MybatisPlusConfig.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mszlu/blog-parent/blog-api/target/classes/com/mszlu/blog/config/WebConfig.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mszlu/blog-parent/blog-api/target/classes/com/mszlu/blog/controller/ArticleController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mszlu/blog-parent/blog-api/target/classes/com/mszlu/blog/controller/TagsController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mszlu/blog-parent/blog-api/target/classes/com/mszlu/blog/dao/dos/Archives.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mszlu/blog-parent/blog-api/target/classes/com/mszlu/blog/dao/mapper/ArticleMapper.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mszlu/blog-parent/blog-api/target/classes/com/mszlu/blog/dao/mapper/ArticleMapper.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mszlu/blog-parent/blog-api/target/classes/com/mszlu/blog/dao/mapper/SysUserMapper.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mszlu/blog-parent/blog-api/target/classes/com/mszlu/blog/dao/mapper/TagMapper.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mszlu/blog-parent/blog-api/target/classes/com/mszlu/blog/dao/mapper/TagMapper.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mszlu/blog-parent/blog-api/target/classes/com/mszlu/blog/dao/pojo/Article.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mszlu/blog-parent/blog-api/target/classes/com/mszlu/blog/dao/pojo/SysUser.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mszlu/blog-parent/blog-api/target/classes/com/mszlu/blog/dao/pojo/Tag.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mszlu/blog-parent/blog-api/target/classes/com/mszlu/blog/handler/AllExceptionHandler.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mszlu/blog-parent/blog-api/target/classes/com/mszlu/blog/service/ArticleService.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mszlu/blog-parent/blog-api/target/classes/com/mszlu/blog/service/Impl/ArticleServiceImpl.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mszlu/blog-parent/blog-api/target/classes/com/mszlu/blog/service/Impl/SysUserServiceImpl.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mszlu/blog-parent/blog-api/target/classes/com/mszlu/blog/service/Impl/TagsServiceImpl.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mszlu/blog-parent/blog-api/target/classes/com/mszlu/blog/service/SysUserService.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mszlu/blog-parent/blog-api/target/classes/com/mszlu/blog/service/TagsService.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mszlu/blog-parent/blog-api/target/classes/com/mszlu/blog/vo/ArticleVo.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mszlu/blog-parent/blog-api/target/classes/com/mszlu/blog/vo/Result.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mszlu/blog-parent/blog-api/target/classes/com/mszlu/blog/vo/TagVo.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mszlu/blog-parent/blog-api/target/classes/com/mszlu/blog/vo/UserVo.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mszlu/blog-parent/blog-api/target/classes/com/mszlu/blog/vo/pageparams/PageParams.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mszlu/blog-parent/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mszlu/boke/.idea/compiler.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mszlu/boke/.idea/encodings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mszlu/boke/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mszlu/boke/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mszlu/boke/.idea/runConfigurations.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mszlu/boke/.idea/workspace.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mszlu/boke/boke-api/boke-api.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mszlu/boke/boke-api/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mszlu/boke/boke-api/src/main/resources/application.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mszlu/boke/boke.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mszlu/boke/pom.xml" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -233,20 +68,21 @@
     <property name="go.sdk.automatically.set" value="true" />
     <property name="go.tried.to.enable.integration.vgo.integrator" value="true" />
     <property name="go.vendoring.notification.had.been.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/.github/workflows" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/.github/workflows" />
       <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/.github/workflows" />
       <recent name="$PROJECT_DIR$/context-main" />
       <recent name="$PROJECT_DIR$/context-old-main/rootfs/etc" />
       <recent name="$PROJECT_DIR$/context-main/rootfs" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/.github/workflows" />
       <recent name="$PROJECT_DIR$/context-main/amd64" />
       <recent name="$PROJECT_DIR$/context-ackd/rootfs/cri" />
     </key>
@@ -274,7 +110,8 @@
     <MESSAGE value="添加docker的tar包，支持自动化构建cri" />
     <MESSAGE value="支持calico以app的形式注入集群" />
     <MESSAGE value="支持一键构建main分支原生docker镜像&#10;支持一键构建main分支hack docker镜像&#10;修改脚本中的bug" />
-    <option name="LAST_COMMIT_MESSAGE" value="支持一键构建main分支原生docker镜像&#10;支持一键构建main分支hack docker镜像&#10;修改脚本中的bug" />
+    <MESSAGE value="删除没用的文件，保留自动化构建脚本" />
+    <option name="LAST_COMMIT_MESSAGE" value="删除没用的文件，保留自动化构建脚本" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
