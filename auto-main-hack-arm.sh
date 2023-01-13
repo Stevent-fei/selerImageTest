@@ -71,7 +71,7 @@ if [ "$k8s_version" = "" ]; then echo "pls use --k8s-version to set Clusterimage
 #cri=$([[ -n "$cri" ]] && echo "$cri" || echo docker)
 cri=$( (version_compare "$k8s_version" "v1.24.0" && echo "containerd") || ([[ -n "$cri" ]] && echo "$cri" || echo "docker"))
 if [[ -z "$buildName" ]]; then
-  buildName="registry.cn-qingdao.aliyuncs.com/sealer-io/kubernetes:${k8s_version}"
+  buildName="docker.io/18791106690/kubernetes-arm64:${k8s_version}-hack-arm-multi"
   if [[ "$cri" == "containerd" ]] && ! version_compare "$k8s_version" "v1.24.0"; then buildName=${buildName}-containerd; fi
 fi
 platform=$(if [[ -z "$platform" ]]; then echo "linux/arm64,linux/amd64"; else echo "$platform"; fi)
@@ -104,10 +104,10 @@ sudo sed -i "s/k8s.gcr.io/sea.hub:5000/g" rootfs/etc/kubeadm.yml.tmpl
 pauseImage=$(./"${ARCH}"/bin/kubeadm config images list --config "rootfs/etc/kubeadm.yml" 2>/dev/null | sed "/WARNING/d" | grep pause)
 if [ -f "rootfs/etc/dump-config.toml" ]; then sudo sed -i "s/sea.hub:5000\/pause:3.6/$(echo "$pauseImage" | sed 's/\//\\\//g')/g" rootfs/etc/dump-config.toml; fi
 ##linux/arm64,linux/amd64
-sudo sealer build -f Kubefile -t "docker.io/18791106690/kubernetes-arm64:${k8s_version}-hack-multi" --platform linux/amd64,linux/arm64
+sudo sealer build -f Kubefile -t "docker.io/18791106690/kubernetes-arm64:${k8s_version}-hack-arm-multi" --platform linux/amd64,linux/arm64
 if [[ "$push" == "true" ]]; then
   if [[ -n "$username" ]] && [[ -n "$password" ]]; then
     sudo sealer login "$(echo "docker.io" | cut -d "/" -f1)" -u "${username}" -p "${password}"
   fi
-  sudo sealer alpha manifest push "docker.io/18791106690/kubernetes-arm64:${k8s_version}-hack-multi" --all
+  sudo sealer alpha manifest push "docker.io/18791106690/kubernetes-arm64:${k8s_version}-hack-arm-multi" --all
 fi
