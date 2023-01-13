@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="171452f3-80c1-464e-8b90-19b58582ff4d" name="Default Changelist" comment="add arm自动化构建" />
+    <list default="true" id="171452f3-80c1-464e-8b90-19b58582ff4d" name="Default Changelist" comment="add arm自动化构建">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auto-main-hack-arm.sh" beforeDir="false" afterPath="$PROJECT_DIR$/auto-main-hack-arm.sh" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
