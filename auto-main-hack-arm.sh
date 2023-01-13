@@ -89,7 +89,7 @@ sudo chmod +x version.sh download.sh && export kube_install_version="$k8s_versio
 sudo chmod +x amd64/bin/kube* && sudo chmod +x arm64/bin/kube*
 #下载最新版本的sealer
 #sudo git clone https://github.com/sealerio/sealer && cd sealer && git checkout main && make build-in-docker && cp _output/bin/sealer/linux_amd64/sealer /usr/bin/ && cd ..
-sudo wget wget https://github.com/sealerio/sealer/releases/download/v0.9.0/sealer-v0.9.0-linux-amd64.tar.gz && tar -xvf sealer-v0.9.0-linux-amd64.tar.gz && cp sealer /usr/bin
+sudo wget wget https://github.com/sealerio/sealer/releases/download/v0.9.0/sealer-v0.9.0-linux-amd64.tar.gz && tar -xvf sealer-v0.9.0-linux-amd64.tar.gz
 sudo sed -i "s/v1.19.8/$k8s_version/g" rootfs/etc/kubeadm.yml ##change k8s_version
 sudo sed -i "s/v1.19.8/$k8s_version/g" rootfs/etc/kubeadm.yml.tmpl ##change k8s_version
 if [[ "$cri" == "containerd" ]]; then sudo sed -i "s/\/var\/run\/dockershim.sock/\/run\/containerd\/containerd.sock/g" rootfs/etc/kubeadm.yml; fi
@@ -104,10 +104,10 @@ sudo sed -i "s/k8s.gcr.io/sea.hub:5000/g" rootfs/etc/kubeadm.yml.tmpl
 pauseImage=$(./"${ARCH}"/bin/kubeadm config images list --config "rootfs/etc/kubeadm.yml" 2>/dev/null | sed "/WARNING/d" | grep pause)
 if [ -f "rootfs/etc/dump-config.toml" ]; then sudo sed -i "s/sea.hub:5000\/pause:3.6/$(echo "$pauseImage" | sed 's/\//\\\//g')/g" rootfs/etc/dump-config.toml; fi
 ##linux/arm64,linux/amd64
-sudo sealer build -f Kubefile -t "docker.io/18791106690/kubernetes-arm64:${k8s_version}-hack-multi" --platform linux/amd64,linux/arm64
+sudo ./sealer build -f Kubefile -t "docker.io/18791106690/kubernetes-arm64:${k8s_version}-hack-multi" --platform linux/amd64,linux/arm64
 if [[ "$push" == "true" ]]; then
   if [[ -n "$username" ]] && [[ -n "$password" ]]; then
-    sudo sealer login "$(echo "docker.io" | cut -d "/" -f1)" -u "${username}" -p "${password}"
+    sudo ./sealer login "$(echo "docker.io" | cut -d "/" -f1)" -u "${username}" -p "${password}"
   fi
-  sudo sealer alpha manifest push "docker.io/18791106690/kubernetes-arm64:${k8s_version}-hack-multi" --all
+  sudo ./sealer alpha manifest push "docker.io/18791106690/kubernetes-arm64:${k8s_version}-hack-multi" --all
 fi
