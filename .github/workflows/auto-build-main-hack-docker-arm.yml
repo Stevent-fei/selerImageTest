@@ -6,7 +6,7 @@ on:
 jobs:
   issue_comment:
     name: Auto build image
-    if: startswith(github.event.comment.body, '/auto-hack-docker-build')
+    if: startswith(github.event.comment.body, '/auto-hack-arm-docker-build')
     runs-on: ubuntu-latest
     permissions:
       issues: write
