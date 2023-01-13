@@ -103,10 +103,10 @@ sudo sed -i "s/k8s.gcr.io/sea.hub:5000/g" rootfs/etc/kubeadm.yml.tmpl
 pauseImage=$(./"${ARCH}"/bin/kubeadm config images list --config "rootfs/etc/kubeadm.yml" 2>/dev/null | sed "/WARNING/d" | grep pause)
 if [ -f "rootfs/etc/dump-config.toml" ]; then sudo sed -i "s/sea.hub:5000\/pause:3.6/$(echo "$pauseImage" | sed 's/\//\\\//g')/g" rootfs/etc/dump-config.toml; fi
 ##linux/arm64,linux/amd64
-sudo sealer build -f Kubefile -t "docker.io/18791106690/kubernetes-arm64:${k8s_version}-multi" --platform linux/amd64,linux/arm64
+sudo sealer build -f Kubefile -t "docker.io/18791106690/kubernetes-arm64:${k8s_version}-hack-multi" --platform linux/amd64,linux/arm64
 if [[ "$push" == "true" ]]; then
   if [[ -n "$username" ]] && [[ -n "$password" ]]; then
     sudo sealer login "$(echo "docker.io" | cut -d "/" -f1)" -u "${username}" -p "${password}"
   fi
-  sudo sealer alpha manifest push "docker.io/18791106690/kubernetes-arm64:${k8s_version}-multi" --all
+  sudo sealer alpha manifest push "docker.io/18791106690/kubernetes-arm64:${k8s_version}-hack-multi" --all
 fi
