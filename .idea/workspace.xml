@@ -1,18 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="171452f3-80c1-464e-8b90-19b58582ff4d" name="Default Changelist" comment="add arm自动化构建">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auto-main-hack-arm.sh" beforeDir="false" afterPath="$PROJECT_DIR$/auto-main-hack-arm.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/context-main-hack-arm/Kubefile" beforeDir="false" afterPath="$PROJECT_DIR$/context-main-hack-arm/Kubefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/context-main-hack-arm/calico.sh" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/context-main-hack-arm/imageList" beforeDir="false" afterPath="$PROJECT_DIR$/context-main-hack-arm/imageList" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/context-main-hack-arm/tigera-operator.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/context-main-hack-arm/tigera-operator.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/context-main-hack/Kubefile" beforeDir="false" afterPath="$PROJECT_DIR$/context-main-hack/Kubefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/context-main-hack/calico.sh" beforeDir="false" afterPath="$PROJECT_DIR$/context-main-hack/calico.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/context-main-hack/imageList" beforeDir="false" afterPath="$PROJECT_DIR$/context-main-hack/imageList" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/context-main-hack/tigera-operator.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/context-main-hack/tigera-operator.yaml" afterDir="false" />
-    </list>
+    <list default="true" id="171452f3-80c1-464e-8b90-19b58582ff4d" name="Default Changelist" comment="支持自动化构建脚本-sealer-v0.9.1版本" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -93,7 +82,8 @@
     <MESSAGE value="支持一键构建main分支原生docker镜像&#10;支持一键构建main分支hack docker镜像&#10;修改脚本中的bug" />
     <MESSAGE value="删除没用的文件，保留自动化构建脚本" />
     <MESSAGE value="add arm自动化构建" />
-    <option name="LAST_COMMIT_MESSAGE" value="add arm自动化构建" />
+    <MESSAGE value="支持自动化构建脚本-sealer-v0.9.1版本" />
+    <option name="LAST_COMMIT_MESSAGE" value="支持自动化构建脚本-sealer-v0.9.1版本" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>

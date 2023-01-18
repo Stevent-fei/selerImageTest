@@ -6,7 +6,5 @@ LABEL "cluster.alpha.sealer.io/cluster-runtime-version"="v1.22.15"
 LABEL "cluster.alpha.sealer.io/cluster-runtime-type"="kubernetes"
 LABEL "cluster.alpha.sealer.io/container-runtime-type"="docker"
 LABEL "cluster.alpha.sealer.io/container-runtime-version"="19.03.14"
-CNI custom-resources local://custom-resources.yaml
-CNI tigera-operator local://tigera-operator.yaml
-CNI calico local://calico.sh
+CNI calico local://tigera-operator.yaml local://custom-resources.yaml
 LAUNCH ["calico"]
