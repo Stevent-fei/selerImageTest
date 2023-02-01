@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="171452f3-80c1-464e-8b90-19b58582ff4d" name="Default Changelist" comment="支持自动化构建脚本-sealer-v0.9.1版本">
+    <list default="true" id="171452f3-80c1-464e-8b90-19b58582ff4d" name="Default Changelist" comment="修改sealer version 构建官方docker镜像">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auto-main-hack.sh" beforeDir="false" afterPath="$PROJECT_DIR$/auto-main-hack.sh" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,7 +39,7 @@
     <property name="go.sdk.automatically.set" value="true" />
     <property name="go.tried.to.enable.integration.vgo.integrator" value="true" />
     <property name="go.vendoring.notification.had.been.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/context-main-manifests" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
@@ -86,7 +85,8 @@
     <MESSAGE value="删除没用的文件，保留自动化构建脚本" />
     <MESSAGE value="add arm自动化构建" />
     <MESSAGE value="支持自动化构建脚本-sealer-v0.9.1版本" />
-    <option name="LAST_COMMIT_MESSAGE" value="支持自动化构建脚本-sealer-v0.9.1版本" />
+    <MESSAGE value="修改sealer version 构建官方docker镜像" />
+    <option name="LAST_COMMIT_MESSAGE" value="修改sealer version 构建官方docker镜像" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
