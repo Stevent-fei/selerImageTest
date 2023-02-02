@@ -62,6 +62,7 @@ sudo chmod +x version.sh download.sh  && source version.sh
 #sudo git clone https://github.com/sealerio/sealer && cd sealer && git checkout main && make make linux && cp _output/bin/sealer/linux_amd64/sealer /usr/bin/ && cd ..
 sudo mkdir manifests
 sudo sealer build -t "registry.cn-qingdao.aliyuncs.com/sealer-io/ackdistro-multi:${tag}" -f Kubefile
+#sudo sealer build -t "registry.cn-qingdao.aliyuncs.com/sealer-io/ackdistro-multi:${tag}" -f Kubefile-arm64 --platform linux/arm64
 if [[ "$push" == "true" ]]; then
   if [[ -n "$username" ]] && [[ -n "$password" ]]; then
     sudo sealer login "$(echo "docker.io" | cut -d "/" -f1)" -u "${username}" -p "${password}"
