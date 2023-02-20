@@ -17,9 +17,9 @@ package test
 import (
 	"fmt"
 
+	"blog/test/suites/build"
+	"blog/test/suites/image"
 	"blog/test/testhelper/settings"
-	"github.com/sealerio/sealer/test/suites/build"
-	"github.com/sealerio/sealer/test/suites/image"
 	"github.com/sealerio/sealer/test/testhelper"
 
 	. "github.com/onsi/ginkgo"
