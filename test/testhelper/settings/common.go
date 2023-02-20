@@ -12,7 +12,9 @@ const (
 const (
 	BAREMETAL    = "BAREMETAL"
 	AliCloud     = "ALI_CLOUD"
-	DefaultImage = "ack-agility-registry.cn-shanghai.cr.aliyuncs.com/ecp_builder/ackdistro:test"
+	DefaultImage = "docker.io/sealerio/kubernetes:v1-22-15-sealerio-2"
+	TestK8s120   = "docker.io/sealerio/kubernetes:v1.20.4-sealerio-2"
+	TestK8s118   = "docker.io/sealerio/kubernetes:v1.18.3-sealerio-2"
 )
 
 var (
