@@ -25,7 +25,7 @@ import (
 	. "github.com/onsi/ginkgo"
 )
 
-var _ = Describe("sealer alpha mount and umount", func() {
+var _ = Describe("sealer mount and umount", func() {
 	Context("test mount and unmount a single image", func() {
 		BeforeEach(func() {
 			image.DoImageOps("pull", settings.TestImageName)
