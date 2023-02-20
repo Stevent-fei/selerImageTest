@@ -54,4 +54,4 @@ jobs:
         working-directory: src/github.com/sealerio/sealer
         if: ${{ github.event.comment.body == '/test mount' || github.event.comment.body == '/test all' || github.event_name == 'push' }}
         run: |
-          ginkgo -v --focus="sealer image" test
+          ginkgo -v --focus="sealer mount" test
