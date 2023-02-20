@@ -20,6 +20,10 @@ for i in "$@"; do
     password="${i#*=}"
     shift # past argument=value
     ;;
+    --platform=*)
+    platform="${i#*=}"
+    shift # past argument=value
+    ;;
   -u=* | --username=*)
     username="${i#*=}"
     shift # past argument=value
@@ -53,16 +57,13 @@ done
 cri=docker
 
 workdir="$(mktemp -d auto-build-XXXXX)" && sudo cp -r context-ackd "${workdir}" && cd "${workdir}/context-ackd" && sudo cp -rf "${cri}"/* .
-
+platform=$(if [[ -z "$platform" ]]; then echo "linux/arm64,linux/amd64"; else echo "$platform"; fi)
 # shellcheck disable=SC1091
 sudo chmod +x version.sh download.sh  && source version.sh
 ./download.sh "${cri}"
 
-#下载最新版本的sealer
-#sudo git clone https://github.com/sealerio/sealer && cd sealer && git checkout main && make make linux && cp _output/bin/sealer/linux_amd64/sealer /usr/bin/ && cd ..
 sudo mkdir manifests
-sudo sealer build -t "registry.cn-qingdao.aliyuncs.com/sealer-io/ackdistro-multi:${tag}" -f Kubefile
-#sudo sealer build -t "registry.cn-qingdao.aliyuncs.com/sealer-io/ackdistro-multi:${tag}" -f Kubefile-arm64 --platform linux/arm64
+sudo sealer build -t "registry.cn-qingdao.aliyuncs.com/sealer-io/ackdistro-multi:${tag}" -f Kubefile --platform "${platform}"
 if [[ "$push" == "true" ]]; then
   if [[ -n "$username" ]] && [[ -n "$password" ]]; then
     sudo sealer login "$(echo "docker.io" | cut -d "/" -f1)" -u "${username}" -p "${password}"

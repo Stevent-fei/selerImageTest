@@ -1,18 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="171452f3-80c1-464e-8b90-19b58582ff4d" name="Default Changelist" comment="修改sealer version 构建官方docker镜像">
-      <change afterPath="$PROJECT_DIR$/custom-resources.yaml" afterDir="false" />
+    <list default="true" id="171452f3-80c1-464e-8b90-19b58582ff4d" name="Default Changelist" comment="删除calico">
+      <change afterPath="$PROJECT_DIR$/auto-main-hack-manifest.sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/context-manifest/Kubefile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/context-manifest/containerd/rootfs/etc/dump-config.toml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/context-manifest/containerd/rootfs/scripts/containerd.sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/context-manifest/containerd/rootfs/scripts/uninstall-containerd.sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/context-manifest/custom-resources.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/context-manifest/docker/rootfs/etc/daemon.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/context-manifest/docker/rootfs/etc/docker.service" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/context-manifest/docker/rootfs/scripts/docker.sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/context-manifest/docker/rootfs/scripts/uninstall-docker.sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/context-manifest/download.sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/context-manifest/imageList" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/context-manifest/rootfs/etc/10-kubeadm.conf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/context-manifest/rootfs/etc/kubeadm.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/context-manifest/rootfs/etc/kubeadm.yml.tmpl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/context-manifest/rootfs/etc/kubelet.service" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/context-manifest/rootfs/etc/registry_config.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/context-manifest/rootfs/lib/install_libseccomp.sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/context-manifest/rootfs/scripts/init-kube.sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/context-manifest/rootfs/scripts/init-registry.sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/context-manifest/rootfs/scripts/kubelet-pre-start.sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/context-manifest/rootfs/statics/audit-policy.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/context-manifest/tigera-operator.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/context-manifest/version.sh" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/context-main-arm/calico/tigera-operator.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/context-main-arm/calico/tigera-operator.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/context-main-arm/tigera-operator.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/context-main-arm/tigera-operator.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/context-main-hack-arm/calico/tigera-operator.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/context-main-hack-arm/calico/tigera-operator.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/context-main-hack-arm/tigera-operator.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/context-main-hack-arm/tigera-operator.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auto-ackd-base-rootfs.sh" beforeDir="false" afterPath="$PROJECT_DIR$/auto-ackd-base-rootfs.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/context-ackd/download.sh" beforeDir="false" afterPath="$PROJECT_DIR$/context-ackd/download.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/context-main-arm/custom-resources.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/context-main-arm/custom-resources.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/context-main-hack-arm/custom-resources.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/context-main-hack-arm/custom-resources.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/context-main-hack/Kubefile" beforeDir="false" afterPath="$PROJECT_DIR$/context-main-hack/Kubefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/context-main-hack/calico/tigera-operator.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/context-main-hack/calico/tigera-operator.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/context-main-hack/tigera-operator.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/context-main/tigera-operator" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/context-main/calico/tigera-operator.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/context-main/calico/tigera-operator.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/context-main/tigera-operator.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/context-main-hack/tigera-operator" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/context-main-hack/custom-resources.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/context-main-hack/custom-resources.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/context-main-hack/tigera-operator" beforeDir="false" afterPath="$PROJECT_DIR$/context-main-hack/tigera-operator.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/context-main/Kubefile" beforeDir="false" afterPath="$PROJECT_DIR$/context-main/Kubefile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/context-main/custom-resources.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/context-main/custom-resources.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/context-main/rootfs/etc/kubeadm.yml.tmpl" beforeDir="false" afterPath="$PROJECT_DIR$/context-main/rootfs/etc/kubeadm.yml.tmpl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/context-main/tigera-operator.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/context-main/tigera-operator.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,18 +74,18 @@
     <property name="go.sdk.automatically.set" value="true" />
     <property name="go.tried.to.enable.integration.vgo.integrator" value="true" />
     <property name="go.vendoring.notification.had.been.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/context-ackd/arm64" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/context-ackd/arm64" />
       <recent name="$PROJECT_DIR$/context-ackd/amd64" />
       <recent name="$PROJECT_DIR$/context-ackd" />
       <recent name="$PROJECT_DIR$/context-main" />
-      <recent name="$PROJECT_DIR$/context-main-manifests" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/context-main" />
@@ -96,7 +121,8 @@
     <MESSAGE value="add arm自动化构建" />
     <MESSAGE value="支持自动化构建脚本-sealer-v0.9.1版本" />
     <MESSAGE value="修改sealer version 构建官方docker镜像" />
-    <option name="LAST_COMMIT_MESSAGE" value="修改sealer version 构建官方docker镜像" />
+    <MESSAGE value="删除calico" />
+    <option name="LAST_COMMIT_MESSAGE" value="删除calico" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
