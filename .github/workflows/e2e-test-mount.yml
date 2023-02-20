@@ -60,6 +60,6 @@ jobs:
       - name: Run sealer image test
         shell: bash
         working-directory: src/github.com/sealerio/sealer
-        if: ${{ github.event.comment.body == '/test image' || github.event.comment.body == '/test all' || github.event_name == 'push' }}
+        if: ${{ github.event.comment.body == '/test mount' || github.event.comment.body == '/test all' || github.event_name == 'push' }}
         run: |
           ginkgo -v --focus="sealer mount" test
