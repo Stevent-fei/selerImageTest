@@ -34,8 +34,6 @@ github.com/aliyun/alibaba-cloud-sdk-go/sdk/responses
 github.com/aliyun/alibaba-cloud-sdk-go/sdk/utils
 github.com/aliyun/alibaba-cloud-sdk-go/services/ecs
 github.com/aliyun/alibaba-cloud-sdk-go/services/vpc
-# github.com/containerd/containerd v1.6.6
-## explicit; go 1.17
 # github.com/docker/cli v20.10.17+incompatible
 ## explicit
 github.com/docker/cli/cli/streams
@@ -86,8 +84,6 @@ github.com/go-logr/logr
 ## explicit; go 1.15
 github.com/gogo/protobuf/proto
 github.com/gogo/protobuf/sortkeys
-# github.com/golang/protobuf v1.5.2
-## explicit; go 1.9
 # github.com/google/go-cmp v0.5.8
 ## explicit; go 1.13
 github.com/google/go-cmp/cmp
@@ -309,12 +305,6 @@ golang.org/x/text/unicode/norm
 # golang.org/x/time v0.0.0-20220210224613-90d013bbcef8
 ## explicit
 golang.org/x/time/rate
-# google.golang.org/genproto v0.0.0-20220624142145-8cd45d7dbd1f
-## explicit; go 1.15
-# google.golang.org/grpc v1.47.0
-## explicit; go 1.14
-# google.golang.org/protobuf v1.28.0
-## explicit; go 1.11
 # gopkg.in/inf.v0 v0.9.1
 ## explicit
 gopkg.in/inf.v0
