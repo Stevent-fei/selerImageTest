@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="171452f3-80c1-464e-8b90-19b58582ff4d" name="Default Changelist" comment="测试e2e mount测试" />
+    <list default="true" id="171452f3-80c1-464e-8b90-19b58582ff4d" name="Default Changelist" comment="测试e2e mount测试">
+      <change beforePath="$PROJECT_DIR$/test/sealer_mount_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/test/sealer_mount_test.go" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
