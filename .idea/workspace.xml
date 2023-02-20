@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="171452f3-80c1-464e-8b90-19b58582ff4d" name="Default Changelist" comment="测试e2e mount测试">
       <change beforePath="$PROJECT_DIR$/.github/workflows/e2e-test-mount.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/e2e-test-mount.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
