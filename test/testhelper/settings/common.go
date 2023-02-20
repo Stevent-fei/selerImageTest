@@ -21,7 +21,7 @@ var (
 	DefaultPollingInterval time.Duration
 	MaxWaiteTime           time.Duration
 	DefaultWaiteTime       time.Duration
-	DefaultSealerBin       = ""
+	DefaultSealerBin       = "sealer"
 	DefaultTestEnvDir      = ""
 	CustomImageName        = os.Getenv("IMAGE_NAME")
 	LoadPath               = ""
