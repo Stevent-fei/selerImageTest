@@ -8,5 +8,5 @@ LABEL "cluster.alpha.sealer.io/container-runtime-type"="docker"
 LABEL "cluster.alpha.sealer.io/container-runtime-version"="19.03.15"
 COPY tigera-operator.yaml applications/tigera-operator.yaml
 COPY custom-resources.yaml applications/custom-resources.yaml
-APP calico local://calico.sh
+CNI calico local://calico.sh
 LAUNCH ["calico"]

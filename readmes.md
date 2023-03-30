@@ -1,12 +1,3 @@
-# Bootfs
-
-## Introduction
-
-in order to support user build base Clusterimage automatically,open this repo and share the related rootfs files. user can
-use `auto-build` to do this job and meanwhile using git hub action with issue comment to do it. at the same time you can
-use this repo to customize your own base Clusterimage such as choosing the different CRI plugin version or CNI plugin
-version,even the default kubernetes cluster configuration and so on.
-
 # Customize sealer image
 
 Build image file context [@basefs](https://github.com/sealerio/basefs)
@@ -22,9 +13,7 @@ Contains:
 * Scripts, some shell script using to install docker and kubelet... sealer will call init.sh and clean.sh.
 * Other static files
 
-### Build directory
-
-completely build context dendrogram at build stage which merged base rootfs, oss rootfs, cir context and kube* files:
+## rootfs directory dendrogram
 
 ```
 .
@@ -111,7 +100,8 @@ dns:
 ```
 
 5. containerd config file:
-   keep same pause version with imageList.
+
+keep same pause version with imageList.
 
 if imageList use `pause:3.6`,then `sandbox_image = "${repo domain}/pause:3.6"`
 

@@ -1,0 +1,13 @@
+name: Check License Lines
+on:
+  issue_comment:
+    types:
+      - created
+jobs:
+  check-license-lines:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.comment.body == '/check' }}
+    steps:
+      - uses: actions/checkout@master
+      - name: Check License Lines
+        uses: kt3k/license_checker@v1.0.6
