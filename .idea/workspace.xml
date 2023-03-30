@@ -2,22 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="171452f3-80c1-464e-8b90-19b58582ff4d" name="Default Changelist" comment="测试e2e mount测试">
-      <change afterPath="$PROJECT_DIR$/context-main-hack/calico.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/context-main/containerd/rootfs/etc/containerd.service" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/context-main/containerd/rootfs/etc/dump-config.toml.tmpl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mount.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/plugins-test/mount.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/plugins-test/umount.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/readmes.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/umount.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auto-main.sh" beforeDir="false" afterPath="$PROJECT_DIR$/auto-main.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/context-main-arm/Kubefile" beforeDir="false" afterPath="$PROJECT_DIR$/context-main-arm/Kubefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/context-main/Kubefile" beforeDir="false" afterPath="$PROJECT_DIR$/context-main/Kubefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/context-main/rootfs/etc/kubeadm.yml" beforeDir="false" afterPath="$PROJECT_DIR$/context-main/rootfs/etc/kubeadm.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/context-main/rootfs/etc/kubeadm.yml.tmpl" beforeDir="false" afterPath="$PROJECT_DIR$/context-main/rootfs/etc/kubeadm.yml.tmpl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/context-main/rootfs/scripts/init-registry.sh" beforeDir="false" afterPath="$PROJECT_DIR$/context-main/rootfs/scripts/init-registry.sh" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,7 +29,6 @@
     <setting file="file://$PROJECT_DIR$/context-main-hack-arm/Kubefile" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/context-main/rootfs/etc/registry_config.yml" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/context-main/docker/rootfs/etc/daemon.json" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/mount.go" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/context/docker/rootfs/etc/daemon.json" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/test/sealer_run_test.go" root0="FORCE_HIGHLIGHTING" />
   </component>
